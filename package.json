@@ -1,0 +1,11 @@
+{
+  "name": "bin-tree-tiles",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --harmony_array_includes test"
+  },
+  "author": "",
+  "license": "ISC"
+}
