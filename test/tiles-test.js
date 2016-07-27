@@ -141,4 +141,39 @@ describe('Tiles', function() {
 
   });
   //TODO: test downward moves once implemented
+  //
+  describe('resizing tile grid', function(){
+    let tiles4;
+    let treeTiles3;
+    beforeEach(function(){
+      const file = './test/data/tiles-1.json'
+      let tilesInput = jf.readFileSync(file);
+      tiles4 = new Tiles({tiles: tilesInput.tiles4});
+      const treeFile3 = './test/data/tree-3.json'
+      let input3 = jf.readFileSync(treeFile3);
+      treeTiles3 = new Tiles(input3);
+    });
+    it('should expand the grid right', function(){
+      assert.equal(tiles4.tiles[0].length, 6);
+      tiles4.expandGrid('R')
+      assert.equal(tiles4.tiles[0].length, 7);
+    })
+    it('should expand the grid down', function(){
+      assert.equal(tiles4.tiles.length, 8);
+      tiles4.expandGrid('D')
+      assert.equal(tiles4.tiles.length, 9);
+    })
+    it('should expand the grid left', function(){
+      // top row?
+      assert.equal(tiles4.tiles[0].length, 6);
+      assert.equal(tiles4.tiles[1][0].p, 'L')
+      tiles4.expandGrid('L')
+      assert.equal(tiles4.tiles[0].length, 7);
+      assert.equal(tiles4.tiles[1][0].p, 'E')
+      assert.equal(tiles4.tiles[1][1].p, 'L')
+    })
+  })
+
+  // TODO: test asFlatArray() for first row
+
 });

@@ -7,5 +7,8 @@
     "test": "mocha --harmony_array_includes test"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "readline-sync": "^1.4.4"
+  }
 }

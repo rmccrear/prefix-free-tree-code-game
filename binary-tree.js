@@ -1,10 +1,5 @@
 "use strict";
 
-const nav = {
-  'L': 0,
-  'R': 1
-};
-
 class BinaryTree {
 
   constructor(input){
@@ -65,6 +60,18 @@ class BinaryTree {
     return path;
   }
 
+  encodingOf(node){
+    let n = node;
+    let code = [];
+    while(n && n!==this.root){
+      const direction = this.branchDirectionOf(n)
+      code.push(direction);
+      n = this.parentOf(n);
+    }
+    return code;
+
+  }
+
   commonAncestorOf(node1, node2){
     let path1 = this.pathToRoot(node1);
     let path2 = this.pathToRoot(node2);
@@ -79,6 +86,18 @@ class BinaryTree {
       n2 = path2.pop();
     }
     return commonAncestor;
+  }
+
+  branchDirectionOf(node){
+    const parent = this.parentOf(node);
+//    console.log("parent: " + parent)
+//    console.log("parent[0]: " + parent[0])
+    if(parent && this.graph[parent][0] === node){
+      return 'L';
+    }
+    else if(parent && this.graph[parent][1] === node){
+      return 'R';
+    }
   }
 
 }

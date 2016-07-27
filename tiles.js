@@ -14,6 +14,10 @@ class Tiles {
     }
   }
 
+  asFlatArray(){
+    return this.tiles.reduce((a,b)=>a.concat(b));
+  }
+
   createEmptyTile(loc){
     return {
       p: 'E',
@@ -21,6 +25,12 @@ class Tiles {
       col: loc.col,
       n: 0
     };
+  }
+
+  moveAllTiles(direction){
+    const allTiles = this.asFlatArray().filter((t)=>t.p!=='E');
+    console.log(allTiles)
+    this.moveTiles(allTiles, direction);
   }
 
   // tiles is a flat array of all tiles to copy
@@ -75,6 +85,22 @@ class Tiles {
     return border;
   }
 
+  detectConflicts(tiles){
+    let conflicts = [];
+    for(let i=0; i<tiles.length; i++){
+      const t = tiles[i];
+      // be careful, we don't go over the edge of the array!
+      if(  t.row  >= this.dim.rows || t.row < 0
+         || t.col >= this.dim.cols || t.col < 0){
+        return false;
+      }
+      const tt = this.tiles[t.row][t.col];
+      if(tt.p !== 'E'){ // if not empty, it is a conflict
+        conflicts.push(tt);
+      }
+    }
+    return conflicts;
+  }
 
   // return [] if no conflicts
   // return false if out of bounds
@@ -105,6 +131,32 @@ class Tiles {
       }
     }
     return conflicts;
+  }
+
+  expandGrid(direction, amount){
+    amount = 1 || amount;
+    if(direction === 'D'){
+      let newRow = [];
+      const newRowId = this.dim.rows;
+      for(let i=0; i<this.dim.cols; i++){
+          let newTile = this.createEmptyTile({row: newRowId, col: i});
+          newRow.push(newTile);
+      }
+      this.tiles.push(newRow);
+      this.dim.rows = this.tiles.length;
+    }
+    else if(direction === 'R'){
+      for(let i=0; i<this.dim.rows; i++){
+        const newColId = this.dim.cols;
+        let newTile = this.createEmptyTile({row: i, col: newColId});
+        this.tiles[i].push(newTile);
+      }
+      this.dim.cols = this.tiles[0].length;
+    }
+    else if(direction === 'L'){
+      this.expandGrid('R');
+      this.moveTiles(this.asFlatArray().filter((t)=>t.p !== 'E'), 'R'); // move all non empty tiles left
+    }
   }
 
 }
