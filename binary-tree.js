@@ -64,7 +64,7 @@ class BinaryTree {
     let n = node;
     let code = [];
     while(n && n!==this.root){
-      const direction = this.branchDirectionOf(n)
+      const direction = this.branchDirectionOf(n);
       code.push(direction);
       n = this.parentOf(n);
     }
