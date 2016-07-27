@@ -93,13 +93,13 @@ class LetterTree {
       // new we can insert them
       // first check for conflicts
       conflicts = this.tiles.detectConflicts(leafTiles);
-      while(conflicts.length > 0){
-        // move things about
-        console.log(leafTiles)
-        console.log(conflicts)
-        this.resolveTileConflicts(conflicts);
-        conflicts = this.tiles.detectConflicts(leafTiles);
-      }
+      // while(conflicts.length > 0){
+      //   // move things about
+      //   console.log(leafTiles)
+      //   console.log(conflicts)
+      //   this.resolveTileConflicts(conflicts);
+      //   conflicts = this.tiles.detectConflicts(leafTiles);
+      // }
       if(conflicts.length === 0){
         // insert into tiles
         leafTiles.forEach(function(leaf){
@@ -113,33 +113,33 @@ class LetterTree {
     return leafTiles;
   }
 
-  resolveTileConflicts(conflicts){
-        console.log(conflicts)
-        // find common ancestor
-        // find right node of common node
-        // move right node's branch over
-        // add a H node to the empty space to the right of the common ancestor's T tile
-        // check if there are still conflicts
+  // resolveTileConflicts(conflicts){
+  //       console.log(conflicts)
+  //       // find common ancestor
+  //       // find right node of common node
+  //       // move right node's branch over
+  //       // add a H node to the empty space to the right of the common ancestor's T tile
+  //       // check if there are still conflicts
 
-        // find common ancestor
-        const conflict = conflicts.pop();
-        const commonAncestor = this.tree.commonAncestorOf(tile.n, conflict.n);
-        console.log(commonAncestor)
-        const ancestorT = this.tiles.asFlatArray().filter((t)=>t.n===commonAncestor.n && t.p==='T');// T tile
+  //       // find common ancestor
+  //       const conflict = conflicts.pop();
+  //       const commonAncestor = this.tree.commonAncestorOf(tile.n, conflict.n);
+  //       console.log(commonAncestor)
+  //       const ancestorT = this.tiles.asFlatArray().filter((t)=>t.n===commonAncestor.n && t.p==='T');// T tile
 
-        // find right node of common node
-        const jointLocation = {row: ancestorT.row, col: ancestorT.col+1};
-        const rightNodeOfAncestor = this.tree.graph[commonAncestor][1];
-        const tilesToMove = this.branchTiles(rightNodeOfAncestor);
+  //       // find right node of common node
+  //       const jointLocation = {row: ancestorT.row, col: ancestorT.col+1};
+  //       const rightNodeOfAncestor = this.tree.graph[commonAncestor][1];
+  //       const tilesToMove = this.branchTiles(rightNodeOfAncestor);
 
-        // move right node's branch over
-        this.tiles.moveTiles(tilesToMove, 'R');
+  //       // move right node's branch over
+  //       this.tiles.moveTiles(tilesToMove, 'R');
 
-        // add a H node to the empty space to the right of the common ancestor's T tile
-        this.tiles.tiles[jointLocation.row][jointLocation.col] = this.tiles.emptyTile();
-        this.tiles.tiles[jointLocation.row][jointLocation.col].n = rightNodeOfAncestor;
-        this.tiles.tiles[jointLocation.row][jointLocation.col].p = 'H';
-  }
+  //       // add a H node to the empty space to the right of the common ancestor's T tile
+  //       this.tiles.tiles[jointLocation.row][jointLocation.col] = this.tiles.emptyTile();
+  //       this.tiles.tiles[jointLocation.row][jointLocation.col].n = rightNodeOfAncestor;
+  //       this.tiles.tiles[jointLocation.row][jointLocation.col].p = 'H';
+  // }
 
   branchTiles(nodeId){
     const branch = this.tree.branchOf(nodeId);
