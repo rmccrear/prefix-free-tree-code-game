@@ -187,9 +187,40 @@ class LetterTree {
     }
   }
   encodeLetter(letter){
-    const letterNode = this.hasLetter();
+    const letterNode = this.hasLetter(letter);
     const letterPath = this.board.tree.pathToRoot(letterNode);
     return letterPath;
+  }
+
+  duplicateTile(t){
+    return {
+      row: t.row,
+      col: t.col,
+      p: t.p,
+      n: t.n,
+      l: t.l
+    };
+  }
+
+  tilesToRender(){
+    let tiles = this.tiles.tiles.slice(); // shallow copy
+    let path = [];
+    if(this.currTile.n){
+      path = this.tree.pathToRoot(this.currTile.n);
+    }
+    for(let row=0; row<this.tiles.dim.rows; row++){
+      for(let col=0; col<this.tiles.dim.cols; col++){
+        tiles[row][col] = this.duplicateTile(tiles[row][col]);
+        tiles[row][col].isCurrTile = false;
+        tiles[row][col].isInPath = false;
+        if(path.includes(tiles[row][col].n)){
+          tiles[row][col].isInPath = true;
+        }
+      }
+    }
+    // set currTile
+    tiles[this.currTile.row][this.currTile.col].isCurrTile = true;
+    return tiles;
   }
 
 }
