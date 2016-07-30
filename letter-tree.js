@@ -67,25 +67,21 @@ class LetterTree {
     // check dimensions of board
     leafTiles.forEach(function(t){
       if(t.row >= this.tiles.dim.rows){
-        console.log('expand down')
         this.tiles.expandGrid('D');
       }
       if(t.col >= this.tiles.dim.cols){
-        console.log('expand right')
         this.tiles.expandGrid('R');
       }
       if(t.col<0){
-        console.log('expand left')
-        console.log(this.tiles.tiles)
         this.tiles.expandGrid('L');
         // move new tiles over
-        console.log(this.tiles.tiles)
         leafTiles.forEach((tt)=>tt.col++);
       }
     }, this);
 
     if(newLeaves.length > 0){
       tile.p = 'T';
+      tile.l = ''; // remove l from old alpha node, which is now a T node
       leafTiles[0].n = newLeaves[0];
       leafTiles[1].n = newLeaves[0];
       leafTiles[2].n = newLeaves[1];
@@ -157,7 +153,7 @@ class LetterTree {
 
   setCurrNodeTile(tile) {
     this.currNode = tile.n;
-    this.currTile = tile
+    this.currTile = tile;
   }
 
   setLetter(node, letter){
