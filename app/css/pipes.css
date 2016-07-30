@@ -2,6 +2,7 @@
   height: 800px;
   width: 416px;
   background-color: red;
+  position: relative;
 }
 .pipe-tile {
   background: url(icons/plums.png) no-repeat;
@@ -11,6 +12,7 @@
   color: white;
   border: 0 0 0 0;
   display: inline-block;
+  position: absolute;
 }
 
 .pipe-E {
@@ -54,11 +56,20 @@
   /* font-family: Copperplate / Copperplate Gothic Light, sans-serif; */
 }
 
-.plum-red.plum-elbow-right-down {
+.pipe-red.pipe-R {
   background-position: -415px -448px
 }
-.plum-red.plum-elbow-left-down {
+.pipe-red.pipe-L {
   background-position: -384px -448px
+}
+.pipe-red.pipe-T {
+  background-position: -415px -544px;
+}
+.pipe-red.pipe-H {
+  background-position: -447px -448px
+}
+.pipe-red.pipe-V {
+  background-position: -447px -480px
 }
 /* .plum-red.plum-t-up { */
 /*   background-position: -415px -544px; */

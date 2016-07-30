@@ -1,5 +1,5 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-'use strict';
+"use strict";
 
 var LetterTree = require('./letter-tree.js');
 var TreeBuilder = require('./tree-builder.js');
@@ -12,7 +12,21 @@ var treeBuilder = void 0;
 board = new LetterTree(jsonTree);
 treeBuilder = new TreeBuilder(board, jsonTree.treeBuilder);
 
+function encodeMessage(board, message) {
+  var letterTiles = board.tiles.asFlatArray(function (t) {
+    return t.p === 'A' && t.l;
+  });
+  var letterMapArr = letterTiles.map(function (t) {
+    return [t.l, board.tree.encodingOf(t.n)];
+  });
+  var letterMap = new Map(letterMapArr);
+  return message.map(function (letter) {
+    return letterMap.get(letter).join('');
+  }).join(' ');
+}
+
 function classes(tile) {
+  var c = '';
   var glyphs = {
     L: 'pipe-L',
     R: 'pipe-R',
@@ -22,7 +36,11 @@ function classes(tile) {
     A: 'pipe-A',
     E: 'pipe-E'
   };
-  return glyphs[tile.p];
+  c += ' ' + glyphs[tile.p];
+  if (tile.isInPath) {
+    c += ' pipe-red ';
+  }
+  return c;
 }
 
 function style(tile) {
@@ -32,7 +50,6 @@ function style(tile) {
 }
 
 var onReady = function onReady() {
-  console.log('ready');
   var root = $('<div>');
   var tiles = board.tilesToRender();
   for (var i = 0; i < tiles.length; i++) {
@@ -44,6 +61,12 @@ var onReady = function onReady() {
     }
   }
   $('#board').append(root);
+  $('#message').on('input', function () {
+    var message = $(this).val();
+    updateTreeWithMessage(message);
+    var code = encodeMessage(board, message.split(''));
+    $('#code').text(code);
+  });
 };
 
 function repaint() {
@@ -60,11 +83,14 @@ function repaint() {
   $('#board').html(root);
 }
 
-function addLetterToTree(letter) {
-  treeBuilder.insertLetter(letter);
+function updateTreeWithMessage(message) {
+  var messageChars = _.uniq(message.split(''));
+  // remove dups
+  messageChars.forEach(function (letter) {
+    return treeBuilder.insertLetter(letter);
+  });
   repaint();
 }
-window.addLetterToTree = addLetterToTree;
 
 $(onReady);
 

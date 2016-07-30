@@ -1,3 +1,4 @@
+"use strict";
 
 const LetterTree = require('./letter-tree.js');
 const TreeBuilder = require('./tree-builder.js');
@@ -10,7 +11,15 @@ let treeBuilder;
 board = new LetterTree(jsonTree);
 treeBuilder = new TreeBuilder(board, jsonTree.treeBuilder);
 
+function encodeMessage(board, message){
+  const letterTiles = board.tiles.asFlatArray((t)=>t.p==='A' && t.l);
+  const letterMapArr = letterTiles.map((t) => [t.l, board.tree.encodingOf(t.n)]);
+  const letterMap = new Map(letterMapArr);
+  return message.map((letter)=>letterMap.get(letter).join('')).join(' ');
+}
+
 function classes(tile){
+  let c = '';
   const glyphs = {
     L: 'pipe-L',
     R: 'pipe-R',
@@ -20,7 +29,11 @@ function classes(tile){
     A: 'pipe-A',
     E: 'pipe-E'
   };
-  return glyphs[tile.p];
+  c += ' ' + glyphs[tile.p];
+  if(tile.isInPath){
+    c += ' pipe-red ';
+  }
+  return c;
 }
 
 function style(tile){
@@ -30,7 +43,6 @@ function style(tile){
 }
 
 const onReady = function(){
-  console.log('ready');
   let root = $('<div>');
   let tiles = board.tilesToRender();
   for(let i=0; i<tiles.length; i++){
@@ -42,6 +54,12 @@ const onReady = function(){
     }
   }
   $('#board').append(root);
+  $('#message').on('input', function(){
+    const message = $(this).val();
+    updateTreeWithMessage(message);
+    const code = encodeMessage(board, message.split(''));
+    $('#code').text(code);
+  });
 };
 
 function repaint(){
@@ -58,11 +76,12 @@ function repaint(){
   $('#board').html(root);
 }
 
-function addLetterToTree(letter){
-    treeBuilder.insertLetter(letter);
+function updateTreeWithMessage(message){
+    let messageChars = _.uniq(message.split(''));
+    // remove dups
+    messageChars.forEach((letter) => treeBuilder.insertLetter(letter));
     repaint();
 }
-window.addLetterToTree = addLetterToTree;
 
 
 $(onReady);
