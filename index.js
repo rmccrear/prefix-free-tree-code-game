@@ -41,8 +41,8 @@ const nav = {
 
 function navigationCommand (board, command){
   const response = command;
+  let currTile = board.tiles.tiles[board.currTile.row][board.currTile.col];
       if(['L', 'R', 'D', 'U'].includes(response)){
-        console.log('move ' + response);
         
         const move = nav[response];
         const R = board.currTile.row + move.row;
@@ -50,17 +50,15 @@ function navigationCommand (board, command){
         //
         // only move on tree
         if(R < board.tiles.dim.rows && C < board.tiles.dim.cols  && board.tiles.tiles[R][C].n){
-          console.log(board.tiles.tiles[R][C].n)
           board.currTile.row = R;
           board.currTile.col = C;
         }
         else if(board.tiles.tiles[board.currTile.row][board.currTile.col].p === 'A' && response==='D'){
-          console.log('branch out')
           // create a new branch here.
           board.branchOut(board.tiles.tiles[board.currTile.row][board.currTile.col]);
         }
         else{
-          console.log('out of bounds ' + board.tiles.tiles[R][C].p)
+          console.log('out of bounds ' + board.tiles.tiles[R][C].p);
         }
 
       }
@@ -157,57 +155,56 @@ if (program.create) {
       running = false;
     }
     else{
-      if(['L', 'R', 'D', 'U'].includes(response)){
-        console.log('move ' + response);
+      navigationCommand(board, response);
+      // if(['L', 'R', 'D', 'U'].includes(response)){
+      //   console.log('move ' + response);
         
-        const move = nav[response];
-        const R = board.currTile.row + move.row;
-        const C = board.currTile.col + move.col;
-        //
-        // only move on tree
-        if(R < board.tiles.dim.rows && C < board.tiles.dim.cols  && board.tiles.tiles[R][C].n){
-          console.log(board.tiles.tiles[R][C].n)
-          board.currTile.row = R;
-          board.currTile.col = C;
-        }
-        else if(board.tiles.tiles[board.currTile.row][board.currTile.col].p === 'A' && response==='D'){
-          console.log('branch out')
-          // create a new branch here.
-          board.branchOut(board.tiles.tiles[board.currTile.row][board.currTile.col]);
-        }
-        else{
-          console.log('out of bounds ' + board.tiles.tiles[R][C].p)
-        }
+      //   const move = nav[response];
+      //   const R = board.currTile.row + move.row;
+      //   const C = board.currTile.col + move.col;
+      //   //
+      //   // only move on tree
+      //   if(R < board.tiles.dim.rows && C < board.tiles.dim.cols  && board.tiles.tiles[R][C].n){
+      //     board.currTile.row = R;
+      //     board.currTile.col = C;
+      //   }
+      //   else if(board.tiles.tiles[board.currTile.row][board.currTile.col].p === 'A' && response==='D'){
+      //     // create a new branch here.
+      //     board.branchOut(board.tiles.tiles[board.currTile.row][board.currTile.col]);
+      //   }
+      //   else{
+      //     console.log('out of bounds ' + board.tiles.tiles[R][C].p)
+      //   }
 
-      }
-      else if(response === '>'){
-        board.tiles.expandGrid('R');
-      }
-      else if(response === '<'){
-        board.tiles.expandGrid('L');
-      }
-      else if(response === '.'){
-        board.tiles.expandGrid('D');
-      }
-      else if(response === '}'){
-        board.tiles.moveAllTiles('R');
-      }
-      else if(response === '{'){
-        board.tiles.moveAllTiles('L');
-      }
-      else if(response === '['){
-        board.go('L');
-      }
-      else if(response === ']'){
-        board.go('R');
-      }
-      else if(response === '='){
-        board.go('U');
-      }
-      else if(response === response.toLowerCase() && currTile.p === 'A'){
-        // add a character to the 
-        currTile.l = response;
-      }
+      // }
+      // else if(response === '>'){
+      //   board.tiles.expandGrid('R');
+      // }
+      // else if(response === '<'){
+      //   board.tiles.expandGrid('L');
+      // }
+      // else if(response === '.'){
+      //   board.tiles.expandGrid('D');
+      // }
+      // else if(response === '}'){
+      //   board.tiles.moveAllTiles('R');
+      // }
+      // else if(response === '{'){
+      //   board.tiles.moveAllTiles('L');
+      // }
+      // else if(response === '['){
+      //   board.go('L');
+      // }
+      // else if(response === ']'){
+      //   board.go('R');
+      // }
+      // else if(response === '='){
+      //   board.go('U');
+      // }
+      // else if(response === response.toLowerCase() && currTile.p === 'A'){
+      //   // add a character to the 
+      //   currTile.l = response;
+      // }
       moveRecord.push(response);
       TileTextRenderer.print(board);
     }
