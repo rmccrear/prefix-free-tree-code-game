@@ -1,9 +1,9 @@
 "use strict";
 
-const LetterTree = require('./letter-tree.js');
-const TreeBuilder = require('./tree-builder.js');
+const LetterTree = require('../letter-tree.js');
+const TreeBuilder = require('../tree-builder.js');
 
-const jsonTree = require('./data/tree-command-13x25.json');
+const jsonTree = require('../data/tree-command-13x25.json');
 
 let board;
 let treeBuilder;
