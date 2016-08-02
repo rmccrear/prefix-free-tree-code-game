@@ -7,9 +7,12 @@ class TreeBuilder{
     this.count = 0;
     this.offsets = {row: 0, col: 0};
     this.currIndex = 0;
+    this.lastNode = board.getCurrTile();
   }
 
   insertLetter(letter, node){
+    const boardsCurrTile = this.board.getCurrTile();
+    this.board.setCurrNodeTile(this.lastNode);
     if (node){
     }
     else if(!node && !this.board.hasLetter(letter)){
@@ -19,8 +22,11 @@ class TreeBuilder{
         letterTile = this.board.setLetterInFirstEmptyLeaf(letter);
       }
     }
+    this.lastNode = this.board.getCurrTile();
+    this.board.setCurrNodeTile(boardsCurrTile);
   }
 
+  // private helpers below
   nextInCommandArray(){
     if(this.currIndex >= this.commands.length){
       this.currIndex = 0;
@@ -45,17 +51,17 @@ class TreeBuilder{
 
   commandTree(command){
     const next = command;
-      if(next === ']' || next === '['){
-        if(next === '['){
-          this.board.go('L');
-        }
-        else if(next === ']'){
-          this.board.go('R');
-        }
+    if(next === ']' || next === '['){
+      if(next === '['){
+        this.board.go('L');
       }
-      else if(next === 'D'){
-          this.board.branchOut(this.board.tiles.tiles[this.board.currTile.row][this.board.currTile.col]);
+      else if(next === ']'){
+        this.board.go('R');
       }
+    }
+    else if(next === 'D'){
+        this.board.branchOut(this.board.tiles.tiles[this.board.currTile.row][this.board.currTile.col]);
+    }
   }
 
   nextCommand(){

@@ -18,8 +18,13 @@ class LetterTree {
   }
 
   getCurrTile(){
-    console.log(this.currTile)
     return this.tiles.tiles[this.currTile.row][this.currTile.col];
+  }
+
+  setCurrNodeTile(tile) {
+    const cTile = this.tiles.tiles[tile.row][tile.col];
+    this.currNode = cTile.n;
+    this.currTile = cTile;
   }
 
   findTilesForNode(nodeId){
@@ -151,10 +156,6 @@ class LetterTree {
     };
   }
 
-  setCurrNodeTile(tile) {
-    this.currNode = tile.n;
-    this.currTile = tile;
-  }
 
   setLetter(node, letter){
     let letterTileArr = this.tiles.asFlatArray().filter((t)=> t.n===node && t.p === 'A');

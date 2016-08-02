@@ -76,6 +76,28 @@ describe('TreeBuilder', function() {
       equal(board.tiles.tiles[aBefore.row+2][aBefore.col+2].p, 'A'); 
     });
   });
+  describe('maintain currTile independent of board', function(){
+    it('build and keep track of currTile, returning to currTile after moving it in board', function(){
+      const aBefore = {row: 2, col: 8};
+      equal(board.tiles.tiles[aBefore.row][aBefore.col].p, 'A');
+      treeBuilder.insertLetter('a');
+      board.setCurrNodeTile(aBefore);
+      treeBuilder.insertLetter('b');
+      board.setCurrNodeTile(aBefore);
+      treeBuilder.insertLetter('c');
+      board.setCurrNodeTile(aBefore);
+      treeBuilder.insertLetter('d');
+      equal(board.tiles.tiles[aBefore.row][aBefore.col].p, 'T');
+      equal(board.tiles.tiles[aBefore.row][aBefore.col+1].p, 'R');
+      equal(board.tiles.tiles[aBefore.row][aBefore.col-1].p, 'L');
+      equal(board.tiles.tiles[aBefore.row+1][aBefore.col-1].p, 'A');
+      equal(board.tiles.tiles[aBefore.row+1][aBefore.col+1].p, 'T'); // this is now a new branch
+      equal(board.tiles.tiles[aBefore.row+1][aBefore.col+0].p, 'L'); 
+      equal(board.tiles.tiles[aBefore.row+1][aBefore.col+2].p, 'R'); 
+      equal(board.tiles.tiles[aBefore.row+2][aBefore.col+0].p, 'A'); 
+      equal(board.tiles.tiles[aBefore.row+2][aBefore.col+2].p, 'A'); 
+    });
+  });
   describe('build one branch', function(){
     it('should initialize', function(){
       assert.equal(board.tiles.tiles.length, 25, 'there should be 25 rows in tree-command-13-25.json');
