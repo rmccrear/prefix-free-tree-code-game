@@ -5,6 +5,7 @@ const TreeBuilder = require('../tree-builder.js');
 
 const jsonTree = require('../data/tree-command-13x25.json');
 
+
 let board;
 let treeBuilder;
 
@@ -12,6 +13,9 @@ board = new LetterTree(jsonTree);
 treeBuilder = new TreeBuilder(board, jsonTree.treeBuilder);
 
 window.letterTree = board;
+
+// sounds
+
 
 function updateTreeWithMessage(message){
     let messageChars = _.uniq(message.split(''));
@@ -61,6 +65,7 @@ function style(tile){
 }
 
 const onReady = function(){
+  createjs.Sound.registerSound({src:"app/media/sounds/75343__neotone__drip1.wav", id:"drip"});
   let root = $('<div>');
   let tiles = board.tilesToRender();
   for(let i=0; i<tiles.length; i++){
@@ -73,6 +78,7 @@ const onReady = function(){
   }
   $('#board').append(root);
   $('#message').on('input', function(){
+    createjs.Sound.play("drip");
     const message = $(this).val();
     const letterTile = updateTreeWithMessage(message);
     board.setCurrNodeTile(letterTile);

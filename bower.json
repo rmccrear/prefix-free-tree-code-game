@@ -1,0 +1,21 @@
+{
+  "name": "bin-tree-tiles",
+  "description": "",
+  "main": "index.js",
+  "license": "ISC",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.1.0",
+    "lodash": "^4.14.1",
+    "SoundJS": "^0.6.2"
+  }
+}
