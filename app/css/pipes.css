@@ -10,7 +10,8 @@ input#message:focus {
     box-shadow: 0 0 10px #9ecaed;
 }
 
-#code {
+.encoding {
+  /* text-shadow: 0 0 10px rgba(255,255,255,1) , 0 0 20px rgba(255,255,255,1) , 0 -6px 30px rgba(255,255,255,1) , 0 0 40px #ff00de , 0 0 70px #ff00de , 0 0 80px #ff00de , 0 0 100px #ff00de ; */
   border: 2px solid #73AD21;
   padding: 2px;
 }
@@ -69,8 +70,16 @@ input#message:focus {
   top: 13px;
   left: 11px;
   color: white;
+  text-shadow: black 0.1em 0.1em 0.2em;
   font-family: ‘Palatino Linotype’, ‘Book Antiqua’, Palatino, serif;
   /* font-family: Copperplate / Copperplate Gothic Light, sans-serif; */
+}
+
+.pipe-red .pipe-letter {
+  color: white; 
+  /* text-shadow: black 0.1em 0.1em 0.2em; */
+  /* text-shadow: red 0.1em 0.1em 0.2em; */
+  text-shadow: 0 0 0.2em #F87, 0 0 0.2em #F87;
 }
 
 .pipe-red.pipe-R {

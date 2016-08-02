@@ -11,12 +11,13 @@ class TreeBuilder{
   }
 
   insertLetter(letter, node){
+    let letterTile;
     const boardsCurrTile = this.board.getCurrTile();
     this.board.setCurrNodeTile(this.lastNode);
     if (node){
     }
     else if(!node && !this.board.hasLetter(letter)){
-      let letterTile = this.board.setLetterInFirstEmptyLeaf(letter);
+      letterTile = this.board.setLetterInFirstEmptyLeaf(letter);
       if(typeof letterTile === 'undefined'){
         this.nextBuildOut();
         letterTile = this.board.setLetterInFirstEmptyLeaf(letter);
@@ -24,6 +25,7 @@ class TreeBuilder{
     }
     this.lastNode = this.board.getCurrTile();
     this.board.setCurrNodeTile(boardsCurrTile);
+    return letterTile;
   }
 
   // private helpers below

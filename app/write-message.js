@@ -11,8 +11,26 @@ let treeBuilder;
 board = new LetterTree(jsonTree);
 treeBuilder = new TreeBuilder(board, jsonTree.treeBuilder);
 
+window.letterTree = board;
+
+function updateTreeWithMessage(message){
+    let messageChars = _.uniq(message.split(''));
+    let lastLetterTile;
+    // remove dups
+    messageChars.forEach((letter) => lastLetterTile = treeBuilder.insertLetter(letter));
+    // if not a new letter, set last letter tile to the tile of the last letter
+    if(!lastLetterTile){
+      const lastLetter = message[message.length-1];
+      const node = board.hasLetter(lastLetter);
+      if(node){
+        lastLetterTile = board.tiles.asFlatArray().filter((t) => t.n===node && t.p === 'A')[0];
+      }
+    }
+    return lastLetterTile;
+}
+
 function encodeMessage(board, message){
-  const letterTiles = board.tiles.asFlatArray((t)=>t.p==='A' && t.l);
+  const letterTiles = board.tiles.asFlatArray().filter((t)=>t.p==='A' && t.l);
   const letterMapArr = letterTiles.map((t) => [t.l, board.tree.encodingOf(t.n)]);
   const letterMap = new Map(letterMapArr);
   return message.map((letter)=>letterMap.get(letter).join('')).join(' ');
@@ -56,9 +74,11 @@ const onReady = function(){
   $('#board').append(root);
   $('#message').on('input', function(){
     const message = $(this).val();
-    updateTreeWithMessage(message);
+    const letterTile = updateTreeWithMessage(message);
+    board.setCurrNodeTile(letterTile);
     const code = encodeMessage(board, message.split(''));
     $('#code').text(code);
+    repaint();
   });
 };
 
@@ -76,12 +96,6 @@ function repaint(){
   $('#board').html(root);
 }
 
-function updateTreeWithMessage(message){
-    let messageChars = _.uniq(message.split(''));
-    // remove dups
-    messageChars.forEach((letter) => treeBuilder.insertLetter(letter));
-    repaint();
-}
 
 
 $(onReady);
