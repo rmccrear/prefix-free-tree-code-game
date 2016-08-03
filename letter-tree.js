@@ -200,14 +200,15 @@ class LetterTree {
   }
 
   tilesToRender(){
-    let tiles = this.tiles.tiles.slice(); // shallow copy
+    let tiles = [] // # this.tiles.tiles.slice(); // shallow copy
     let path = [];
     if(this.currTile.n){
       path = this.tree.pathToRoot(this.currTile.n);
     }
     for(let row=0; row<this.tiles.dim.rows; row++){
+      tiles[row] = [];
       for(let col=0; col<this.tiles.dim.cols; col++){
-        tiles[row][col] = this.duplicateTile(tiles[row][col]);
+        tiles[row][col] = this.duplicateTile(this.tiles.tiles[row][col]);
         tiles[row][col].isCurrTile = false;
         tiles[row][col].isInPath = false;
         if(path.includes(tiles[row][col].n)){

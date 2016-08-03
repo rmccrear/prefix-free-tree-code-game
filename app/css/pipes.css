@@ -22,6 +22,14 @@ input#message:focus {
   background-color: red;
   position: relative;
 }
+.pipe-container {
+  height: 32px;
+  width: 32px;
+  background-color: black;
+  border: 0 0 0 0;
+  display: inline-block;
+  position: absolute;
+}
 .pipe-tile {
   background: url(icons/plums.png) no-repeat;
   height: 32px;
@@ -30,7 +38,11 @@ input#message:focus {
   color: white;
   border: 0 0 0 0;
   display: inline-block;
-  position: absolute;
+  position: relative;
+  /* position: absolute; */
+	-webkit-transition: opacity 0.5s;
+	-moz-transition:    opacity 0.5s;
+	-o-transition:      opacity 0.5s;
 }
 
 .pipe-E {
@@ -82,37 +94,74 @@ input#message:focus {
   text-shadow: 0 0 0.2em #F87, 0 0 0.2em #F87;
 }
 
-.pipe-red.pipe-R {
-  background-position: -415px -448px
-}
-.pipe-red.pipe-L {
-  background-position: -384px -448px
-}
-.pipe-red.pipe-T {
-  background-position: -415px -544px;
-}
-.pipe-red.pipe-H {
-  background-position: -447px -448px
-}
-.pipe-red.pipe-V {
-  background-position: -447px -480px
-}
+/* .pipe-red.pipe-R { */
+/*   background-position: -415px -448px */
+/* } */
+/* .pipe-red.pipe-L { */
+/*   background-position: -384px -448px */
+/* } */
+/* .pipe-red.pipe-H { */
+/*   background-position: -447px -448px */
+/* } */
+/* .pipe-red.pipe-V { */
+/*   background-position: -447px -480px */
+/* } */
+/* .pipe-red.pipe-T { */
+/*   background-position: -415px -544px; */
+/* } */
 /* .plum-red.plum-t-up { */
 /*   background-position: -415px -544px; */
 /* } */
 
+.pipe-red.pipe-R:after {
+  background-position: -415px -448px
+}
+.pipe-red.pipe-L:after {
+  background-position: -384px -448px
+}
+.pipe-red.pipe-H:after {
+  background-position: -447px -448px
+}
+.pipe-red.pipe-V:after {
+  background-position: -447px -480px
+}
+.pipe-red.pipe-T:after {
+  background-position: -415px -544px;
+}
 
-.plum-icon.plum-t-up:after {
+.pipe-tile:after {
 	content: "";
 	position: absolute;
 	top: 0; left: 0; bottom: 0; right: 0;
 	background: url(icons/plums.png) no-repeat;
-        background-position: -415px -544px;
 	opacity: 0;
 	-webkit-transition: opacity 0.5s;
 	-moz-transition:    opacity 0.5s;
 	-o-transition:      opacity 0.5s;
 }
-.plum-icon.plum-red.plum-t-up:after{
+.pipe-tile.pipe-red:after{
 	opacity: 1;
 }
+
+.pipe-tile.pipe-red.pipe-A:after{
+	opacity: 0;
+}
+.pipe-tile.pipe-red.pipe-E:after{
+	opacity: 0;
+}
+
+
+/* .pipe-tile.pipe-T:after { */
+/* 	content: ""; */
+/* 	position: absolute; */
+/* 	top: 0; left: 0; bottom: 0; right: 0; */
+/* 	background: url(icons/plums.png) no-repeat; */
+/*         background-position: -415px -544px; */
+/* 	opacity: 0; */
+/* 	-webkit-transition: opacity 0.5s; */
+/* 	-moz-transition:    opacity 0.5s; */
+/* 	-o-transition:      opacity 0.5s; */
+/* } */
+/* .pipe-tile.pipe-red.pipe-T:after{ */
+/* 	opacity: 1; */
+/* } */
