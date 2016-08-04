@@ -13,8 +13,12 @@ class LetterTree {
     this.tree = new BinaryTree(input);
     this.tiles = new Tiles(input);
     this.currNode = 1;
-    let rootNodeTiles = this.findTilesForNode(this.currNode);
-    this.currTile = rootNodeTiles[0]; // should be tree root
+    this.rootNodeTile = this.findTilesForNode(this.currNode)[0];
+    this.currTile = this.rootNodeTile; // should be tree root
+  }
+
+  setCurrTileToRoot(){
+    this.currTile = this.rootNodeTile; // should be tree root
   }
 
   getCurrTile(){
@@ -49,6 +53,7 @@ class LetterTree {
     if(nextTerminalTileArr.length > 0){
       this.currTile = nextTerminalTileArr[0];
     }
+    return nextNodeId;
   }
 
   branchOut(tile){

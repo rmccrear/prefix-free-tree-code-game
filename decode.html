@@ -11,17 +11,18 @@
         <script src="vendor/jquery/dist/jquery.min.js"></script>
         <script src="vendor/lodash/dist/lodash.min.js"></script>
         <script src="vendor/SoundJS/lib/soundjs-0.6.2.min.js"></script>
-        <script src="build/write-message.js"></script>
+        <script src="build/decode-message.js"></script>
 
         <link rel="stylesheet" href="vendor/normalize.css">
+        <link rel="stylesheet" href="vendor/animate.css/animate.min.css">
         <link rel="stylesheet" href="app/css/pipes.css">
     </head>
     <body>
       <div class="message-container">
-        Enter your message here:
-        <input type="text" id="message" />
-        <div class="encoding">
-          Encoding: <div id="code"></div>
+        Your code:
+        <div id="encoded-message"></div>
+        <div class="">
+          Decoded Message: <div id="decoded-message"></div>
         </div>
       </div>
       <div id="board"></div>

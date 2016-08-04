@@ -171,3 +171,29 @@ input#message:focus {
 /* .pipe-tile.pipe-red.pipe-T:after{ */
 /* 	opacity: 1; */
 /* } */
+
+
+
+
+
+/* decoder css */
+
+.decoded-letter {
+  display: inline-block;
+  color: red;
+}
+
+.encoded-bit {
+  display: inline-block;
+}
+
+.current-bit {
+  color: red;
+  font-size: xx-large;
+}
+
+
+/* instructions  */
+.hint{
+  background-color:rgba(255,0,0,0.5);
+}
