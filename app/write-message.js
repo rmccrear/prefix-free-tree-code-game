@@ -37,14 +37,6 @@ function updateTreeWithMessage(message){
     return lastLetterTile;
 }
 
-function encodeMessage(board, message){
-  const letterTiles = board.tiles.asFlatArray().filter((t)=>t.p==='A' && t.l);
-  const letterMapArr = letterTiles.map((t) => [t.l, board.tree.encodingOf(t.n).reverse()]); //TODO: fix this in tree
-  const letterMap = new Map(letterMapArr);
-  return message.map((letter)=>letterMap.get(letter).join('')).join(' ');
-}
-
-
 const onReady = function(){
   createjs.Sound.registerSound({src:"app/media/sounds/75343__neotone__drip1.wav", id:"drip"});
   repaint(board);
@@ -64,7 +56,7 @@ const onReady = function(){
     const message = $(this).val();
     const letterTile = updateTreeWithMessage(message);
     board.setCurrNodeTile(letterTile);
-    const code = encodeMessage(board, message.split(''));
+    const code = board.encodeMessage(message.split('')).map((letter)=>letter.join('')).join(' ');
     $('#code').text(code);
     repaint(board);
     const encodedmessage = code.split(' ').join('');

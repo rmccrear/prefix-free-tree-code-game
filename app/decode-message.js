@@ -32,9 +32,10 @@ function queryParams(){
 }
 
 function buildTreeFromLetters(letters, board, treeBuilder){
-  for(let i=0; i<letters.length; i++){
-    treeBuilder.insertLetter(letters[i]);
-  }
+  treeBuilder.buildFromLetterString(letters);
+  // for(let i=0; i<letters.length; i++){
+  //   treeBuilder.insertLetter(letters[i]);
+  // }
 }
 
 

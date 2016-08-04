@@ -68,8 +68,8 @@ class BinaryTree {
       code.push(direction);
       n = this.parentOf(n);
     }
+    code.reverse();
     return code;
-
   }
 
   commonAncestorOf(node1, node2){

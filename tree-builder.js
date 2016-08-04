@@ -28,6 +28,12 @@ class TreeBuilder{
     return letterTile;
   }
 
+  buildFromLetterString(letters){
+    for(let i=0; i<letters.length; i++){
+      this.insertLetter(letters[i]);
+    }
+  }
+
   // private helpers below
   nextInCommandArray(){
     if(this.currIndex >= this.commands.length){

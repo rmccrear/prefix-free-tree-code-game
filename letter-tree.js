@@ -188,10 +188,12 @@ class LetterTree {
       return false;
     }
   }
-  encodeLetter(letter){
-    const letterNode = this.hasLetter(letter);
-    const letterPath = this.board.tree.pathToRoot(letterNode);
-    return letterPath;
+
+  encodeMessage(message){
+    const letterTiles = this.tiles.asFlatArray().filter((t)=>t.p==='A' && t.l);
+    const letterMapArr = letterTiles.map((t) => [t.l, this.tree.encodingOf(t.n)]);
+    const letterMap = new Map(letterMapArr);
+    return message.map((letter)=>letterMap.get(letter));
   }
 
   duplicateTile(t){

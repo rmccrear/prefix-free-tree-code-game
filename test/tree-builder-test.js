@@ -92,20 +92,51 @@ describe('TreeBuilder', function() {
       equal(board.tiles.tiles[aBefore.row][aBefore.col-1].p, 'L');
       equal(board.tiles.tiles[aBefore.row+1][aBefore.col-1].p, 'A');
       equal(board.tiles.tiles[aBefore.row+1][aBefore.col+1].p, 'T'); // this is now a new branch
-      equal(board.tiles.tiles[aBefore.row+1][aBefore.col+0].p, 'L'); 
-      equal(board.tiles.tiles[aBefore.row+1][aBefore.col+2].p, 'R'); 
-      equal(board.tiles.tiles[aBefore.row+2][aBefore.col+0].p, 'A'); 
-      equal(board.tiles.tiles[aBefore.row+2][aBefore.col+2].p, 'A'); 
+      equal(board.tiles.tiles[aBefore.row+1][aBefore.col+0].p, 'L');
+      equal(board.tiles.tiles[aBefore.row+1][aBefore.col+2].p, 'R');
+      equal(board.tiles.tiles[aBefore.row+2][aBefore.col+0].p, 'A');
+      equal(board.tiles.tiles[aBefore.row+2][aBefore.col+2].p, 'A');
     });
   });
-  describe('build one branch', function(){
-    it('should initialize', function(){
+  describe('build tree from letter string', function(){
+    it('should initialize tree from file', function(){
       assert.equal(board.tiles.tiles.length, 25, 'there should be 25 rows in tree-command-13-25.json');
     });
+    it('should build out tree from string', function(){
+      treeBuilder.buildFromLetterString('abcdefg');
+      const aTile = {row: 2, col: 2};
+      const bTile = {row: 3, col: 7};
+      const cTile = {row: 4, col: 8};
+      const dTile = {row: 5, col: 9};
+      const eTile = {row: 7, col: 9};
+      const fTile = {row: 6, col: 12};
+      const gTile = {row: 7, col: 11};
+      equal(board.tiles.tiles[aTile.row][aTile.col].l, 'a');
+      equal(board.tiles.tiles[bTile.row][bTile.col].l, 'b');
+      equal(board.tiles.tiles[cTile.row][cTile.col].l, 'c');
+      equal(board.tiles.tiles[dTile.row][dTile.col].l, 'd');
+      equal(board.tiles.tiles[eTile.row][eTile.col].l, 'e');
+      equal(board.tiles.tiles[fTile.row][fTile.col].l, 'f');
+      equal(board.tiles.tiles[gTile.row][gTile.col].l, 'g');
+    });
   });
-  describe('build two branches', function(){
-    it('should initialize', function(){
+  describe('decoding/encoding a message', function(){
+    it('should initialize board', function(){
       assert.equal(board.tiles.tiles.length, 25, 'there should be 25 rows in tree-command-13-25.json');
+      treeBuilder.buildFromLetterString('abcdefg');
+      const gTile = {row: 7, col: 11};
+      equal(board.tiles.tiles[gTile.row][gTile.col].l, 'g');
+    });
+    it('should encode a letter', function(){
+      treeBuilder.buildFromLetterString('abcdefg');
+      equal(board.encodeMessage(['a'])[0][0], 'L');
+      equal(board.encodeMessage(['b'])[0].join(''), 'RL');
+      equal(board.encodeMessage(['c'])[0].join(''), 'RRL');
+
+      // encodeMessage takes an array of letters, so split('')
+      // it returns a nested array of encoded letters, so map each encoded letter to join('') them into a string
+      // and then join(' ') the encoded letter to a string separated by spaces
+      equal(board.encodeMessage( 'abacadaba'.split('') ).map((letter)=>letter.join('')).join(' '), 'L RL L RRL L RRRL L RL L');
     });
   });
   describe('build two iterations of branches', function(){

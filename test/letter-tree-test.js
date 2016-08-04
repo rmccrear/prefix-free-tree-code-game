@@ -83,7 +83,6 @@ describe('LetterTree', function() {
 
         let letterTile2 =  board.tiles.tiles[2][1];
         const newTiles2 = board.branchOut(letterTile2);
-        console.log(newTiles2)
 
 
     });
@@ -102,7 +101,6 @@ describe('move around', function(){
   describe('movement', function(){
     it('should move', function(){
       assert.equal(boardScaffold.currTile.row, 0);
-      console.log(boardScaffold.currTile);
       boardScaffold.go('L');
     });
   });
