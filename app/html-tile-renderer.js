@@ -50,7 +50,7 @@ function diffTiles(tile1, tile2){
 
 let lastTilePosition;
 function repaint(board){
-  let root = $('<div>');
+  let root = $('<div class="board-inner">');
   let tiles = board.tilesToRender();
 
   // draw from scratch if first time, or if grid size has changed.

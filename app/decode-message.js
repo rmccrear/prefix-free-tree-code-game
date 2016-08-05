@@ -33,9 +33,6 @@ function queryParams(){
 
 function buildTreeFromLetters(letters, board, treeBuilder){
   treeBuilder.buildFromLetterString(letters);
-  // for(let i=0; i<letters.length; i++){
-  //   treeBuilder.insertLetter(letters[i]);
-  // }
 }
 
 
@@ -48,7 +45,7 @@ function leafCheck(){
   else{
     return false;
   }
-};
+}
 
 function isLeaf(){
   const tile = board.getCurrTile();
@@ -71,6 +68,7 @@ function handleAtLeaf(leafTile) {
   const letterElm = $(`<div class="decoded-letter">${letterRepresentation}</div>`);
   // $('#decoded-message').append(letterElm).addClass('animated fadeInDownBig');
   letterElm.appendTo('#decoded-message').addClass('animated bounceInUp');
+  $('.current-letter-bit-already-done').removeClass('current-letter-bit-already-done').addClass('bit-already-done');
   if(incorrectDepth === 0){
     startOfCurrentLetter = bitProgressCounter;
   }
@@ -86,6 +84,37 @@ function handleAtLeaf(leafTile) {
 
   }
 }
+
+let guideElm = null;
+let showGuideCount = 0;
+function showGuide(direction, message){
+  hideGuide();
+  if(direction) {
+    message = message || 'press arrow key';
+    message = (showGuideCount < 5) ? message + '<br>' : '';
+    const directionGlyph = {'L': '⇦', 'R': '⇨', 'U': '⇧'}[direction];
+    const currTile = board.getCurrTile();
+    const pixelSize = 32;
+    const currTileTop = currTile.row * pixelSize;
+    const currTileLeft = currTile.col * pixelSize;
+    const locationTop = `${currTileTop - 0*pixelSize}px`;
+    const locationLeft = (direction === 'L') ? `${currTileLeft - 1*pixelSize}px` : `${currTileLeft + 1*pixelSize}px`;
+    const hintElm = $(`<div class="hint" style="top: ${locationTop}; left: ${locationLeft};">${message} ${directionGlyph}</div>`);
+    guideElm = hintElm;
+    $('#board .board-inner').append(hintElm);
+    guideElm.addClass('animated pulse');
+    showGuideCount++;
+  }
+}
+
+function hideGuide(){
+  if(guideElm){
+    guideElm.remove();
+    guideElm = null;
+  }
+}
+
+window.showGuide = showGuide;
 
 function goLeft(){
   board.go('L');
@@ -122,6 +151,7 @@ function checkEncodedBit(input){
   if(input === encodedMessage[bitProgressCounter] && incorrectDepth === 0){
     console.log('good!')
     $(`[data-encoded-bit-index=${bitProgressCounter}]`).removeClass('current-bit');
+    $(`[data-encoded-bit-index=${bitProgressCounter}]`).addClass('current-letter-bit-already-done');
     bitProgressCounter++;
     $(`[data-encoded-bit-index=${bitProgressCounter}]`).addClass('current-bit');
     $(`[data-encoded-bit-index=${bitProgressCounter}]`).addClass('animated bounce');
@@ -181,12 +211,15 @@ function onReady(){
           default: return; // exit this handler for other keys
       }
       repaint(board);
-      if(!isCorrect){
+      if(isCorrect){
+        showGuide(encodedMessage[bitProgressCounter]);
+      } else {
         $('#board').addClass('animated shake');
         window.setTimeout(function(){$('#board').removeClass('animated shake');}, 1000);
       }
       e.preventDefault(); // prevent the default action (scroll / move caret)
   });
+  showGuide(encodedMessage[bitProgressCounter]);
 }
 
 

@@ -192,8 +192,18 @@ input#message:focus {
   font-size: xx-large;
 }
 
+.current-letter-bit-already-done {
+  color: blue;
+}
+
+.bit-already-done {
+  color: grey;
+}
 
 /* instructions  */
 .hint{
-  background-color:rgba(255,0,0,0.5);
+  /* position: relative; */
+  position: absolute;
+  color: white;
+  /* color: rgb(207, 70, 72); */
 }
