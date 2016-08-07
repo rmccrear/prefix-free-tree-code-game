@@ -8,9 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
-        <script src="vendor/jquery/dist/jquery.min.js"></script>
-        <script src="vendor/lodash/dist/lodash.min.js"></script>
-        <script src="vendor/SoundJS/lib/soundjs-0.6.2.min.js"></script>
+        <script src="vendor/SoundJS/lib/soundjs-0.6.2.combined.js"></script>
         <script src="build/decode-message.js"></script>
 
         <link rel="stylesheet" href="vendor/normalize.css">
@@ -18,12 +16,18 @@
         <link rel="stylesheet" href="app/css/pipes.css">
     </head>
     <body>
+    <div class="greeting-outer">
+      <div class="greeting">
+        This is an encoded message. Luckily, you can decode it. Start at the top. "L" means go Left. "R" means go right. When you reach a letter, stop. After reaching each of the letters, you can read your message.  Begin!
+      </div>
+    </div>
       <div class="message-container">
-        Your code:
+        <span class="your-code-label">Your code:</span>
         <div id="encoded-message"></div>
         <div class="">
-          Decoded Message: <div id="decoded-message"></div>
+          <span class="decoded-message-label"> Decoded Message: </span> <div id="decoded-message"></div>
         </div>
+        <div class="make-your-own"><a href="/writer.html">Create your own message!</a></div>
       </div>
       <div id="board"></div>
     </body>

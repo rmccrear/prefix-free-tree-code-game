@@ -1,5 +1,8 @@
 "use strict";
 
+const $ = require('jquery');
+const _ = require('lodash');
+
 const LetterTree = require('../letter-tree.js');
 const TreeBuilder = require('../tree-builder.js');
 
@@ -37,8 +40,55 @@ function updateTreeWithMessage(message){
     return lastLetterTile;
 }
 
+let recordOfLetters = '';
+function recordLettersAdded(letter){
+  if(recordOfLetters.indexOf(letter) === -1){
+    recordOfLetters += letter;
+  }
+}
+
+//http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript/21152762#21152762
+function queryParams(){
+  var qd = {};
+  location.search.substr(1).split("&").forEach(function(item) {
+      var s = item.split("="),
+          k = s[0],
+          v = s[1] && decodeURIComponent(s[1]);
+      //(k in qd) ? qd[k].push(v) : qd[k] = [v]
+      (qd[k] = qd[k] || []).push(v); //short-circuit
+  });
+  return qd;
+}
+
+function generateShareUrl(){
+  const params = queryParams();
+  const lettersOnTree = params.letters[0];
+  const encodedMessage = params.encodedmessage[0];
+  return `http://localhost:22222/decode.html?letters=${lettersOnTree}&encodedmessage=${encodedMessage}`;
+}
+window.generateShareUrl = generateShareUrl;
+
+function setUpFromUrl(){
+  const params = queryParams();
+  if(params && params.letters && params.letters[0] && params.encodedmessage && params.encodedmessage[0]){
+    recordOfLetters = params.letters[0];
+    const encodedmessage = params.encodedmessage[0];
+    treeBuilder.buildFromLetterString(recordOfLetters);
+    console.log(board.decodeMessage(encodedmessage));
+    $('#message').val(board.decodeMessage(encodedmessage).join(''));
+    $('a.share-a').attr('href', `/decode.html?letters=${recordOfLetters}&encodedmessage=${encodedmessage}`);
+  }
+}
+
 const onReady = function(){
-  createjs.Sound.registerSound({src:"app/media/sounds/75343__neotone__drip1.wav", id:"drip"});
+  try{
+    createjs.Sound.registerSound({src:"app/media/sounds/75343__neotone__drip1.wav", id:"drip"});
+  }catch(e){
+    console.log(e);
+  }
+  // get tree from url
+  // get message from url
+  setUpFromUrl();
   repaint(board);
   // let root = $('<div>');
   // let tiles = board.tilesToRender();
@@ -61,15 +111,10 @@ const onReady = function(){
     repaint(board);
     const encodedmessage = code.split(' ').join('');
     window.history.pushState({}, code, `/writer.html?letters=${recordOfLetters}&encodedmessage=${encodedmessage}`);
+    $('a.share-a').attr('href', `/decode.html?letters=${recordOfLetters}&encodedmessage=${encodedmessage}`);
   });
 };
 
-let recordOfLetters = '';
-function recordLettersAdded(letter){
-  if(recordOfLetters.indexOf(letter) === -1){
-    recordOfLetters += letter;
-  }
-}
 
 // render 
 function classes(tile){

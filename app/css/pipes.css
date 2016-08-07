@@ -173,37 +173,144 @@ input#message:focus {
 /* } */
 
 
+/* writer css */
 
+.share-a{
+  /*elflord green*/
+  color: #60ff60;
+}
+.share-a:visited{
+  /*elflord green*/
+  color: #60ff60;
+}
 
 
 /* decoder css */
 
 .decoded-letter {
+  font-family: "Lucida Console", Monaco, monospace;
+  font-size: large;
   display: inline-block;
-  color: red;
+  /* color: red; */
+
+  /*rust color*/
+  /*color: #cf4648;*/ 
+
+  /*dark green*/
+  /* color: #346524;*/
+
+  /*light green*/
+  /* color: #6daa2b; */ 
+  /*elflord green*/
+  color: #60ff60;
 }
 
 .encoded-bit {
   display: inline-block;
+  /* font-family: "Lucida Console", Monaco, monospace; */
+  font-family: monaco, Consolas, "Lucida Console", monospace;
+  font-size: large;
+  color: yellow;
+  /* color: white; */
 }
 
 .current-bit {
-  color: red;
+  /* color: red; */
+  color: #cf4648; /*rust color*/
   font-size: xx-large;
 }
 
 .current-letter-bit-already-done {
-  color: blue;
+  /* color: blue; */
+  color: #cf4648; /*rust color*/
 }
 
 .bit-already-done {
-  color: grey;
+  /* color: grey; */
+
+  /* steel grey */
+  /* color: #8594a1; */
+
+  /*dark cyan*/
+  color: #80a0ff;
+}
+
+.message-container {
+  border: thin solid black;
+  width: 416px;
+  background-color: black;
+  color: white;
+}
+#encoded-message{
+  padding: 1em;
+}
+#decoded-message{
+  padding: 1em;
+}
+
+.your-code-label {
+  padding: 1em;
+  color: magenta;
+}
+.decoded-message-label{
+  padding: 1em;
+  color: magenta;
 }
 
 /* instructions  */
 .hint{
   /* position: relative; */
   position: absolute;
-  color: white;
+  /* color: white; */
+  color: magenta;
   /* color: rgb(207, 70, 72); */
+}
+
+.greeting-outer {
+  width: 416px;
+  /* border: thin solid red; */
+  /* padding: 12px 6px 12px 6px; */
+  border: thin solid black;
+}
+.greeting {
+  /* font-family: "Lucida Console", Monaco, monospace; */
+  /*cyan*/
+  color: #40ffff;
+  background-color: black;
+  /* width: 400px; */
+  /* padding: 4px 2px 4px 2px; */
+  padding: 1em;
+	font-family: monaco, Consolas, "Lucida Console", monospace;
+	font-size: 14px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 400;
+	line-height: 20px;
+  /* border: thin solid black; */
+  /* -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75); */
+  /* -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75); */
+  /* box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75); */
+}
+
+.make-your-own {
+  display: none;
+}
+
+.make-your-own.show {
+  display: block;
+  height: 4em;
+  padding: 1em;
+	font-family: monaco, Consolas, "Lucida Console", monospace;
+	font-size: 14px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 400;
+	line-height: 20px;
+  /*elflord green*/
+  color: #60ff60;
+  background-color: black;
+}
+.make-your-own.show a:visited {
+  /*elflord green*/
+  color: #60ff60;
 }

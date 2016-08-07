@@ -4,15 +4,23 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --harmony_array_includes test"
+    "test": "mocha --harmony_array_includes test",
+    "build-js": "browserify -t babelify app/write-message.js -o build/app/js/write-message.js && browserify -t babelify app/decode-message.js -o build/app/js/decode-message.js",
+    "build:css": "cp app/css/*.css build/app/css/ && cp app/css/icons/* build/app/css/icons",
+    "cp-media": "cp app/media/sounds/* build/app/media/sounds",
+    "cp-vendor": "cp vendor/SoundJS/lib/soundjs-0.6.2.min.js build/vendor/SoundJS/lib/ && cp vendor/animate.css/animate.min.css build/vendor/animate.css/ && cp vendor/normalize.css build/vendor/",
+    "cp-html": "cp decode.html build/ && cp writer.html build/"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "jquery": "^3.1.0",
+    "lodash": "^4.14.1",
     "readline-sync": "^1.4.4"
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.9.0",
-    "babelify": "^7.3.0"
+    "babelify": "^7.3.0",
+    "browserify": "^13.1.0"
   }
 }

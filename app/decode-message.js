@@ -1,5 +1,8 @@
 "use strict";
 
+let $ = require('jquery');
+// let _ = require('lodash');
+
 const LetterTree = require('../letter-tree.js');
 const TreeBuilder = require('../tree-builder.js');
 
@@ -17,6 +20,7 @@ window.letterTree = board;
 
 let lettersOnTree = '';
 let encodedMessage = '';
+let done = false;
 
 //http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript/21152762#21152762
 function queryParams(){
@@ -56,6 +60,12 @@ function isLeaf(){
     return false;
   }
 }
+function isDone(){
+  if(bitProgressCounter>=encodedMessage.length){
+    done = true;
+  }
+  return done;
+}
 
 function handleAtLeaf(leafTile) {
   console.log('handling leaf ' + leafTile.l)
@@ -81,8 +91,11 @@ function handleAtLeaf(leafTile) {
     $(`[data-encoded-bit-index=${bitProgressCounter}]`).removeClass('current-bit');
     bitProgressCounter = startOfCurrentLetter;
     $(`[data-encoded-bit-index=${bitProgressCounter}]`).addClass('current-bit');
-
   }
+  if(isDone()){
+    $('.make-your-own').addClass('show');
+  }
+  showGuide(encodedMessage[bitProgressCounter]);
 }
 
 let guideElm = null;
@@ -93,6 +106,7 @@ function showGuide(direction, message){
     message = message || 'press arrow key';
     message = (showGuideCount < 5) ? message + '<br>' : '';
     const directionGlyph = {'L': '⇦', 'R': '⇨', 'U': '⇧'}[direction];
+    // const directionGlyph = {'L': '&larr;', 'R': '&rarr;', 'U': '&uarr;'}[direction];
     const currTile = board.getCurrTile();
     const pixelSize = 32;
     const currTileTop = currTile.row * pixelSize;
@@ -114,7 +128,6 @@ function hideGuide(){
   }
 }
 
-window.showGuide = showGuide;
 
 function goLeft(){
   board.go('L');
@@ -164,7 +177,11 @@ function checkEncodedBit(input){
 }
 
 function onReady(){
-  initSounds();
+  try{
+    initSounds();
+  }catch(e){
+    console.log(e);
+  }
   const params = queryParams();
   lettersOnTree = params.letters[0];
   encodedMessage = params.encodedmessage[0];
@@ -196,6 +213,14 @@ function onReady(){
             }
             else{
               incorrectDepth--;
+              if(incorrectDepth>0){
+                isCorrect = false;
+                showGuide('U');
+                console.log('go up!');
+              }
+              else if (incorrectDepth === 0){
+                showGuide(encodedMessage[bitProgressCounter]);
+              }
             }
           break;
 
