@@ -130,17 +130,53 @@ function hideGuide(){
 
 
 function goLeft(){
+  let isCorrect = checkEncodedBit('L');
   board.go('L');
   createjs.Sound.play('drip');
   leafCheck();
+  if(isCorrect){
+    return 'correct';
+  }
+  else{
+    return 'wrong';
+  }
 }
 function goRight(){
+  let isCorrect = checkEncodedBit('R');
   board.go('R');
   createjs.Sound.play('drip');
   leafCheck();
+  if(isCorrect){
+    return 'correct';
+  }
+  else{
+    return 'wrong';
+  }
 }
 function goUp(){
-  return board.go('U');
+  let status = 'correct';
+  if(board.go('U') === 1){ // at root node
+    console.log('restart at start of current letter');
+    //roll back to last correct spot in code
+    incorrectDepth = 0;
+    $(`[data-encoded-bit-index=${bitProgressCounter}]`).removeClass('current-bit');
+    bitProgressCounter = startOfCurrentLetter;
+    $(`[data-encoded-bit-index=${bitProgressCounter}]`).addClass('current-bit');
+    status = 'correct';
+  }
+  else{
+    incorrectDepth--;
+    if(incorrectDepth>0){
+      showGuide('U');
+      console.log('go up!');
+      status = 'please-continue-up';
+    }
+    else if (incorrectDepth === 0){
+      showGuide(encodedMessage[bitProgressCounter]);
+      status = 'correct';
+    }
+  }
+  return status;
 }
 
 function initSounds(){
@@ -176,6 +212,19 @@ function checkEncodedBit(input){
   }
 }
 
+function afterMove(status){
+      if(status === 'correct'){
+        console.log('is correct ....' + status)
+        showGuide(encodedMessage[bitProgressCounter]);
+      } else if(status === 'wrong') {
+        $('#board').addClass('animated shake');
+        window.setTimeout(function(){$('#board').removeClass('animated shake');}, 1000);
+        showGuide('U');
+      } else if('please-continue-up'){
+        showGuide('U');
+      }
+}
+
 function onReady(){
   try{
     initSounds();
@@ -194,40 +243,18 @@ function onReady(){
   console.log(lettersOnTree);
   // http://stackoverflow.com/questions/1402698/binding-arrow-keys-in-js-jquery
   $(document).keydown(function(e) {
-    let isCorrect = true;
+    let status = 'no-move';
       switch(e.which) {
           case 37: // left
-          console.log('left');
-          isCorrect = checkEncodedBit('L');
-          goLeft();
+            status = goLeft();
           break;
 
           case 38: // up
-            if(goUp() === 1){
-              console.log('restart at start of current letter');
-              //roll back to last correct spot in code
-              incorrectDepth = 0;
-              $(`[data-encoded-bit-index=${bitProgressCounter}]`).removeClass('current-bit');
-              bitProgressCounter = startOfCurrentLetter;
-              $(`[data-encoded-bit-index=${bitProgressCounter}]`).addClass('current-bit');
-            }
-            else{
-              incorrectDepth--;
-              if(incorrectDepth>0){
-                isCorrect = false;
-                showGuide('U');
-                console.log('go up!');
-              }
-              else if (incorrectDepth === 0){
-                showGuide(encodedMessage[bitProgressCounter]);
-              }
-            }
+            status = goUp();
           break;
 
           case 39: // right
-          console.log('right');
-          isCorrect = checkEncodedBit('R');
-          goRight();
+            status = goRight();
           break;
 
           case 40: // down
@@ -236,12 +263,7 @@ function onReady(){
           default: return; // exit this handler for other keys
       }
       repaint(board);
-      if(isCorrect){
-        showGuide(encodedMessage[bitProgressCounter]);
-      } else {
-        $('#board').addClass('animated shake');
-        window.setTimeout(function(){$('#board').removeClass('animated shake');}, 1000);
-      }
+      afterMove(status);
       e.preventDefault(); // prevent the default action (scroll / move caret)
   });
   showGuide(encodedMessage[bitProgressCounter]);
