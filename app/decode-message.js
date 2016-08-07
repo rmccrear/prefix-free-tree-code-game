@@ -1,6 +1,7 @@
 "use strict";
 
 let $ = require('jquery');
+let Hammer = require('hammerjs');
 // let _ = require('lodash');
 
 const LetterTree = require('../letter-tree.js');
@@ -239,8 +240,29 @@ function onReady(){
   buildTreeFromLetters(lettersOnTree, board, treeBuilder);
   repaint(board);
   $('[data-encoded-bit-index=0]').addClass('current-bit');
-  console.log(params);
-  console.log(lettersOnTree);
+
+  // initiate Hammer
+  let stage = document.getElementById('board');
+  let mc = new Hammer.Manager(stage);
+  let Swipe = new Hammer.Swipe();
+  mc.add(Swipe);
+  mc.on('swipeleft', function(){
+    console.log('swipe left');
+    const status = goLeft();
+    repaint(board);
+    afterMove(status);
+  });
+  mc.on('swiperight', function(){
+    const status = goRight();
+    repaint(board);
+    afterMove(status);
+  });
+  mc.on('swipeup', function(){
+    const status = goUp();
+    repaint(board);
+    afterMove(status);
+  });
+
   // http://stackoverflow.com/questions/1402698/binding-arrow-keys-in-js-jquery
   $(document).keydown(function(e) {
     let status = 'no-move';
