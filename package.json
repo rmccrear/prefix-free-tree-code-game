@@ -9,7 +9,9 @@
     "build:css": "cp app/css/*.css build/app/css/ && cp app/css/icons/* build/app/css/icons",
     "cp-media": "cp app/media/sounds/* build/app/media/sounds",
     "cp-vendor": "cp vendor/SoundJS/lib/soundjs-0.6.2.min.js build/vendor/SoundJS/lib/ && cp vendor/animate.css/animate.min.css build/vendor/animate.css/ && cp vendor/normalize.css build/vendor/",
-    "cp-html": "cp decode.html build/ && cp writer.html build/"
+    "cp-html": "cp decode.html build/ && cp writer.html build/",
+    "cp-all": "npm run cp-media && npm run cp-vendor && npm run cp-html",
+    "build": "npm run cp-all && npm run build-js && npm run build:css"
   },
   "author": "",
   "license": "ISC",
