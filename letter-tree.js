@@ -200,16 +200,13 @@ class LetterTree {
     let message = [];
     for(let i=0; i<code.length; i++){
       let idx = code[i] === 'L' ? 0 : 1;
-      console.log(code[i] + idx)
       let nextN = this.tree.graph[n][idx];
-      console.log(nextN)
       if(nextN){
         n = nextN;
       }
       else { // leaf
         // get the letter
         let letterTileArr = this.tiles.asFlatArray().filter((t) => t.p === 'A' && t.n === n);
-        console.log(letterTileArr[0])
         message.push(letterTileArr[0].l);
         n = 1; // start at top
         i--; //backup

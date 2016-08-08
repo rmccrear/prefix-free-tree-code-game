@@ -104,8 +104,8 @@ let showGuideCount = 0;
 function showGuide(direction, message){
   hideGuide();
   if(direction) {
-    message = message || 'press arrow key';
-    message = (showGuideCount < 5) ? message + '<br>' : '';
+    // message = message || 'press arrow key';
+    message = (showGuideCount < 5) ? `<div class="hint-message desktop">press arrow key</div> <div class="hint-message mobile">swipe</div> `: '';
     const directionGlyph = {'L': '⇦', 'R': '⇨', 'U': '⇧'}[direction];
     // const directionGlyph = {'L': '&larr;', 'R': '&rarr;', 'U': '&uarr;'}[direction];
     const currTile = board.getCurrTile();
@@ -114,7 +114,7 @@ function showGuide(direction, message){
     const currTileLeft = currTile.col * pixelSize;
     const locationTop = `${currTileTop - 0*pixelSize}px`;
     const locationLeft = (direction === 'L') ? `${currTileLeft - 1*pixelSize}px` : `${currTileLeft + 1*pixelSize}px`;
-    const hintElm = $(`<div class="hint" style="top: ${locationTop}; left: ${locationLeft};">${message} ${directionGlyph}</div>`);
+    const hintElm = $(`<div class="hint" style="top: ${locationTop}; left: ${locationLeft};">${message}<span class="hint-glyph">${directionGlyph}</span></div>`);
     guideElm = hintElm;
     $('#board .board-inner').append(hintElm);
     guideElm.addClass('animated pulse');
@@ -123,8 +123,10 @@ function showGuide(direction, message){
 }
 
 function hideGuide(){
-  if(guideElm){
-    guideElm.remove();
+  if (guideElm){
+    let guideElmToRemove = guideElm;
+    window.setTimeout(()=>guideElmToRemove.remove(), 300);
+    // guideElm.remove();
     guideElm = null;
   }
 }
@@ -136,7 +138,7 @@ function goLeft(){
   createjs.Sound.play('drip');
   leafCheck();
   if(isCorrect){
-    return 'correct';
+    return 'correct-L';
   }
   else{
     return 'wrong';
@@ -148,7 +150,7 @@ function goRight(){
   createjs.Sound.play('drip');
   leafCheck();
   if(isCorrect){
-    return 'correct';
+    return 'correct-R';
   }
   else{
     return 'wrong';
@@ -214,8 +216,14 @@ function checkEncodedBit(input){
 }
 
 function afterMove(status){
-      if(status === 'correct'){
+      if(status === 'correct' || status==='correct-L' || status==='correct-R'){
         console.log('is correct ....' + status)
+        if(status === 'correct-L'){
+          guideElm.addClass('animated slideOutLeft');
+        }
+        else if(status === 'correct-R'){
+          guideElm.addClass('animated slideOutRight');
+        }
         showGuide(encodedMessage[bitProgressCounter]);
       } else if(status === 'wrong') {
         $('#board').addClass('animated shake');

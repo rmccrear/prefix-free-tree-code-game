@@ -74,9 +74,8 @@ function setUpFromUrl(){
     recordOfLetters = params.letters[0];
     const encodedmessage = params.encodedmessage[0];
     treeBuilder.buildFromLetterString(recordOfLetters);
-    console.log(board.decodeMessage(encodedmessage));
     $('#message').val(board.decodeMessage(encodedmessage).join(''));
-    $('a.share-a').attr('href', `/decode.html?letters=${recordOfLetters}&encodedmessage=${encodedmessage}`);
+    $('a.share-a').attr('href', `decode.html?letters=${recordOfLetters}&encodedmessage=${encodedmessage}`);
   }
 }
 
@@ -110,8 +109,8 @@ const onReady = function(){
     $('#code').text(code);
     repaint(board);
     const encodedmessage = code.split(' ').join('');
-    window.history.pushState({}, code, `/writer.html?letters=${recordOfLetters}&encodedmessage=${encodedmessage}`);
-    $('a.share-a').attr('href', `/decode.html?letters=${recordOfLetters}&encodedmessage=${encodedmessage}`);
+    window.history.pushState({}, code, `writer.html?letters=${recordOfLetters}&encodedmessage=${encodedmessage}`);
+    $('a.share-a').attr('href', `decode.html?letters=${recordOfLetters}&encodedmessage=${encodedmessage}`);
   });
 };
 

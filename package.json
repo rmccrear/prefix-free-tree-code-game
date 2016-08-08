@@ -5,13 +5,15 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha --harmony_array_includes test",
-    "build-js": "browserify -t babelify app/write-message.js -o build/app/js/write-message.js && browserify -t babelify app/decode-message.js -o build/app/js/decode-message.js",
+    "build:js": "browserify -t babelify app/write-message.js -o build/app/js/write-message.js && browserify -t babelify app/decode-message.js -o build/app/js/decode-message.js",
     "build:css": "cp app/css/*.css build/app/css/ && cp app/css/icons/* build/app/css/icons",
+    "build:html:decode": "sed 's_build/decode-message.js_app/js/decode-message.js_' decode.html > build/decode.html",
+    "build:html:writer": "sed 's_build/write-message.js_app/js/write-message.js_'   writer.html > build/writer.html",
+    "build:html": "npm run build:html:decode && npm run build:html:writer",
     "cp-media": "cp app/media/sounds/* build/app/media/sounds",
-    "cp-vendor": "cp vendor/SoundJS/lib/soundjs-0.6.2.min.js build/vendor/SoundJS/lib/ && cp vendor/animate.css/animate.min.css build/vendor/animate.css/ && cp vendor/normalize.css build/vendor/",
-    "cp-html": "cp decode.html build/ && cp writer.html build/",
-    "cp-all": "npm run cp-media && npm run cp-vendor && npm run cp-html",
-    "build": "npm run cp-all && npm run build-js && npm run build:css"
+    "cp-vendor": "cp vendor/SoundJS/lib/soundjs-0.6.2.min.js build/vendor/SoundJS/lib/ && cp vendor/animate.css/animate.min.css build/vendor/animate.css/ && cp vendor/normalize.css build/vendor/ && cp vendor/modernizr-custom.js build/vendor/  && cp vendor/array-polyfill.js build/vendor/",
+    "cp-all": "npm run cp-media && npm run cp-vendor",
+    "build": "npm run cp-all && npm run build:html && npm run build:js && npm run build:css"
   },
   "author": "",
   "license": "ISC",
