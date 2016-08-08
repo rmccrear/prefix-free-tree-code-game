@@ -134,11 +134,15 @@ function hideGuide(){
 
 function goLeft(){
   let isCorrect = checkEncodedBit('L');
+  let leaf = null;
   board.go('L');
   createjs.Sound.play('drip');
-  leafCheck();
+  leaf = leafCheck();
   if(isCorrect){
     return 'correct-L';
+  }
+  else if (leaf){
+    return 'wrong-at-leaf';
   }
   else{
     return 'wrong';
@@ -146,11 +150,15 @@ function goLeft(){
 }
 function goRight(){
   let isCorrect = checkEncodedBit('R');
+  let leaf = null;
   board.go('R');
   createjs.Sound.play('drip');
-  leafCheck();
+  leaf = leafCheck();
   if(isCorrect){
     return 'correct-R';
+  }
+  else if (!isCorrect && leaf){
+    return 'wrong-at-leaf';
   }
   else{
     return 'wrong';
@@ -158,26 +166,30 @@ function goRight(){
 }
 function goUp(){
   let status = 'correct';
-  if(board.go('U') === 1){ // at root node
-    console.log('restart at start of current letter');
-    //roll back to last correct spot in code
-    incorrectDepth = 0;
-    $(`[data-encoded-bit-index=${bitProgressCounter}]`).removeClass('current-bit');
-    bitProgressCounter = startOfCurrentLetter;
-    $(`[data-encoded-bit-index=${bitProgressCounter}]`).addClass('current-bit');
-    status = 'correct';
-  }
-  else{
-    incorrectDepth--;
-    if(incorrectDepth>0){
-      showGuide('U');
-      console.log('go up!');
-      status = 'please-continue-up';
-    }
-    else if (incorrectDepth === 0){
-      showGuide(encodedMessage[bitProgressCounter]);
+  if(incorrectDepth > 0){ // if player has made a mistake previously...
+    if(board.go('U') === 1){ // at root node start over
+      console.log('restart at start of current letter');
+      //roll back to last correct spot in code
+      incorrectDepth = 0;
+      $(`[data-encoded-bit-index=${bitProgressCounter}]`).removeClass('current-bit');
+      bitProgressCounter = startOfCurrentLetter;
+      $(`[data-encoded-bit-index=${bitProgressCounter}]`).addClass('current-bit');
       status = 'correct';
     }
+    else{
+      incorrectDepth--;
+      if(incorrectDepth>0){
+        showGuide('U');
+        console.log('go up! ' + incorrectDepth);
+        status = 'please-continue-up';
+      }
+      console.log('incorrectDepth: ' + incorrectDepth);
+    }
+  }
+  else {
+    // do nothing if player hasn't made a mistake.
+    // showGuide(encodedMessage[bitProgressCounter]);
+    status = 'correct';
   }
   return status;
 }
@@ -224,6 +236,9 @@ function afterMove(status){
         else if(status === 'correct-R'){
           guideElm.addClass('animated slideOutRight');
         }
+        showGuide(encodedMessage[bitProgressCounter]);
+      } else if(status === 'wrong-at-leaf'){
+        console.log('wrong at leaf');
         showGuide(encodedMessage[bitProgressCounter]);
       } else if(status === 'wrong') {
         $('#board').addClass('animated shake');

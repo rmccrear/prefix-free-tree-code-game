@@ -85,21 +85,9 @@ const onReady = function(){
   }catch(e){
     console.log(e);
   }
-  // get tree from url
-  // get message from url
+  // get tree and message from url
   setUpFromUrl();
   repaint(board);
-  // let root = $('<div>');
-  // let tiles = board.tilesToRender();
-  // for(let i=0; i<tiles.length; i++){
-  //   for(let j=0; j<tiles[i].length; j++){
-  //     const t = tiles[i][j];
-  //     const letter = t.l || '';
-  //     const styleStr = style(t);
-  //     root.append(`<div class="pipe-tile ${classes(t)}" style="${styleStr}">${letter}</div>`);
-  //   }
-  // }
-  // $('#board').append(root);
   $('#message').on('input', function(){
     createjs.Sound.play("drip");
     const message = $(this).val();
@@ -109,7 +97,11 @@ const onReady = function(){
     $('#code').text(code);
     repaint(board);
     const encodedmessage = code.split(' ').join('');
+    try{
     window.history.pushState({}, code, `writer.html?letters=${recordOfLetters}&encodedmessage=${encodedmessage}`);
+    } catch(e){
+      console.log(e);
+    }
     $('a.share-a').attr('href', `decode.html?letters=${recordOfLetters}&encodedmessage=${encodedmessage}`);
   });
 };
