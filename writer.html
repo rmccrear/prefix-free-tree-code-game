@@ -16,16 +16,18 @@
         <link rel="stylesheet" href="app/css/pipes.css">
     </head>
     <body>
-      <div class="message-container">
-        Enter your message here:
-        <input type="text" id="message" />
-        <div class="share-elm">
-          <a class="share-a" target='shareable_tab_for_bin_tree'>share</a>
+      <div class="game-container">
+        <div class="message-container">
+          Enter your message here:
+          <input type="text" id="message" />
+          <div class="share-elm">
+            <a class="share-a" target='shareable_tab_for_bin_tree'>share</a>
+          </div>
+          <div class="encoding">
+            Encoding: <div id="code"></div>
+          </div>
         </div>
-        <div class="encoding">
-          Encoding: <div id="code"></div>
-        </div>
+        <div id="board"></div>
       </div>
-      <div id="board"></div>
     </body>
 </html>

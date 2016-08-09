@@ -64,14 +64,33 @@ function isLeaf(){
 function isDone(){
   if(bitProgressCounter>=encodedMessage.length){
     done = true;
+    // $('body').addClass('done');
+    $('.decoded-letter').addClass('done');
   }
   return done;
+}
+
+function lightUpLeaf(node){
+  console.log('light up leaf');
+  let leafTiles = board.tiles.asFlatArray().filter((t)=>t.n===node);
+  let leafDivs = leafTiles.map((leaf)=>$(`[data-row=${leaf.row}][data-col=${leaf.col}] .pipe-tile`));
+  window.setTimeout( function(){
+    leafDivs.forEach((div)=>div.addClass('pipe-red'));
+    let alphaDiv = leafDivs.pop();
+    window.setTimeout(function(){
+      leafDivs.forEach((div)=>div.removeClass('pipe-red'));
+      window.setTimeout(function(){
+        alphaDiv.removeClass('pipe-red');
+      }, 500);
+    }, 100);
+  }, 100);
 }
 
 function handleAtLeaf(leafTile) {
   console.log('handling leaf ' + leafTile.l)
   const n = leafTile.n;
   const letter = leafTile.l;
+  lightUpLeaf(leafTile.n);
   board.setCurrTileToRoot();
   createjs.Sound.play('drain');
   createjs.Sound.play('type');
@@ -98,6 +117,8 @@ function handleAtLeaf(leafTile) {
   }
   showGuide(encodedMessage[bitProgressCounter]);
 }
+
+
 
 let guideElm = null;
 let showGuideCount = 0;
@@ -179,7 +200,6 @@ function goUp(){
     else{
       incorrectDepth--;
       if(incorrectDepth>0){
-        showGuide('U');
         console.log('go up! ' + incorrectDepth);
         status = 'please-continue-up';
       }
@@ -230,10 +250,10 @@ function checkEncodedBit(input){
 function afterMove(status){
       if(status === 'correct' || status==='correct-L' || status==='correct-R'){
         console.log('is correct ....' + status)
-        if(status === 'correct-L'){
+        if(status === 'correct-L' && guideElm){
           guideElm.addClass('animated slideOutLeft');
         }
-        else if(status === 'correct-R'){
+        else if(status === 'correct-R' && guideElm){
           guideElm.addClass('animated slideOutRight');
         }
         showGuide(encodedMessage[bitProgressCounter]);
@@ -241,13 +261,16 @@ function afterMove(status){
         console.log('wrong at leaf');
         showGuide(encodedMessage[bitProgressCounter]);
       } else if(status === 'wrong') {
+        console.log('status: wronge');
         $('#board').addClass('animated shake');
         window.setTimeout(function(){$('#board').removeClass('animated shake');}, 1000);
         showGuide('U');
       } else if('please-continue-up'){
+        console.log('status: please continue up');
         showGuide('U');
       }
 }
+
 
 function onReady(){
   try{
@@ -266,9 +289,9 @@ function onReady(){
 
   // initiate Hammer
   let stage = document.getElementById('board');
-  let mc = new Hammer.Manager(stage);
-  let Swipe = new Hammer.Swipe();
-  mc.add(Swipe);
+  let mc = new Hammer.Manager(stage, {touchAction: 'pan-y', recognizers: [[Hammer.Swipe]]});
+  // let Swipe = new Hammer.Swipe();
+  // mc.add(Swipe);
   mc.on('swipeleft', function(){
     console.log('swipe left');
     const status = goLeft();

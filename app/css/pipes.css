@@ -1,3 +1,14 @@
+body {
+  background-color: black;
+}
+
+.game-container{
+  margin: 0 auto;
+  width: 424px;
+  border: 2px solid #dadada;
+  /* margin-left: auto; */
+  /* margin-right: auto; */
+}
 
 input#message {
     border: 2px solid #dadada;
@@ -89,7 +100,9 @@ input#message:focus {
 }
 
 .pipe-red .pipe-letter {
-  color: white; 
+  /* color: white; */ 
+  /*elflord green*/
+  color: #60ff60;
   /* text-shadow: black 0.1em 0.1em 0.2em; */
   /* text-shadow: red 0.1em 0.1em 0.2em; */
   /* text-shadow: 0 0 0.2em #F87, 0 0 0.2em #F87; */
@@ -206,6 +219,31 @@ input#message:focus {
   /* color: #6daa2b; */ 
   /*elflord green*/
   color: #60ff60;
+}
+
+#decoded-message:not(.done):after {
+  font-family: "Lucida Console", Monaco, monospace;
+  font-size: large;
+  display: inline-block;
+  /*elflord green*/
+  color: #60ff60;
+  content: '|';
+  text-decoration: blink;
+  animation: blink-animation 1s steps(5, start) infinite;
+  -webkit-animation: blink-animation 1s steps(5, start) infinite;
+}
+
+/* .decoded-letter:not(.done):last-child:after { */
+/*   content: '|'; */
+/*   text-decoration: blink; */
+/*   animation: blink-animation 1s steps(5, start) infinite; */
+/*   -webkit-animation: blink-animation 1s steps(5, start) infinite; */
+/* } */
+
+@-webkit-keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
 }
 
 .encoded-bit {
