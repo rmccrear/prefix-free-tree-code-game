@@ -82,8 +82,8 @@ function lightUpLeaf(node){
       window.setTimeout(function(){
         alphaDiv.removeClass('pipe-red');
       }, 500);
-    }, 100);
-  }, 100);
+    }, 300);
+  }, 50);
 }
 
 function handleAtLeaf(leafTile) {
@@ -146,7 +146,7 @@ function showGuide(direction, message){
 function hideGuide(){
   if (guideElm){
     let guideElmToRemove = guideElm;
-    window.setTimeout(()=>guideElmToRemove.remove(), 300);
+    window.setTimeout(()=>guideElmToRemove.remove(), 500);
     // guideElm.remove();
     guideElm = null;
   }
@@ -156,9 +156,11 @@ function hideGuide(){
 function goLeft(){
   let isCorrect = checkEncodedBit('L');
   let leaf = null;
-  board.go('L');
-  createjs.Sound.play('drip');
-  leaf = leafCheck();
+  // if(isCorrect){
+    board.go('L');
+    createjs.Sound.play('drip');
+    leaf = leafCheck();
+  // }
   if(isCorrect){
     return 'correct-L';
   }
@@ -172,9 +174,11 @@ function goLeft(){
 function goRight(){
   let isCorrect = checkEncodedBit('R');
   let leaf = null;
-  board.go('R');
-  createjs.Sound.play('drip');
-  leaf = leafCheck();
+  // if(isCorrect){
+    board.go('R');
+    createjs.Sound.play('drip');
+    leaf = leafCheck();
+  // }
   if(isCorrect){
     return 'correct-R';
   }

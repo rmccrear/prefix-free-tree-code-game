@@ -145,7 +145,7 @@ if (program.create) {
   while(running){
     // const response = readline.question('>>');
     console.log(' ');
-    const response = readline.keyIn('#' +  count + ' currently at: row: ' + board.currTile.row + ', col: ' + board.currTile.col + `(${board.getCurrTile().p})` +' >>>>>>>>>>>> Type L R U D or Q >>>>>>>>>>>>>>>>>>');
+    const response = readline.keyIn('#' +  count + ' currently at: row: ' + board.getCurrTile.row + ', col: ' + board.getCurrTile.col + `(${board.getCurrTile().p})` +' >>>>>>>>>>>> Type L R U D or Q >>>>>>>>>>>>>>>>>>');
     count++;
     const currTile = board.getCurrTile();
     if(response === 'Q'){
