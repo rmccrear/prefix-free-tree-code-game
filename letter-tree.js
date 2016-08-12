@@ -37,6 +37,15 @@ class LetterTree {
                            .filter((t)=>t.n === nodeId);
   }
 
+  swapLetters(locA, locB){
+    let tileA = this.tiles.tiles[locA.row][locA.col];
+    let tileB = this.tiles.tiles[locB.row][locB.col];
+    const letterA = tileA.l;
+    const letterB = tileB.l;
+    tileA.l = letterB;
+    tileB.l = letterA;
+  }
+
   // move to T fork or leaf
   go(direction){
     const currNodeId = this.currTile.n;
@@ -198,20 +207,34 @@ class LetterTree {
   decodeMessage(code){
     let n = 1;
     let message = [];
-    for(let i=0; i<code.length; i++){
+    //let i = 0;
+    for(let i = 0; i<code.length; i++){
       let idx = code[i] === 'L' ? 0 : 1;
       let nextN = this.tree.graph[n][idx];
       if(nextN){
         n = nextN;
       }
-      else { // leaf
+      if(this.tree.graph[nextN].length === 0){ // leaf
         // get the letter
         let letterTileArr = this.tiles.asFlatArray().filter((t) => t.p === 'A' && t.n === n);
         message.push(letterTileArr[0].l);
         n = 1; // start at top
-        i--; //backup
       }
     }
+    // for(let i=0; i<code.length; i++){ // bug...drops last letter
+    //   let idx = code[i] === 'L' ? 0 : 1;
+    //   let nextN = this.tree.graph[n][idx];
+    //   if(nextN){
+    //     n = nextN;
+    //   }
+    //   else { // leaf
+    //     // get the letter
+    //     let letterTileArr = this.tiles.asFlatArray().filter((t) => t.p === 'A' && t.n === n);
+    //     message.push(letterTileArr[0].l);
+    //     n = 1; // start at top
+    //     i--; //backup
+    //   }
+    // }
     return message;
   }
 

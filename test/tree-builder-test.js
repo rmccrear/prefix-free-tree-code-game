@@ -138,6 +138,18 @@ describe('TreeBuilder', function() {
       // and then join(' ') the encoded letter to a string separated by spaces
       equal(board.encodeMessage( 'abacadaba'.split('') ).map((letter)=>letter.join('')).join(' '), 'L RL L RRL L RRRL L RL L');
     });
+    it('should decode a message', function(){
+      treeBuilder.buildFromLetterString('abcdefg');
+      equal(board.encodeMessage(['a'])[0][0], 'L');
+      equal(board.encodeMessage(['b'])[0].join(''), 'RL');
+      equal(board.encodeMessage(['c'])[0].join(''), 'RRL');
+      // equal(board.decodeMessage('LL'), 'aa');
+      equal(board.decodeMessage('L').join(''), 'a');
+      equal(board.decodeMessage('LL').join(''), 'aa');
+      equal(board.decodeMessage('LLL').join(''), 'aaa');
+      equal(board.decodeMessage('LRL').join(''), 'ab');
+      equal(board.decodeMessage('LRLRRL').join(''), 'abc');
+    });
   });
   describe('build two iterations of branches', function(){
     it('should initialize', function(){
