@@ -88,15 +88,35 @@ input#message:focus {
   background: url(icons/plum-leaf-alpha-red.png) no-repeat;
 }
 
-
-.pipe-letter {
-  position: relative;
-  top: 13px;
-  left: 11px;
+/* relative postitioned elements arent included in drag image in chrome! */
+/* .pipe-letter { */
+/*   position: relative; */
+/*   top: 13px; */
+/*   left: 11px; */
+/*   color: white; */
+/*   text-shadow: black 0.1em 0.1em 0.2em; */
+/*   font-family: ‘Palatino Linotype’, ‘Book Antiqua’, Palatino, serif; */
+/*   /1* font-family: Copperplate / Copperplate Gothic Light, sans-serif; *1/ */
+/* } */
+.pipe-A p{
+/* Relative postitioned elements arent included in drag image in chrome! */
+/* Use margin instead. */
+/*   position: relative; */
+/*   top: 13px; */
+/*   left: 11px; */
+  margin: 13px 11px;
   color: white;
   text-shadow: black 0.1em 0.1em 0.2em;
   font-family: ‘Palatino Linotype’, ‘Book Antiqua’, Palatino, serif;
-  /* font-family: Copperplate / Copperplate Gothic Light, sans-serif; */
+}
+
+.dragover.pipe-A p {
+  /*elflord green*/
+  color: #60ff60;
+}
+.dragover.pipe-A {
+  /* color: blue; */
+  background: url(icons/plum-leaf-alpha-red.png) no-repeat;
 }
 
 .pipe-red .pipe-letter {

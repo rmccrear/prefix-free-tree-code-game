@@ -74,9 +74,53 @@ function setUpFromUrl(){
     recordOfLetters = params.letters[0];
     const encodedmessage = params.encodedmessage[0];
     treeBuilder.buildFromLetterString(recordOfLetters);
+    console.log(encodedmessage)
+    const message = board.decodeMessage(encodedmessage).join('');
+    console.log(message);
     $('#message').val(board.decodeMessage(encodedmessage).join(''));
-    $('a.share-a').attr('href', `decode.html?letters=${recordOfLetters}&encodedmessage=${encodedmessage}`);
+    resetMessage(message);
   }
+}
+
+function resetMessage(message){
+    message = message || $('#message').val();
+    const code = board.encodeMessage(message.split('')).map((letter)=>letter.join('')).join(' ');
+    $('#code').text(code);
+    const encodedmessage = code.split(' ').join('');
+    $('.bits-display').text(encodedmessage.length + ' ' || '0 ');
+    try{
+      window.history.pushState({}, code, `writer.html?letters=${recordOfLetters}&encodedmessage=${encodedmessage}`);
+    } catch(e){
+      console.log(e);
+    }
+    $('a.share-a').attr('href', `decode.html?letters=${recordOfLetters}&encodedmessage=${encodedmessage}`);
+}
+
+function swapLetters(string, letterA, letterB){
+  
+  console.log(string);
+  console.log(letterA + letterB)
+  const newString = string.split('').map((l) => {
+    if(l === letterA){
+      return letterB;
+    }
+    else if(l === letterB){
+      return letterA;
+    }
+    else{
+      return l;
+    }
+  }).join('');
+  console.log(newString);
+  return newString;
+}
+
+function handleSwap(tileA, tileB){
+  board.swapLetters(tileA, tileB);
+  board.setCurrNodeTile(tileB);
+  repaint(board, {handleSwap: handleSwap});
+  recordOfLetters = swapLetters(recordOfLetters, tileA.l, tileB.l);
+  resetMessage();
 }
 
 const onReady = function(){
@@ -87,22 +131,15 @@ const onReady = function(){
   }
   // get tree and message from url
   setUpFromUrl();
-  repaint(board);
+  repaint(board, {handleSwap: handleSwap});
   $('#message').on('input', function(){
     createjs.Sound.play("drip");
     const message = $(this).val();
     const letterTile = updateTreeWithMessage(message);
     board.setCurrNodeTile(letterTile);
-    const code = board.encodeMessage(message.split('')).map((letter)=>letter.join('')).join(' ');
-    $('#code').text(code);
-    repaint(board);
-    const encodedmessage = code.split(' ').join('');
-    try{
-    window.history.pushState({}, code, `writer.html?letters=${recordOfLetters}&encodedmessage=${encodedmessage}`);
-    } catch(e){
-      console.log(e);
-    }
-    $('a.share-a').attr('href', `decode.html?letters=${recordOfLetters}&encodedmessage=${encodedmessage}`);
+    repaint(board, {handleSwap: handleSwap});
+    //repaint(board);
+    resetMessage();
   });
 };
 
