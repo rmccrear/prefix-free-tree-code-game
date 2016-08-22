@@ -6,7 +6,8 @@
   "scripts": {
     "test": "mocha --harmony_array_includes test",
     "build:js": "browserify -t babelify app/write-message.js -o build/app/js/write-message.js && browserify -t babelify app/decode-message.js -o build/app/js/decode-message.js",
-    "build:css": "cp app/css/*.css build/app/css/ && cp app/css/icons/* build/app/css/icons",
+    "sass": "sass app/scss/main.scss app/css/main.css",
+    "build:css": "npm run sass && cp app/css/*.css build/app/css/ && cp app/css/icons/* build/app/css/icons",
     "build:html:decode": "sed 's_build/decode-message.js_app/js/decode-message.js_' decode.html > build/decode.html",
     "build:html:writer": "sed 's_build/write-message.js_app/js/write-message.js_'   writer.html > build/writer.html",
     "build:html": "npm run build:html:decode && npm run build:html:writer",

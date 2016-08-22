@@ -124,11 +124,6 @@ function handleSwap(tileA, tileB){
 }
 
 const onReady = function(){
-  try{
-    createjs.Sound.registerSound({src:"app/media/sounds/75343__neotone__drip1.wav", id:"drip"});
-  }catch(e){
-    console.log(e);
-  }
   // get tree and message from url
   setUpFromUrl();
   repaint(board, {handleSwap: handleSwap});
@@ -141,6 +136,11 @@ const onReady = function(){
     //repaint(board);
     resetMessage();
   });
+  try{
+    createjs.Sound.registerSound({src:"app/media/sounds/75343__neotone__drip1.wav", id:"drip"});
+  }catch(e){
+    console.log(e);
+  }
 };
 
 $(onReady);

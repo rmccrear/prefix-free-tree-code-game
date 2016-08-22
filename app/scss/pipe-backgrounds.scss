@@ -1,0 +1,41 @@
+
+.pipe-E {
+  background-position: 0px -32px
+}
+.pipe-H{
+  background-position: -128px -64px;
+}
+.pipe-T {
+  background-position: -95px -160px;
+}
+.pipe-L{
+  background-position: -63px -64px
+}
+.pipe-R {
+  background-position: -95px -64px
+}
+.pipe-V {
+  background-position: -127px -96px
+}
+
+
+
+.pipe-red.pipe-H {
+  background-position: -447px -448px
+}
+
+.pipe-red.pipe-R:after {
+  background-position: -415px -448px
+}
+.pipe-red.pipe-L:after {
+  background-position: -384px -448px
+}
+.pipe-red.pipe-H:after {
+  background-position: -447px -448px
+}
+.pipe-red.pipe-V:after {
+  background-position: -447px -480px
+}
+.pipe-red.pipe-T:after {
+  background-position: -415px -544px;
+}

@@ -54,12 +54,10 @@ function diffTiles(tile1, tile2){
 let lastTilePosition;
 function repaint(board, opts){
   console.log('repaint board');
+  opts = opts || {};
   let root = $('<div class="board-inner">');
   let tiles = board.tilesToRender();
-  let handleSwap;
-  if(opts.handleSwap){
-    handleSwap = opts.handleSwap;
-  }
+  const handleSwap = opts.handleSwap;
 
   // draw from scratch if first time, or if grid size has changed.
   if(!lastTilePosition || lastTilePosition.length !== tiles.length || lastTilePosition[0].length !== tiles[0].length){

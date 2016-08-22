@@ -1,0 +1,350 @@
+@charset "UTF-8";
+body {
+  background-color: black; }
+
+.game-container {
+  margin: 0 auto;
+  width: 424px;
+  border: 2px solid #dadada;
+  /* margin-left: auto; */
+  /* margin-right: auto; */ }
+
+input#message {
+  border: 2px solid #dadada;
+  border-radius: 7px; }
+
+input#message:focus {
+  outline: none;
+  border-color: #9ecaed;
+  box-shadow: 0 0 10px #9ecaed; }
+
+.encoding {
+  /* text-shadow: 0 0 10px rgba(255,255,255,1) , 0 0 20px rgba(255,255,255,1) , 0 -6px 30px rgba(255,255,255,1) , 0 0 40px #ff00de , 0 0 70px #ff00de , 0 0 80px #ff00de , 0 0 100px #ff00de ; */
+  border: 2px solid #73AD21;
+  padding: 2px; }
+
+#board {
+  height: 800px;
+  width: 416px;
+  background-color: black;
+  position: relative; }
+
+.pipe-container {
+  height: 32px;
+  width: 32px;
+  /* background-color: black; */
+  border: 0 0 0 0;
+  display: inline-block;
+  position: absolute; }
+
+.pipe-tile {
+  background: url(icons/plums.png) no-repeat;
+  height: 32px;
+  width: 32px;
+  /* background-color: black; */
+  color: white;
+  border: 0 0 0 0;
+  display: inline-block;
+  position: relative;
+  /* position: absolute; */ }
+
+.pipe-A {
+  background: url(icons/plum-leaf-alpha.png) no-repeat;
+  /* background-color: black; */
+  height: 32px;
+  width: 32px;
+  border: 0 0 0 0; }
+
+.pipe-red.pipe-A {
+  background: url(icons/plum-leaf-alpha-red.png) no-repeat; }
+
+[draggable].pipe-A {
+  cursor: move;
+  /* fallback if grab cursor is unsupported */
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab; }
+
+/* relative postitioned elements arent included in drag image in chrome! */
+/* .pipe-letter { */
+/*   position: relative; */
+/*   top: 13px; */
+/*   left: 11px; */
+/*   color: white; */
+/*   text-shadow: black 0.1em 0.1em 0.2em; */
+/*   font-family: ‘Palatino Linotype’, ‘Book Antiqua’, Palatino, serif; */
+/*   /1* font-family: Copperplate / Copperplate Gothic Light, sans-serif; *1/ */
+/* } */
+.pipe-A p {
+  /* Relative postitioned elements arent included in drag image in chrome! */
+  /* Use margin instead. */
+  /*   position: relative; */
+  /*   top: 13px; */
+  /*   left: 11px; */
+  margin: 13px 11px;
+  color: white;
+  text-shadow: black 0.1em 0.1em 0.2em;
+  font-family: ‘Palatino Linotype’, ‘Book Antiqua’, Palatino, serif; }
+
+.dragover.pipe-A p {
+  /*elflord green*/
+  color: #60ff60; }
+
+.dragover.pipe-A {
+  /* color: blue; */
+  background: url(icons/plum-leaf-alpha-red.png) no-repeat; }
+
+.pipe-red .pipe-letter {
+  /* color: white; */
+  /*elflord green*/
+  color: #60ff60;
+  /* text-shadow: black 0.1em 0.1em 0.2em; */
+  /* text-shadow: red 0.1em 0.1em 0.2em; */
+  /* text-shadow: 0 0 0.2em #F87, 0 0 0.2em #F87; */ }
+
+/* .pipe-red.pipe-R { */
+/*   background-position: -415px -448px */
+/* } */
+/* .pipe-red.pipe-L { */
+/*   background-position: -384px -448px */
+/* } */
+/* .pipe-tile:not(.pipe-red):after{ */
+/* 	-webkit-transition: opacity 0.5s; */
+/* 	-moz-transition:    opacity 0.5s; */
+/* 	-o-transition:      opacity 0.5s; */
+/* } */
+.pipe-tile:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: url(icons/plums.png) no-repeat;
+  opacity: 0;
+  -webkit-transition: opacity 0.5s;
+  -moz-transition: opacity 0.5s;
+  -o-transition: opacity 0.5s; }
+
+.pipe-tile.pipe-red:after {
+  opacity: 1; }
+
+.pipe-tile.pipe-red.pipe-H:after {
+  opacity: 0; }
+
+.pipe-tile.pipe-red.pipe-A:after {
+  opacity: 0; }
+
+.pipe-tile.pipe-red.pipe-E:after {
+  opacity: 0; }
+
+/* .pipe-tile.pipe-T:after { */
+/* 	content: ""; */
+/* 	position: absolute; */
+/* 	top: 0; left: 0; bottom: 0; right: 0; */
+/* 	background: url(icons/plums.png) no-repeat; */
+/*         background-position: -415px -544px; */
+/* 	opacity: 0; */
+/* 	-webkit-transition: opacity 0.5s; */
+/* 	-moz-transition:    opacity 0.5s; */
+/* 	-o-transition:      opacity 0.5s; */
+/* } */
+/* .pipe-tile.pipe-red.pipe-T:after{ */
+/* 	opacity: 1; */
+/* } */
+/* writer css */
+.share-a {
+  /*elflord green*/
+  color: #60ff60; }
+
+.share-a:visited {
+  /*elflord green*/
+  color: #60ff60; }
+
+/* decoder css */
+.decoded-letter {
+  font-family: "Lucida Console", Monaco, monospace;
+  font-size: large;
+  display: inline-block;
+  /* color: red; */
+  /*rust color*/
+  /*color: #cf4648;*/
+  /*dark green*/
+  /* color: #346524;*/
+  /*light green*/
+  /* color: #6daa2b; */
+  /*elflord green*/
+  color: #60ff60; }
+
+#decoded-message:not(.done):after {
+  font-family: "Lucida Console", Monaco, monospace;
+  font-size: large;
+  display: inline-block;
+  /*elflord green*/
+  color: #60ff60;
+  content: '|';
+  text-decoration: blink;
+  animation: blink-animation 1s steps(5, start) infinite;
+  -webkit-animation: blink-animation 1s steps(5, start) infinite; }
+
+/* .decoded-letter:not(.done):last-child:after { */
+/*   content: '|'; */
+/*   text-decoration: blink; */
+/*   animation: blink-animation 1s steps(5, start) infinite; */
+/*   -webkit-animation: blink-animation 1s steps(5, start) infinite; */
+/* } */
+@-webkit-keyframes blink-animation {
+  to {
+    visibility: hidden; } }
+.encoded-bit {
+  display: inline-block;
+  /* font-family: "Lucida Console", Monaco, monospace; */
+  font-family: monaco, Consolas, "Lucida Console", monospace;
+  font-size: large;
+  color: yellow;
+  /* color: white; */ }
+
+.current-bit {
+  /* color: red; */
+  color: #cf4648;
+  /*rust color*/
+  font-size: xx-large; }
+
+.current-letter-bit-already-done {
+  /* color: blue; */
+  color: #cf4648;
+  /*rust color*/ }
+
+.bit-already-done {
+  /* color: grey; */
+  /* steel grey */
+  /* color: #8594a1; */
+  /*dark cyan*/
+  color: #80a0ff; }
+
+.message-container {
+  border: thin solid black;
+  width: 416px;
+  background-color: black;
+  color: white; }
+
+#encoded-message {
+  padding: 1em; }
+
+#decoded-message {
+  padding: 1em; }
+
+.your-code-label {
+  padding: 1em;
+  color: magenta; }
+
+.decoded-message-label {
+  padding: 1em;
+  color: magenta; }
+
+/* instructions  */
+.hint {
+  /* position: relative; */
+  position: absolute;
+  /* color: white; */
+  color: magenta;
+  /* color: rgb(207, 70, 72); */ }
+
+.hint-glyph {
+  font-size: 50px; }
+
+.no-touchevents .hint-message.mobile {
+  display: none; }
+
+.touchevents .hint-message.mobile {
+  display: block; }
+
+.touchevents .hint-message.desktop {
+  display: none; }
+
+.no-touchevents .hint-message.desktop {
+  display: block; }
+
+.greeting-outer {
+  width: 416px;
+  /* border: thin solid red; */
+  /* padding: 12px 6px 12px 6px; */
+  border: thin solid black; }
+
+.greeting {
+  /* font-family: "Lucida Console", Monaco, monospace; */
+  /*cyan*/
+  color: #40ffff;
+  background-color: black;
+  /* width: 400px; */
+  /* padding: 4px 2px 4px 2px; */
+  padding: 1em;
+  font-family: monaco, Consolas, "Lucida Console", monospace;
+  font-size: 14px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 400;
+  line-height: 20px;
+  /* border: thin solid black; */
+  /* -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75); */
+  /* -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75); */
+  /* box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75); */ }
+
+.make-your-own {
+  display: none; }
+
+.make-your-own.show {
+  display: block;
+  height: 4em;
+  padding: 1em;
+  font-family: monaco, Consolas, "Lucida Console", monospace;
+  font-size: 14px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 400;
+  line-height: 20px;
+  /*elflord green*/
+  color: #60ff60;
+  background-color: black; }
+
+.make-your-own.show a:visited {
+  /*elflord green*/
+  color: #60ff60; }
+
+.pipe-E {
+  background-position: 0px -32px; }
+
+.pipe-H {
+  background-position: -128px -64px; }
+
+.pipe-T {
+  background-position: -95px -160px; }
+
+.pipe-L {
+  background-position: -63px -64px; }
+
+.pipe-R {
+  background-position: -95px -64px; }
+
+.pipe-V {
+  background-position: -127px -96px; }
+
+.pipe-red.pipe-H {
+  background-position: -447px -448px; }
+
+.pipe-red.pipe-R:after {
+  background-position: -415px -448px; }
+
+.pipe-red.pipe-L:after {
+  background-position: -384px -448px; }
+
+.pipe-red.pipe-H:after {
+  background-position: -447px -448px; }
+
+.pipe-red.pipe-V:after {
+  background-position: -447px -480px; }
+
+.pipe-red.pipe-T:after {
+  background-position: -415px -544px; }
+
+/*# sourceMappingURL=main.css.map */
