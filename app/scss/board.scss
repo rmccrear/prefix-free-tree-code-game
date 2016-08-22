@@ -1,0 +1,35 @@
+body {
+  background-color: black;
+}
+
+.game-container{
+  margin: 0 auto;
+  width: 424px;
+  border: 2px solid #dadada;
+  /* margin-left: auto; */
+  /* margin-right: auto; */
+}
+
+input#message {
+    border: 2px solid #dadada;
+    border-radius: 7px;
+}
+
+input#message:focus { 
+    outline: none;
+    border-color: #9ecaed;
+    box-shadow: 0 0 10px #9ecaed;
+}
+
+.encoding {
+  /* text-shadow: 0 0 10px rgba(255,255,255,1) , 0 0 20px rgba(255,255,255,1) , 0 -6px 30px rgba(255,255,255,1) , 0 0 40px #ff00de , 0 0 70px #ff00de , 0 0 80px #ff00de , 0 0 100px #ff00de ; */
+  border: 2px solid #73AD21;
+  padding: 2px;
+}
+
+#board{
+  height: 800px;
+  width: 416px;
+  background-color: black;
+  position: relative;
+}
