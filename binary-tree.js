@@ -1,7 +1,6 @@
 "use strict";
 
 class BinaryTree {
-
   constructor(input){
     this.graph = input.graph;
     this.leafData = input.leafData;
