@@ -15,6 +15,6 @@
   ],
   "dependencies": {
     "SoundJS": "^0.6.2",
-    "animate.css": "^3.5.2",
+    "animate.css": "^3.5.2"
   }
 }

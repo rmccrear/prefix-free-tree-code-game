@@ -2,6 +2,7 @@
 
 let $ = require('jquery');
 let Hammer = require('hammerjs');
+let Bacon = require('baconjs');
 // let _ = require('lodash');
 
 const LetterTree = require('../letter-tree.js');
@@ -138,7 +139,10 @@ function showGuide(direction, message){
     const hintElm = $(`<div class="hint" style="top: ${locationTop}; left: ${locationLeft};">${message}<span class="hint-glyph">${directionGlyph}</span></div>`);
     guideElm = hintElm;
     $('#board .board-inner').append(hintElm);
-    guideElm.addClass('animated pulse');
+    let animation = ' pulse';
+    if(direction === 'L') animation = ' slideInRight'; 
+    if(direction === 'R') animation = ' slideInLeft'; 
+    guideElm.addClass('animated ' + animation);
     showGuideCount++;
   }
 }
@@ -255,10 +259,10 @@ function afterMove(status){
       if(status === 'correct' || status==='correct-L' || status==='correct-R'){
         console.log('is correct ....' + status)
         if(status === 'correct-L' && guideElm){
-          guideElm.addClass('animated slideOutLeft');
+          guideElm.addClass('animated flipOutX');
         }
         else if(status === 'correct-R' && guideElm){
-          guideElm.addClass('animated slideOutRight');
+          guideElm.addClass('animated flipOutX');
         }
         showGuide(encodedMessage[bitProgressCounter]);
       } else if(status === 'wrong-at-leaf'){
@@ -337,8 +341,37 @@ function onReady(){
       repaint(board);
       afterMove(status);
       e.preventDefault(); // prevent the default action (scroll / move caret)
+
   });
   showGuide(encodedMessage[bitProgressCounter]);
+  createMoveButton();
+}
+
+
+const createMoveButton = () => {
+  console.log('create move button');
+  const leftButton = $('<div class="move-button left-move" style="width: 100px; height: 100px; position:fixed; top:88%; left:2%; z-index:9999"> <span class="hint-glyph">⇦</span></div>');
+  const rightButton = $('<div class="move-button right-move" style="width: 100px; height: 100px; position:fixed; top:88%; right:0%; z-index:9999"> <span class="hint-glyph">⇨ </span></div>');
+  $('.message-container').append(leftButton);
+  $('.message-container').append(rightButton);
+  // let plus = leftButton.asEventStream("click").map(1)
+  let goLeft$ = Bacon.fromEvent(leftButton[0], 'click').map(()=>'L');
+  // goLeft$.onValue(function(val) { console.log('clicked '+ val); })
+  let goRight$ = Bacon.fromEvent(rightButton[0], 'click').map(()=>'R');
+  // goRight$.onValue(function(val) { console.log('clicked '+ val); })
+  let go$ = Bacon.mergeAll(goLeft$, goRight$);
+  go$.onValue( (val) => {console.log(val);} );
+  go$.onValue( (val) => {
+    let status;
+    if(val === 'R'){
+      status = goRight();
+    }
+    else if(val === 'L'){
+      status = goLeft();
+    }
+    repaint(board);
+    afterMove(status);
+  } );
 }
 
 $(onReady);
