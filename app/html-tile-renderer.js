@@ -137,7 +137,7 @@ function repaint(board, opts){
     console.log(e.originalEvent.dataTransfer.getData('text/plain'));
     console.log(e);
     var dropped = JSON.parse(e.originalEvent.dataTransfer.getData('text/plain'));
-    var target = $(e.target);
+    var target = $(e.target).closest('.pipe-tile');
     $(this).removeClass('dragover');
     console.log(target);
     if(handleSwap){
