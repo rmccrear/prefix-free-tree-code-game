@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --harmony_array_includes test",
-    "build:js": "browserify -t babelify app/write-message.js -o build/app/js/write-message.js && browserify -t babelify app/decode-message.js -o build/app/js/decode-message.js",
+    "test": "mocha test",
+    "build:js": "browserify app/write-message.js -o build/app/js/write-message.js && browserify app/decode-message.js -o build/app/js/decode-message.js",
     "sass": "sass app/scss/main.scss app/css/main.css",
     "build:css": "npm run sass && cp app/css/*.css build/app/css/ && cp app/css/icons/* build/app/css/icons",
     "build:html:decode": "sed 's_build/decode-message.js_app/js/decode-message.js_' decode.html > build/decode.html",
@@ -15,6 +15,7 @@
     "cp-vendor": "cp vendor/SoundJS/lib/soundjs-0.6.2.min.js build/vendor/SoundJS/lib/ && cp vendor/animate.css/animate.min.css build/vendor/animate.css/ && cp vendor/normalize.css build/vendor/ && cp vendor/modernizr-custom.js build/vendor/  && cp vendor/array-polyfill.js build/vendor/",
     "cp-all": "npm run cp-media && npm run cp-vendor",
     "build": "npm run cp-all && npm run build:html && npm run build:js && npm run build:css"
+
   },
   "author": "",
   "license": "ISC",
