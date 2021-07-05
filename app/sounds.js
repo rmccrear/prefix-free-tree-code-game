@@ -2,7 +2,7 @@
 const audioUrls = [
     ['drip', 'app/media/sounds/75343__neotone__drip1.wav'],
     ['drain', 'app/media/sounds/51745__erkanozan__bubbles.wav'],
-    ['typewriter', 'pp/media/sounds/240839__videog__typing-on-a-typewriter.wav']
+    ['typewriter', 'app/media/sounds/240839__videog__typing-on-a-typewriter.wav']
 ];
 
 const createAudioTag = (audioIdUrl) => {
@@ -20,6 +20,7 @@ const createAudioTag = (audioIdUrl) => {
     const audioObject = {
         audio: audio,
         play: () => {
+            console.log('play ' + id);
             if(playPromise && playPromise.then){
                 // https://developers.google.com/web/updates/2017/06/play-request-was-interrupted
                 playPromise.then(()=>{
