@@ -1,8 +1,9 @@
 "use strict";
 
-let $ = require('jquery');
-let Hammer = require('hammerjs');
-let Bacon = require('baconjs');
+const $ = require('jquery');
+const Hammer = require('hammerjs');
+const Bacon = require('baconjs');
+const createAudioTags = require('./sounds.js').createAudioTags;
 // let _ = require('lodash');
 
 const LetterTree = require('../letter-tree.js');
@@ -14,6 +15,7 @@ const repaint = require('./html-tile-renderer.js').repaint;
 
 let board;
 let treeBuilder;
+let sounds;
 
 board = new LetterTree(jsonTree);
 treeBuilder = new TreeBuilder(board, jsonTree.treeBuilder);
@@ -93,8 +95,8 @@ function handleAtLeaf(leafTile) {
   const letter = leafTile.l;
   lightUpLeaf(leafTile.n);
   board.setCurrTileToRoot();
-  createjs.Sound.play('drain');
-  createjs.Sound.play('type');
+  sounds.drain.play();
+  sounds.typewriter.play();
   const letterRepresentation = (letter === ' ' ? '&nbsp;' : letter); // TODO: check for other punctuation
   const letterElm = $(`<div class="decoded-letter">${letterRepresentation}</div>`);
   // $('#decoded-message').append(letterElm).addClass('animated fadeInDownBig');
@@ -162,7 +164,7 @@ function goLeft(){
   let leaf = null;
   // if(isCorrect){
     board.go('L');
-    createjs.Sound.play('drip');
+    sounds.drip.play();
     leaf = leafCheck();
   // }
   if(isCorrect){
@@ -180,7 +182,7 @@ function goRight(){
   let leaf = null;
   // if(isCorrect){
     board.go('R');
-    createjs.Sound.play('drip');
+    sounds.drip.play();
     leaf = leafCheck();
   // }
   if(isCorrect){
@@ -220,12 +222,6 @@ function goUp(){
     status = 'correct';
   }
   return status;
-}
-
-function initSounds(){
-            createjs.Sound.registerSound({src:"app/media/sounds/75343__neotone__drip1.wav", id:"drip"});
-            createjs.Sound.registerSound({src:"app/media/sounds/51745__erkanozan__bubbles.wav", id:"drain"});
-            createjs.Sound.registerSound({src:"app/media/sounds/240839__videog__typing-on-a-typewriter.wav", id:"type"});
 }
 
 function renderEncodedMessage(message){
@@ -281,11 +277,7 @@ function afterMove(status){
 
 
 function onReady(){
-  try{
-    initSounds();
-  }catch(e){
-    console.log(e);
-  }
+  sounds = createAudioTags();
   const params = queryParams();
   lettersOnTree = params.letters[0];
   encodedMessage = params.encodedmessage[0];

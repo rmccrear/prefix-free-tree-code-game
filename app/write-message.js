@@ -9,6 +9,8 @@ const TreeBuilder = require('../tree-builder.js');
 const jsonTree = require('../data/tree-command-13x25.json');
 const repaint = require('./html-tile-renderer.js').repaint;
 
+const createAudioTags = require('./sounds.js').createAudioTags;
+
 
 let board;
 let treeBuilder;
@@ -126,9 +128,11 @@ function handleSwap(tileA, tileB){
 const onReady = function(){
   // get tree and message from url
   setUpFromUrl();
+  const audio = createAudioTags();
   repaint(board, {handleSwap: handleSwap});
   $('#message').on('input', function(){
-    createjs.Sound.play("drip");
+    //createjs.Sound.play("drip");
+    audio.drip.play();
     const message = $(this).val();
     const letterTile = updateTreeWithMessage(message);
     board.setCurrNodeTile(letterTile);
@@ -136,11 +140,11 @@ const onReady = function(){
     //repaint(board);
     resetMessage();
   });
-  try{
-    createjs.Sound.registerSound({src:"app/media/sounds/75343__neotone__drip1.wav", id:"drip"});
-  }catch(e){
-    console.log(e);
-  }
+  //try{
+  //  createjs.Sound.registerSound({src:"app/media/sounds/75343__neotone__drip1.wav", id:"drip"});
+  //}catch(e){
+  //  console.log(e);
+  //}
 };
 
 $(onReady);
