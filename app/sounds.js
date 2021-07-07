@@ -1,8 +1,15 @@
 
+const dripUrl = require('url:./media/sounds/75343__neotone__drip1.wav');
+const drainUrl = require('url:./media/sounds/51745__erkanozan__bubbles.wav');
+const typewriterUrl = require('url:./media/sounds/240839__videog__typing-on-a-typewriter.wav');
+
 const audioUrls = [
-    ['drip', 'app/media/sounds/75343__neotone__drip1.wav'],
-    ['drain', 'app/media/sounds/51745__erkanozan__bubbles.wav'],
-    ['typewriter', 'app/media/sounds/240839__videog__typing-on-a-typewriter.wav']
+    ['drip', dripUrl],
+    ['drain', drainUrl],
+    ['typewriter', typewriterUrl]
+//    ['drip', 'app/media/sounds/75343__neotone__drip1.wav'],
+//    ['drain', 'app/media/sounds/51745__erkanozan__bubbles.wav'],
+//    ['typewriter', 'app/media/sounds/240839__videog__typing-on-a-typewriter.wav']
 ];
 
 const createAudioTag = (audioIdUrl) => {

@@ -2,9 +2,13 @@
   "name": "bin-tree-tiles",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "test": "mocha test",
+    "parcel-serve-writer": "parcel serve ./writer.html",
+    "parcel-serve-decoder": "parcel serve ./decode.html",
+    "parcel-build": "parcel build ./writer.html ./decode.html",
+    "cmd-message": "node ./index.js -w",
+    "cmd-tree-builder": "node ./index.js",
     "build:js": "browserify app/write-message.js -o build/app/js/write-message.js && browserify app/decode-message.js -o build/app/js/decode-message.js",
     "sass": "sass app/scss/main.scss app/css/main.css",
     "build:css": "npm run sass && cp app/css/*.css build/app/css/ && cp app/css/icons/* build/app/css/icons",
@@ -15,7 +19,6 @@
     "cp-vendor": "cp vendor/SoundJS/lib/soundjs-0.6.2.min.js build/vendor/SoundJS/lib/ && cp vendor/animate.css/animate.min.css build/vendor/animate.css/ && cp vendor/normalize.css build/vendor/ && cp vendor/modernizr-custom.js build/vendor/  && cp vendor/array-polyfill.js build/vendor/",
     "cp-all": "npm run cp-media && npm run cp-vendor",
     "build": "npm run cp-all && npm run build:html && npm run build:js && npm run build:css"
-
   },
   "author": "",
   "license": "ISC",
@@ -24,11 +27,16 @@
     "hammerjs": "^2.0.8",
     "jquery": "^3.1.0",
     "lodash": "^4.14.1",
+    "commander": "^7.2.0",
+    "jsonfile": "^6.1.0",
     "readline-sync": "^1.4.4"
   },
   "devDependencies": {
-    "babel-preset-es2015": "^6.9.0",
+    "@babel/preset-env": "^7.14.7",
     "babelify": "^7.3.0",
-    "browserify": "^13.1.0"
+    "browserify": "^13.1.0",
+    "eslint": "^7.30.0",
+    "parcel": "^2.0.0-beta.3.1",
+    "prettier": "2.3.2"
   }
 }

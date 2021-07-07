@@ -12,15 +12,9 @@ const repaint = require('./html-tile-renderer.js').repaint;
 const createAudioTags = require('./sounds.js').createAudioTags;
 
 
-let board;
-let treeBuilder;
+const board = new LetterTree(jsonTree);
+const treeBuilder = new TreeBuilder(board, jsonTree.treeBuilder);
 
-board = new LetterTree(jsonTree);
-treeBuilder = new TreeBuilder(board, jsonTree.treeBuilder);
-
-window.letterTree = board;
-
-// sounds
 
 
 function updateTreeWithMessage(message){
