@@ -24,18 +24,20 @@
   "license": "ISC",
   "dependencies": {
     "baconjs": "^0.7.89",
+    "commander": "^7.2.0",
     "hammerjs": "^2.0.8",
     "jquery": "^3.1.0",
-    "lodash": "^4.14.1",
-    "commander": "^7.2.0",
     "jsonfile": "^6.1.0",
+    "lodash": "^4.14.1",
     "readline-sync": "^1.4.4"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.14.7",
     "babelify": "^7.3.0",
     "browserify": "^13.1.0",
+    "chai": "^4.3.4",
     "eslint": "^7.30.0",
+    "mocha": "^9.0.2",
     "parcel": "^2.0.0-beta.3.1",
     "prettier": "2.3.2"
   }

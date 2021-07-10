@@ -1,7 +1,28 @@
 "use strict";
 
+/**
+ * @typedef {Object} Tile
+ * @property {String} p A letter representing the kind of glyph to put on the tile. Could be E T H V or A: Empty, T-shaped, Horizontal, Vertial, or Alpha (a leaf that can contain a letter)
+ * @property {Number} row The row location of the tile
+ * @property {Number} col The column location of the tile
+ * @property {Number} n The id of the node in the assoicated graph that the tile represents.
+ */
+
+ /**
+  * @typedef {Object} Location
+  * @property {Number} row The row location of the tile
+  * @property {Number} col The column location of the tile
+  */
+
+/**
+ * Class representing all the tiles on the board game
+ */
 class Tiles {
 
+  /**
+   * 
+   * @param {Object} input 
+   */
   constructor(input){
     this.tiles = input.tiles;
     this.dim = {rows: input.tiles.length, cols: input.tiles[0].length};
@@ -20,10 +41,11 @@ class Tiles {
 
   createEmptyTile(loc){
     return {
-      p: 'E',
+      p: 'E',       // for "empty"
       row: loc.row,
       col: loc.col,
-      n: 0
+      n: 0          // n is the index of the node in the graph
+                    // the tiles representing the edge of the graph also get the same value for n
     };
   }
 

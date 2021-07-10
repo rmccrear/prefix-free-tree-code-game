@@ -25,7 +25,8 @@ function updateTreeWithMessage(message){
       lastLetterTile = treeBuilder.insertLetter(letter);
       recordLettersAdded(letter);
     });
-    // if not a new letter, set last letter tile to the tile of the last letter
+    // Set last letter tile to the tile of the last letter from the message
+    // This way we can set the current node to the leaf with the lasted added letter.
     if(!lastLetterTile){
       const lastLetter = message[message.length-1];
       const node = board.hasLetter(lastLetter);
@@ -36,6 +37,11 @@ function updateTreeWithMessage(message){
     return lastLetterTile;
 }
 
+/**
+ * @type {String} recordOfLetters is the variable that keeps track of what letters 
+ *                                the user had typed in the message, and it what order.
+ *                                The order can change if the use wants to swap the letters in the tree.
+ */
 let recordOfLetters = '';
 function recordLettersAdded(letter){
   if(recordOfLetters.indexOf(letter) === -1){
@@ -55,14 +61,6 @@ function queryParams(){
   });
   return qd;
 }
-
-function generateShareUrl(){
-  const params = queryParams();
-  const lettersOnTree = params.letters[0];
-  const encodedMessage = params.encodedmessage[0];
-  return `http://localhost:22222/decode.html?letters=${lettersOnTree}&encodedmessage=${encodedMessage}`;
-}
-window.generateShareUrl = generateShareUrl;
 
 function setUpFromUrl(){
   const params = queryParams();
@@ -85,17 +83,23 @@ function resetMessage(message){
     const encodedmessage = code.split(' ').join('');
     $('.bits-display').text(encodedmessage.length + ' ' || '0 ');
     try{
-      window.history.pushState({}, code, `writer.html?letters=${recordOfLetters}&encodedmessage=${encodedmessage}`);
+      window.history.replaceState({}, code, `writer.html?letters=${recordOfLetters}&encodedmessage=${encodedmessage}`);
     } catch(e){
       console.log(e);
     }
     $('a.share-a').attr('href', `decode.html?letters=${recordOfLetters}&encodedmessage=${encodedmessage}`);
 }
 
+/**
+ * Swap letters in a string
+ * @param {String} string The recordOfLetters
+ * @param {String} letterA A letter to swap
+ * @param {String} letterB Other letter to swap
+ * @returns {String} a new string with the letters' positions swapped
+ * @example swapLetters('abcde', 'c', 'e')
+ * //=> 'abedc'
+ */
 function swapLetters(string, letterA, letterB){
-  
-  console.log(string);
-  console.log(letterA + letterB)
   const newString = string.split('').map((l) => {
     if(l === letterA){
       return letterB;
@@ -107,10 +111,14 @@ function swapLetters(string, letterA, letterB){
       return l;
     }
   }).join('');
-  console.log(newString);
   return newString;
 }
 
+/**
+ * Swaps letters in data and on screen.
+ * @param {Tile} tileA 
+ * @param {Tile} tileB 
+ */
 function handleSwap(tileA, tileB){
   board.swapLetters(tileA, tileB);
   board.setCurrNodeTile(tileB);

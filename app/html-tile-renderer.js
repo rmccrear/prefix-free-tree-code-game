@@ -3,7 +3,11 @@
 var $ = require('jquery');
 var _ = require('lodash');
 
-// render 
+
+/**
+ * Determine css classes to add to this tile
+ * @param {Object} tile 
+ */
 function classes(tile){
   let c = '';
   const glyphs = {
@@ -22,12 +26,22 @@ function classes(tile){
   return c;
 }
 
+/**
+ * Determine the absolute position for this tile
+ * and return the css to put on the tag
+ * @param {Object} tile 
+ */
 function style(tile){
   const top = tile.row * 32;
   const left = tile.col * 32;
   return `position: absolute; top: ${top}px; left: ${left}px;`;
 }
 
+/**
+ * Determine what needs to be done to update the tile
+ * @param {Object} tile1 
+ * @param {Object} tile2 
+ */
 function diffTiles(tile1, tile2){
   const letter1 = tile1.l;
   const letter2 = tile2.l;
@@ -83,18 +97,21 @@ function repaint(board, opts){
         const tile = tiles[i][j];
         const lastTile = lastTilePosition[i][j]; // TODO: check for growth of grid. Maybe redraw on growth.
         const diff = diffTiles(lastTile, tile);
+        // Set letter
         if(diff.letter !== null){ // need to check for null because '' is a valid diff value
           $(`[data-row=${i}][data-col=${j}] .pipe-letter`).text(diff.letter);
         }
+        // set classes
         if(diff.classesToAdd || diff.classesToRemove){ // no need to check for null, because '' means no change/no diff
           $(`[data-row=${i}][data-col=${j}] .pipe-tile`).addClass(diff.classesToAdd).removeClass(diff.classesToRemove);
         }
-        // implement draggable
+        // remove Alpha
         if(lastTile.p === 'A' && tile.p !== 'A'){
           //remove draggable
           $(`[data-row=${i}][data-col=${j}] .pipe-tile`).removeAttr('draggable');
           $(`[data-row=${i}][data-col=${j}] .pipe-tile`).removeData('row').removeData('col').removeData('n').removeData('l');
         }
+        // set draggable and data values
         // if(lastTile.p !== 'A' && tile.p === 'A'){ // <-- this won't work because we might have changed the letter, so we need to change 'data-l'
         if(tile.p === 'A'){
           $(`[data-row=${i}][data-col=${j}] .pipe-tile`).attr('draggable', true);
@@ -107,6 +124,7 @@ function repaint(board, opts){
   //   inertia: true,
   //   onend: function(e){console.log(e);}
   // });
+  // setup drag/drop
   $('.pipe-tile').off('drop');
   $('.pipe-tile').off('dragstart');
   // see: http://www.html5rocks.com/en/tutorials/dnd/basics/
@@ -118,7 +136,6 @@ function repaint(board, opts){
   });
 
   $('.pipe-tile.pipe-A').on('dragover', function(e) {
-    console.log('drag over')
     if (e.preventDefault) {
       e.preventDefault(); // Necessary. Allows us to drop.
     }

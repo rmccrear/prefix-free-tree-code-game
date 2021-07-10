@@ -12,6 +12,11 @@ const audioUrls = [
 //    ['typewriter', 'app/media/sounds/240839__videog__typing-on-a-typewriter.wav']
 ];
 
+/**
+ * Creates an audio tag and attaches it.
+ * Returns an object with a play() method to play/replay the sound.
+ * @param {String} audioIdUrl 
+ */
 const createAudioTag = (audioIdUrl) => {
     // const [id, url] = audioIdUrl;
     const id = audioIdUrl[0];
