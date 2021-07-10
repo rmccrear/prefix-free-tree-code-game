@@ -3,7 +3,7 @@
 class BinaryTree {
   constructor(input){
     this.graph = input.graph;
-    this.leafData = input.leafData;
+    //this.leafData = input.leafData;
     this.root = 1;
   }
   
@@ -22,6 +22,7 @@ class BinaryTree {
   }
 
   isLeaf(node){
+    console.log(node);
     return this.graph[node].length === 0;
   }
 
