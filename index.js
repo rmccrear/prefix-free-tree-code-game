@@ -7,7 +7,7 @@
 const LetterTree = require('./letter-tree.js');
 const TileTextRenderer = require('./tile-text-renderer.js');
 const TreeBuilder = require('./tree-builder.js');
-var program = require('commander');
+var { program } = require('commander');
 var jf = require('jsonfile');
 // var prompt = require('prompt');
 var readline = require('readline-sync');
@@ -17,30 +17,50 @@ let board;
 let moveRecord;
 let treeBuilder;
 program
-  .arguments('<file>')
+  .option('-i --input-file [inputFile]')
+  .option('-o --output-file [outputFile]')
   .option('-c, --create', 'Create tree')
   .option('-w, --write', 'Write a message')
-  .action(function(file) {
+  .action(function(options) {
+      const inputFile = options.inputFile;
+      const outputFile = options.outputFile
       let json;
-      json = jf.readFileSync(file);
+      if(inputFile){
+        json = jf.readFileSync(inputFile);
+      } else {
+        json = jf.readFileSync('./test/data/tree-blank.json');
+      }
+      
       // var tree = new Tree(board)
       // let tiles = new Tiles(board);
       board = new LetterTree(json);
       treeBuilder = new TreeBuilder(board, json.treeBuilder);
       moveRecord = json.moveRecord;
       TileTextRenderer.print(board);
+      console.log(board.findTilesForNode(board.currNode)[0]);
+      console.log(board.currTile);
+
+      if(options.write){
+        console.log('write');
+        program_write(board);
+      }
+      else if (options.create){
+        console.log('create');
+        program_create(board, outputFile);
+      }
   })
   .parse(process.argv);
 
-const nav = {
-  'L': {row: 0,  col: -1},
-  'R': {row: 0,  col:  1},
-  'U': {row: -1, col:  0},
-  'D': {row: 1,  col:  0}
-};
+
 
 function navigationCommand (board, command){
   const response = command;
+  const nav = {
+    'L': {row: 0,  col: -1},
+    'R': {row: 0,  col:  1},
+    'U': {row: -1, col:  0},
+    'D': {row: 1,  col:  0}
+  };
   let currTile = board.tiles.tiles[board.currTile.row][board.currTile.col];
       if(['L', 'R', 'D', 'U'].includes(response)){
         
@@ -115,7 +135,8 @@ function encodeMessage(board, message){
 }
 
 
-if (program.write){
+// if (program.write){
+function program_write(board){
   let running = true;
   let count = 1;
   let message = []
@@ -138,75 +159,33 @@ if (program.write){
   }
 }
 
-if (program.create) {
+// if (program.create) {
+function program_create(board, outputFile) {
   let running = true;
   let count = 1;
   let moveRecord = [];
   while(running){
     // const response = readline.question('>>');
     console.log(' ');
-    const response = readline.keyIn('#' +  count + ' currently at: row: ' + board.getCurrTile.row + ', col: ' + board.getCurrTile.col + `(${board.getCurrTile().p})` +' >>>>>>>>>>>> Type L R U D or Q >>>>>>>>>>>>>>>>>>');
+    const response = readline.keyIn('#' +  count + ' currently at: row: ' + board.getCurrTile().row + ', col: ' + board.getCurrTile().col + `(${board.getCurrTile().p})` +' >>>>>>>>>>>> Type L R U D or Q >>>>>>>>>>>>>>>>>>');
     count++;
     const currTile = board.getCurrTile();
     if(response === 'Q'){
       let output = board.toJSON();
       output.moveRecord = moveRecord;
       console.log(JSON.stringify(output));
+      if(outputFile) {
+        jf.writeFileSync(outputFile, output, { spaces: 2 });
+      }
       running = false;
     }
     else{
       navigationCommand(board, response);
-      // if(['L', 'R', 'D', 'U'].includes(response)){
-      //   console.log('move ' + response);
-        
-      //   const move = nav[response];
-      //   const R = board.currTile.row + move.row;
-      //   const C = board.currTile.col + move.col;
-      //   //
-      //   // only move on tree
-      //   if(R < board.tiles.dim.rows && C < board.tiles.dim.cols  && board.tiles.tiles[R][C].n){
-      //     board.currTile.row = R;
-      //     board.currTile.col = C;
-      //   }
-      //   else if(board.tiles.tiles[board.currTile.row][board.currTile.col].p === 'A' && response==='D'){
-      //     // create a new branch here.
-      //     board.branchOut(board.tiles.tiles[board.currTile.row][board.currTile.col]);
-      //   }
-      //   else{
-      //     console.log('out of bounds ' + board.tiles.tiles[R][C].p)
-      //   }
-
-      // }
-      // else if(response === '>'){
-      //   board.tiles.expandGrid('R');
-      // }
-      // else if(response === '<'){
-      //   board.tiles.expandGrid('L');
-      // }
-      // else if(response === '.'){
-      //   board.tiles.expandGrid('D');
-      // }
-      // else if(response === '}'){
-      //   board.tiles.moveAllTiles('R');
-      // }
-      // else if(response === '{'){
-      //   board.tiles.moveAllTiles('L');
-      // }
-      // else if(response === '['){
-      //   board.go('L');
-      // }
-      // else if(response === ']'){
-      //   board.go('R');
-      // }
-      // else if(response === '='){
-      //   board.go('U');
-      // }
-      // else if(response === response.toLowerCase() && currTile.p === 'A'){
-      //   // add a character to the 
-      //   currTile.l = response;
-      // }
       moveRecord.push(response);
       TileTextRenderer.print(board);
     }
   }
 }
+
+console.log('pg create?');
+console.log(program.create)
