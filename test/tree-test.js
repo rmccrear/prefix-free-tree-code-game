@@ -1,6 +1,6 @@
 "use strict";
 
-var BinaryTree = require('../binary-tree.js');
+var BinaryTree = require('../app/lib/binary-tree.js');
 
 var jf = require('jsonfile');
 var assert = require('chai').assert;

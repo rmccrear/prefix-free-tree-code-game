@@ -1,7 +1,7 @@
 
 "use strict";
 
-var Tiles = require('../tiles.js');
+var Tiles = require('../app/lib/tiles.js');
 
 var jf = require('jsonfile');
 var assert = require('chai').assert;

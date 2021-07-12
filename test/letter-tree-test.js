@@ -1,7 +1,7 @@
 
 "use strict";
 
-var LetterTree = require('../letter-tree.js');
+var LetterTree = require('../app/lib/letter-tree.js');
 var TileTextRenderer = require('../tile-text-renderer.js');
 
 var jf = require('jsonfile');
