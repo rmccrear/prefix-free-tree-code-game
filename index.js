@@ -2,9 +2,9 @@
 
 // const BinaryTree = require('./binary-tree.js');
 // const Tiles = require('./tiles.js');
-const LetterTree = require('./letter-tree.js');
+const LetterTree = require('./app/lib/letter-tree.js');
 const TileTextRenderer = require('./tile-text-renderer.js');
-const TreeBuilder = require('./tree-builder.js');
+const TreeBuilder = require('./app/lib/tree-builder.js');
 var { program } = require('commander');
 var jf = require('jsonfile');
 // var prompt = require('prompt');
