@@ -2,6 +2,10 @@
 
 /**
  * Using a string of "commands" build a tree on a LetterTree board
+ * goto changes the cursor
+ * D goes down and creates new leaves
+ * "[" and "]" move the cursor left or right.
+ *  offsetBy lets us reuse the commands from the start by adding a given amount to the goto command
  * A set of commands would be:
  * "treeBuilder": [
       {"command": "goto", "pos": {"row": 2, "col": 8}},

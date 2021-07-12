@@ -49,15 +49,34 @@ class Tiles {
     };
   }
 
+
+  // Below are helpers for building a new layout for a board
+  // They are not used in the web app
+
+  moveAllTiles(direction){
+    const moveRowOfTilesRight = (tileRow) => {
+      const col = tileRow[0].col;
+      tileRow.forEach(tile => {
+        tile.row++
+      });
+      tileRow.unshift(this.createEmptyTile({row: 0, col: col}));
+    }
+    if(direction==='R'){
+      this.tiles.forEach(moveRowOfTilesRight);
+    }
+  }
+
+/*
   moveAllTiles(direction){
     const allTiles = this.asFlatArray().filter((t)=>t.p!=='E');
     console.log(allTiles)
     this.moveTiles(allTiles, direction);
   }
+*/
 
   // tiles is a flat array of all tiles to copy
   moveTiles(tiles, direction){
-    // TODO: implement 'D' direction
+    // TODO: implement 'D' and 'L' directions
     if(direction === 'R'){
       // move right
       // move row by row, highest col to lowest
