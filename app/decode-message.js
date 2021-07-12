@@ -6,8 +6,8 @@ const Bacon = require('baconjs');
 const createAudioTags = require('./sounds.js').createAudioTags;
 // let _ = require('lodash');
 
-const LetterTree = require('../letter-tree.js');
-const TreeBuilder = require('../tree-builder.js');
+const LetterTree = require('./lib/letter-tree.js');
+const TreeBuilder = require('./lib/tree-builder.js');
 
 const jsonTree = require('../data/tree-command-13x25.json');
 const repaint = require('./html-tile-renderer.js').repaint;

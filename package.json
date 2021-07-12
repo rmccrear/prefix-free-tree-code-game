@@ -4,9 +4,9 @@
   "description": "",
   "scripts": {
     "test": "mocha test",
-    "parcel-serve-writer": "parcel serve ./writer.html",
-    "parcel-serve-decoder": "parcel serve ./decode.html",
-    "parcel-build": "parcel build ./writer.html ./decode.html",
+    "parcel-serve-writer": "parcel serve ./app/writer.html",
+    "parcel-serve-decoder": "parcel serve ./app/decode.html",
+    "parcel-build": "parcel build ./app/writer.html ./app/decode.html",
     "cmd-message": "node ./index.js -w",
     "cmd-tree-builder": "node ./index.js",
     "build:js": "browserify app/write-message.js -o build/app/js/write-message.js && browserify app/decode-message.js -o build/app/js/decode-message.js",
@@ -39,6 +39,7 @@
     "eslint": "^7.30.0",
     "mocha": "^9.0.2",
     "parcel": "^2.0.0-beta.3.1",
-    "prettier": "2.3.2"
+    "prettier": "2.3.2",
+    "sass": "^1.35.2"
   }
 }
