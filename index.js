@@ -1,5 +1,3 @@
-#!/Users/robertmccreary/.nvm/versions/node/v4.4.7/bin/node --harmony_array_includes
-
 "use strict";
 
 // const BinaryTree = require('./binary-tree.js');
@@ -19,8 +17,8 @@ let treeBuilder;
 program
   .option('-i --input-file [inputFile]')
   .option('-o --output-file [outputFile]')
-  .option('-c, --create', 'Create tree')
-  .option('-w, --write', 'Write a message')
+  .option('-c, --create', 'Create tree (use with --output-file [filename.json] to save your tree)')
+  .option('-w, --write', 'Write a message (use with --input-file [filename.json] to specify the tree you would like to use.)')
   .action(function(options) {
       const inputFile = options.inputFile;
       const outputFile = options.outputFile
@@ -42,11 +40,11 @@ program
 
       if(options.write){
         console.log('write');
-        program_write(board);
+        write(board);
       }
       else if (options.create){
         console.log('create');
-        program_create(board, outputFile);
+        create(board, outputFile);
       }
   })
   .parse(process.argv);
@@ -112,21 +110,6 @@ function navigationCommand (board, command){
       }
 }
 
-// if the node has a child that is a leaf, return it
-function getChildLeafNodesOf(board, node){
-  const children = board.tree.graph[node];
-  let childLeaves = [];
-  const leftNodesChildren = board.tree.graph[children[0]];
-  const rightNodesChildren = board.tree.graph[children[1]];
-  if(leftNodesChildren.length === 0){
-    childLeaves.push(children[0]);
-  }
-  if(rightNodesChildren.length === 0){
-    childLeaves.push(children[1]);
-  }
-  return childLeaves;
-}
-
 function encodeMessage(board, message){
   const letterTiles = board.tiles.asFlatArray((t)=>t.p==='A' && t.l);
   const letterMapArr = letterTiles.map((t) => [t.l, board.tree.encodingOf(t.n)]);
@@ -135,8 +118,7 @@ function encodeMessage(board, message){
 }
 
 
-// if (program.write){
-function program_write(board){
+function write(board){
   let running = true;
   let count = 1;
   let message = []
@@ -159,8 +141,7 @@ function program_write(board){
   }
 }
 
-// if (program.create) {
-function program_create(board, outputFile) {
+function create(board, outputFile) {
   let running = true;
   let count = 1;
   let moveRecord = [];
@@ -186,6 +167,3 @@ function program_create(board, outputFile) {
     }
   }
 }
-
-console.log('pg create?');
-console.log(program.create)
