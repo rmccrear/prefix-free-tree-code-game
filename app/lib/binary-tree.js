@@ -22,7 +22,6 @@ class BinaryTree {
   }
 
   isLeaf(node){
-    console.log(node);
     return this.graph[node].length === 0;
   }
 
@@ -33,6 +32,16 @@ class BinaryTree {
       branchNodes =  branchNodes.concat(this.branchOf(this.graph[node][i]));
     }
     return branchNodes;
+  }
+
+  rightmostPath(node){
+    const pathNodes = [node];
+    let nextNode=node;
+    while(this.graph[nextNode].length>1){
+      nextNode = this.graph[nextNode][1]
+      pathNodes.push(nextNode);
+    }
+    return pathNodes;
   }
 
   // get parent of node

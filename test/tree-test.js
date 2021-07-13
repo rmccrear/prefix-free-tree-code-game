@@ -63,9 +63,13 @@ describe('BinaryTree', function() {
 
     const pathFrom9 = tree.pathToRoot(9);
     assert.equal(pathFrom9.length, expectedPathFrom9.length);
+    
+    /*
     for(let i=0; i<expectedPathFrom9; i++){
       assert.equal(pathFrom9[i], expectedPathFrom9[i]);
     }
+    */
+    assert.deepEqual(pathFrom9, expectedPathFrom9)
   });
 
   it('should find a common ancestor', function(){
@@ -99,13 +103,7 @@ describe('BinaryTree', function() {
     const expectedGraph = [[] ,[2, 3], [4, 5], [], [], []];
 
     assert.equal(tree.graph.length, expectedGraph.length, 'size of graphs is same');
-    for(let i = 0; i<expectedGraph.length; i++){
-      assert.equal(tree.graph[i].length, expectedGraph[i].length, i + ' is leaf or branch ');
-      if(expectedGraph.length>0){
-        assert.equal(tree.graph[i][0], expectedGraph[i][0]);
-        assert.equal(tree.graph[i][1], expectedGraph[i][1]);
-      }
-    }
+    assert.deepEqual(tree.graph, expectedGraph);
   });
 
   it('should find a branch of a node', function(){
@@ -114,11 +112,28 @@ describe('BinaryTree', function() {
     let tree = new BinaryTree(treeInput2);
 
     const branchOf4 = tree.branchOf(4);
-    const expectedBranchOf4 = [4, 10, 11, 12, 13, 14, 15];
+    const expectedBranchOf4 = [4, 10, 12, 13, 14, 15, 11];
 
     assert.equal(branchOf4.length, expectedBranchOf4.length);
-    for(let i = 0; i<expectedBranchOf4.length; i++){
-      expectedBranchOf4.includes(branchOf4[i])
-    }
+    assert.deepEqual(branchOf4, expectedBranchOf4);
+  });
+
+  it('should find the rightmost path from a node', function(){
+    const fileTreeTest = './test/data/tree-graph-test.json'
+    let treeTest = jf.readFileSync(fileTreeTest);
+    let tree = new BinaryTree(treeTest);
+
+    const branchOf4 = tree.rightmostPath(4);
+    const expectedBranchOf4 = [4];
+    assert.equal(branchOf4.length, expectedBranchOf4.length);
+    assert.deepEqual(branchOf4, expectedBranchOf4)
+
+    const branchOf1 = tree.rightmostPath(1);
+    const expectedBranchOf1 = [ 1, 3, 5, 7, 9, 11 ];
+    assert.deepEqual(branchOf1, expectedBranchOf1)
+
+    const branchOf2 = tree.rightmostPath(2);
+    const expectedBranchOf2 = [ 2, 19, 21, 23, 25, 27 ];
+    assert.deepEqual(branchOf2, expectedBranchOf2)
   });
 });
