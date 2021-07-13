@@ -2,7 +2,7 @@
 
 /**
  * @typedef {Object} Tile
- * @property {String} p A letter representing the kind of glyph to put on the tile. Could be E T H V or A: Empty, T-shaped, Horizontal, Vertial, or Alpha (a leaf that can contain a letter)
+ * @property {String} p A letter representing the kind of glyph to put on the tile. Could be E L R T H V or A: Empty, Left-elbow, Right-elbow, T-shaped, Horizontal, Vertial, or Alpha (a leaf that can contain a letter)
  * @property {Number} row The row location of the tile
  * @property {Number} col The column location of the tile
  * @property {Number} n The id of the node in the assoicated graph that the tile represents.
@@ -55,14 +55,48 @@ class Tiles {
 
   moveAllTiles(direction){
     const moveRowOfTilesRight = (tileRow) => {
-      const col = tileRow[0].col;
+      const row = tileRow[0].row;
+      tileRow.pop();
       tileRow.forEach(tile => {
-        tile.row++
+        tile.col++
       });
-      tileRow.unshift(this.createEmptyTile({row: 0, col: col}));
+      tileRow.unshift(this.createEmptyTile({row: row, col: 0}));
     }
     if(direction==='R'){
       this.tiles.forEach(moveRowOfTilesRight);
+    }
+  }
+
+  /*
+  canMoveTile(tile, direction)
+  */
+
+  /**
+   * Just move the tile over, and put an empty tile where it was.
+   * @param {Tile} tile 
+   * @param {String} direction 'R'
+   * @param {Object} replacementTile {p: String, n: Number}
+   */
+  moveTile(tile, direction, replacementTile){
+    const row = tile.row;
+    const col = tile.col;
+    if(direction === 'R'){
+      tile.col++;
+      this.tiles[row][col+1] = tile;
+      this.tiles[row][col] = this.createEmptyTile({row, col});
+      if(replacementTile){
+        this.tiles[row][col].p = replacementTile.p;
+        this.tiles[row][col].n = replacementTile.n;
+      }
+      return tile;
+    } else if(direction === 'L'){
+      tile.col--;
+      this.tiles[row][col-1] = tile;
+      this.tiles[row][col] = this.createEmptyTile({row, col});
+      if(replacementTile){
+        this.tiles[row][col].p = replacementTile.p;
+        this.tiles[row][col].n = replacementTile.n;
+      }
     }
   }
 

@@ -38,7 +38,7 @@ class TreeBuilder{
   constructor(board, commands){
     this.board = board;                 // the board we wish to control
     this.commands = commands;           // the array of comands to execute, in order
-    //this.count = 0;
+    this.count = 0;
     this.offsets = {row: 0, col: 0};     // the offset starts at (0,0). As your tree grows, the offset can increase and 
     this.currIndex = 0;                  // position in the command array
     this.lastNode = board.getCurrTile(); //current tile

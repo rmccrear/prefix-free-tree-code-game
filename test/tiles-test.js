@@ -13,7 +13,7 @@ const containsTile = function(tilesInBranch, tileLoc){
 
 describe('Tiles', function() {
   it('should initialize', function(){
-    const file = './test/data/tiles-1.json'
+    const file = './test/data/tiles-test.json'
     let tilesInput = jf.readFileSync(file);
     let tiles1 = new Tiles({tiles: tilesInput.tiles1});
     assert.equal(tiles1.tiles.length, 8, 'there should be 8 rows in tiles1');
@@ -27,14 +27,14 @@ describe('Tiles', function() {
   //            [{"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}],
   //            [{"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}]],
   it('should move tiles to the right', function(){
-    const file = './test/data/tiles-1.json'
+    const file = './test/data/tiles-test.json'
     let tilesInput = jf.readFileSync(file);
     let tiles1 = new Tiles({tiles: tilesInput.tiles1});
     const tilesToMove = tiles1.tiles
                                     .reduce((a,b)=>a.concat(b)) // flatten
-                                    .filter((t)=>t.p==='L');    // take only L
+                                    .filter((t)=>t.p!=='E');    // take only L
     tiles1.moveTiles(tilesToMove, 'R');
-    const expectedTilesAfterMove = [
+    const expectedTilesAfterMove = /*[
              [{"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}],
              [{"p": "E"}, {"p": "E"}, {"p": "L"}, {"p": "L"}, {"p": "L"}, {"p": "L"}],
              [{"p": "E"}, {"p": "E"}, {"p": "L"}, {"p": "L"}, {"p": "L"}, {"p": "L"}],
@@ -43,7 +43,15 @@ describe('Tiles', function() {
              [{"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}],
              [{"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}],
              [{"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}]
-    ];
+    ];*/
+            [[{"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "V"}, {"p": "E"}, {"p": "E"}],
+             [{"p": "E"}, {"p": "E"}, {"p": "L"}, {"p": "T"}, {"p": "R"}, {"p": "E"}],
+             [{"p": "E"}, {"p": "E"}, {"p": "V"}, {"p": "E"}, {"p": "V"}, {"p": "E"}],
+             [{"p": "E"}, {"p": "E"}, {"p": "A"}, {"p": "L"}, {"p": "T"}, {"p": "R"}],
+             [{"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "V"}, {"p": "E"}, {"p": "V"}],
+             [{"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "A"}, {"p": "E"}, {"p": "A"}],
+             [{"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}],
+             [{"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}]]
     for(let i=0; i<expectedTilesAfterMove.length; i++){
       for(let j=0; j<expectedTilesAfterMove[i].length; j++){
         assert.equal(tiles1.tiles[i][j].p, expectedTilesAfterMove[i][j].p);

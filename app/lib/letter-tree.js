@@ -242,7 +242,6 @@ const moveNav = {
 
   /**
    * Find all tiles that are in the branch leading to the leaf nodeId
-   * (For the purpose of highlighting the branch on the board)
    * @param {Number} nodeId The index of the leaf (in the graph)
    * @returns {Array} an array of Tiles that are associated with the path
    */
@@ -251,6 +250,39 @@ const moveNav = {
     return this.tiles.asFlatArray()
                      .map((t)=>t.n)
                      .filter((n)=>branch.includes(n));
+  }
+
+  /**
+   * Insert horizontal 'H' node.
+   * Only handle the case of a leaf, for simplicity.
+   * @param {Number} nodeId 
+   */
+  insertHorzTile(tile){
+    const nodeId = tile.n;
+    if(this.tree.isLeaf(nodeId)){
+      const nodeTiles = this.findTilesForNode(nodeId);
+      const rightElbow = nodeTiles.find(tile=>tile.p === 'R');
+      if(rightElbow){
+        // move leftElbow and Alpha node
+        this.tiles.moveTile(rightElbow, 'R', {p: 'H', n: nodeId});
+        nodeTiles.filter(tile=>tile.p==='H').forEach(tile=>this.tiles.moveTile(tile, 'R', {p: 'H', n: nodeId}));
+        nodeTiles.filter(tile=>tile.p!=='R'&&tile.p!=='H').forEach(tile=>this.tiles.moveTile(tile, 'R'));
+        this.currTile = tile;
+      }
+      else{
+        const leftElbow = nodeTiles.find(tile=>tile.p === 'L');
+        if(leftElbow){
+          this.tiles.moveAllTiles('R');
+          this.tiles.moveTile(leftElbow, 'L', {p: 'H', n: nodeId});
+          nodeTiles.filter(tile=>tile.p==='H').forEach(tile=>this.tiles.moveTile(tile, 'L', {p: 'H', n: nodeId}));
+          nodeTiles.filter(tile=>tile.p!=='L'&&tile.p!=='H').forEach(tile=>this.tiles.moveTile(tile, 'L'));
+          this.currTile = tile;
+        }
+        
+
+      }
+    }
+
   }
 
   toJSON(){
@@ -365,6 +397,7 @@ const moveNav = {
     const tiles = [] // # this.tiles.tiles.slice(); // shallow copy
     let path = [];
     if(this.currTile.n){
+      // to highlight these tiles
       path = this.tree.pathToRoot(this.currTile.n);
     }
     for(let row=0; row<this.tiles.dim.rows; row++){

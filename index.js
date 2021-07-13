@@ -83,18 +83,19 @@ function navigationCommand (board, command){
       else if(response === '>'){
         board.tiles.expandGrid('R');
       }
-      else if(response === '<'){
-        board.tiles.expandGrid('L');
-      }
+      //else if(response === '<'){
+      //  board.tiles.expandGrid('L');
+      //}
       else if(response === '.'){
         board.tiles.expandGrid('D');
       }
       else if(response === '}'){
         board.tiles.moveAllTiles('R');
+        currTile = board.tiles.tiles[board.currTile.row+1][board.currTile.col];
       }
-      else if(response === '{'){
-        board.tiles.moveAllTiles('L');
-      }
+      //else if(response === '{'){
+      //  board.tiles.moveAllTiles('L');
+      //}
       else if(response === '['){
         board.go('L');
       }
@@ -103,6 +104,9 @@ function navigationCommand (board, command){
       }
       else if(response === '='){
         board.go('U');
+      }
+      else if(response === '-' && currTile.p === 'A'){
+        board.insertHorzTile(currTile);
       }
       else if(response === response.toLowerCase() && currTile.p === 'A'){
         // add a character to the 
@@ -130,14 +134,16 @@ function write(board){
 
     if(response === 'Q'){
       running = false;
-    }
+    } else{
       currTile = board.getCurrTile();
       // now insert letter
-    // treeBuilder.nextBuildOut();
-    //board.setLetterInFirstEmptyLeaf(response);
-    treeBuilder.insertLetter(response);
-    console.log(encodeMessage(board, message));
-    TileTextRenderer.print(board);
+      // treeBuilder.nextBuildOut();
+      //board.setLetterInFirstEmptyLeaf(response);
+      treeBuilder.insertLetter(response);
+      console.log(encodeMessage(board, message));
+      TileTextRenderer.print(board);
+    }
+
   }
 }
 
@@ -148,7 +154,7 @@ function create(board, outputFile) {
   while(running){
     // const response = readline.question('>>');
     console.log(' ');
-    const response = readline.keyIn('#' +  count + ' currently at: row: ' + board.getCurrTile().row + ', col: ' + board.getCurrTile().col + `(${board.getCurrTile().p})` +' >>>>>>>>>>>> Type L R U D or Q >>>>>>>>>>>>>>>>>>');
+    const response = readline.keyIn('#' +  count + ' currently at: row: ' + board.getCurrTile().row + ', col: ' + board.getCurrTile().col + `(${board.getCurrTile().p})` +' >>> Type [L]eft [R]ight [U]p [D]own [-] (add horizontal pipe-at leaf)  or [Q]uit >>>');
     count++;
     const currTile = board.getCurrTile();
     if(response === 'Q'){

@@ -21,7 +21,7 @@ class TileTextRenderer {
     const colLen = tiles[0].length;
     let output = [];
     for(let i = 0; i< colLen; i++){
-      colNumbers.push(i);
+      colNumbers.push(i%10);
     }
     // console.log(colNumbers.join(''));
     output.push(colNumbers);

@@ -6,6 +6,7 @@
     "test": "mocha test",
     "serve-writer": "parcel serve ./app/writer.html",
     "serve-decoder": "parcel serve ./app/decode.html",
+    "start": "parcel serve ./app/writer.html ./app/decode.html",
     "build": "npm run sass && parcel build ./app/writer.html ./app/decode.html",
     "sass": "sass app/scss/main.scss app/css/main.css"
   },
