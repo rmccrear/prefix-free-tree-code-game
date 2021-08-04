@@ -150,3 +150,4 @@ const onReady = function(){
 };
 
 $(onReady);
+module.exports = {writeOnReady: onReady};
