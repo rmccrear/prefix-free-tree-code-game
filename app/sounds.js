@@ -1,7 +1,11 @@
 
-const dripUrl = require('url:./media/sounds/75343__neotone__drip1.wav');
-const drainUrl = require('url:./media/sounds/51745__erkanozan__bubbles.wav');
-const typewriterUrl = require('url:./media/sounds/240839__videog__typing-on-a-typewriter.wav');
+//const dripUrl = require('url:./media/sounds/75343__neotone__drip1.wav');
+//const drainUrl = require('url:./media/sounds/51745__erkanozan__bubbles.wav');
+//const typewriterUrl = require('url:./media/sounds/240839__videog__typing-on-a-typewriter.wav');
+
+const dripUrl = require('./media/sounds/75343__neotone__drip1.wav');
+const drainUrl = require('./media/sounds/51745__erkanozan__bubbles.wav');
+const typewriterUrl = require('./media/sounds/240839__videog__typing-on-a-typewriter.wav');
 
 const audioUrls = [
     ['drip', dripUrl],
