@@ -16,7 +16,7 @@
       {"command": "offsetBy", "offset": {"row": 8, "col": 0}}
     ]
  */
-class TreeBuilder{
+class TreeBuilder {
   /**
    * The commands come in an array, which is a list of commands to build a tree
    * The possible commands are:
@@ -31,11 +31,11 @@ class TreeBuilder{
    * @param {Object} board LetterTree instance
    * @param {Array} commands
    */
-  constructor(board, commands){
+  constructor(board, commands) {
     this.board = board;                 // the board we wish to control
     this.commands = commands;           // the array of comands to execute, in order
     //this.count = 0;
-    this.offsets = {row: 0, col: 0};     // the offset starts at (0,0). As your tree grows, the offset can increase and 
+    this.offsets = { row: 0, col: 0 };     // the offset starts at (0,0). As your tree grows, the offset can increase and 
     this.currIndex = 0;                  // position in the command array
     this.lastNode = board.getCurrTile(); //current tile
   }
@@ -45,13 +45,13 @@ class TreeBuilder{
    * 
    * @param {String} letter The letter to add
    */
-  insertLetter(letter){
+  insertLetter(letter) {
     let letterTile;
     const boardsCurrTile = this.board.getCurrTile();
     this.board.setCurrNodeTile(this.lastNode);
-    if(this.board.hasLetter(letter)===false){
+    if (this.board.hasLetter(letter) === false) {
       letterTile = this.board.setLetterInFirstEmptyLeaf(letter);
-      if(typeof letterTile === 'undefined'){
+      if (typeof letterTile === 'undefined') {
         this.nextBuildOut();
         letterTile = this.board.setLetterInFirstEmptyLeaf(letter);
       }
@@ -65,8 +65,8 @@ class TreeBuilder{
    * Build the tree and board from a message.
    * @param {String} letters a string of letters to build the tree for.
    */
-  buildFromLetterString(letters){
-    for(let i=0; i<letters.length; i++){
+  buildFromLetterString(letters) {
+    for (let i = 0; i < letters.length; i++) {
       this.insertLetter(letters[i]);
     }
   }
@@ -77,14 +77,14 @@ class TreeBuilder{
   /**
    * execute commands until a new leaf is formed
    */
-  nextBuildOut(){
+  nextBuildOut() {
     let next = '';
-    while(next !== 'D'){
+    while (next !== 'D') {
       next = this.nextCommand();
-      if(typeof next.command=== 'undefined'){
+      if (typeof next.command === 'undefined') {
         this.commandTree(next)
       }
-      else if(next.command === 'goto'){
+      else if (next.command === 'goto') {
         const t =
           this.board.tiles.tiles[next.pos.row][next.pos.col];
         this.board.setCurrNodeTile(t);
@@ -97,26 +97,26 @@ class TreeBuilder{
    * @param {String} command A string or object representing a command
    *                                '[' goes left ']' goes right 'D' Goes down and creates a new leaf
    */
-  commandTree(command){
+  commandTree(command) {
     const next = command;
-    if(next === ']' || next === '['){
-      if(next === '['){
+    if (next === ']' || next === '[') {
+      if (next === '[') {
         this.board.go('L');
       }
-      else if(next === ']'){
+      else if (next === ']') {
         this.board.go('R');
       }
     }
-    else if(next === 'D'){
-        this.board.branchOut(this.board.tiles.tiles[this.board.currTile.row][this.board.currTile.col]);
+    else if (next === 'D') {
+      this.board.branchOut(this.board.tiles.tiles[this.board.currTile.row][this.board.currTile.col]);
     }
   }
 
   /**
    * @returns rawCommand Returns a raw command from the array, looping if we reach the end.
    */
-  nextInCommandArray(){
-    if(this.currIndex >= this.commands.length){
+  nextInCommandArray() {
+    if (this.currIndex >= this.commands.length) {
       this.currIndex = 0; // repeat from the begining. Be sure to use the offset command at the end or this won't work.
     }
     return this.commands[this.currIndex++];
@@ -127,16 +127,16 @@ class TreeBuilder{
    * And altering goto commands according to the offset.
    * @returns command
    */
-  nextCommand(){
+  nextCommand() {
     let next = this.nextInCommandArray();
 
-    while(next.command === 'offsetBy'){
+    while (next.command === 'offsetBy') {
       this.offsets.row += next.offset.row;
       this.offsets.col += next.offset.col;
       next = this.nextInCommandArray();
     }
 
-    if(next.command === 'goto'){
+    if (next.command === 'goto') {
       return {
         command: 'goto',
         pos: {
@@ -151,4 +151,5 @@ class TreeBuilder{
 
 }
 
-module.exports = TreeBuilder;
+export default TreeBuilder;
+// module.exports = TreeBuilder;

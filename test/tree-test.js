@@ -1,10 +1,10 @@
 "use strict";
 
-var BinaryTree = require('../binary-tree.js');
-
-var jf = require('jsonfile');
-var assert = require('chai').assert;
-var equal = assert.equal;
+import _ from 'lodash';
+import { assert } from 'chai';
+import BinaryTree from '../binary-tree.js';
+import tree1 from './data/tree-1.js'
+import tree2 from './data/tree-2.js'
 
 
 describe('BinaryTree', function() {
@@ -43,15 +43,13 @@ describe('BinaryTree', function() {
  //    ],
 
   it('should load the tree from json', function(){
-    const file = './test/data/tree-1.json'
-    let treeInput = jf.readFileSync(file);
+    let treeInput = _.cloneDeep(tree1);
     let tree = new BinaryTree(treeInput);
     assert.equal(tree.graph.length, 10, 'tree size should be 10');
   });
 
   it('should find parent and path to root', function(){
-    const file = './test/data/tree-1.json'
-    let treeInput = jf.readFileSync(file);
+    let treeInput = _.cloneDeep(tree1);
     let tree = new BinaryTree(treeInput);
     const startNode = 7;
     const expectedPathFrom9 = [9, 7, 5, 2, 1];
@@ -69,9 +67,8 @@ describe('BinaryTree', function() {
   });
 
   it('should find a common ancestor', function(){
-    const file = './test/data/tree-1.json'
-    let treeInput = jf.readFileSync(file);
-    let tree = new BinaryTree(treeInput);
+    const treeInput = _.cloneDeep(tree1);
+    const tree = new BinaryTree(treeInput);
 
     const node7 = 7;
     const node4 = 4;
@@ -81,20 +78,19 @@ describe('BinaryTree', function() {
   });
 
   it('should find a common ancestor using tree 2 data', function(){
-    const file2 = './test/data/tree-2.json'
-    let treeInput2 = jf.readFileSync(file2);
-    let tree2 = new BinaryTree(treeInput2);
+    const treeInput2 = _.cloneDeep(tree2);
+    const tree = new BinaryTree(treeInput2);
 
     const node7 = 7;
     const node15 = 15;
     const expectedAncestor7and15 = 2;
-    assert.equal(tree2.commonAncestorOf(node7, node15), expectedAncestor7and15);
+    assert.equal(tree.commonAncestorOf(node7, node15), expectedAncestor7and15);
   });
 
 
   it('should branch out a leaf', function(){
-    let treeInput = {graph: [[] ,[2, 3], [], []]};
-    let tree = new BinaryTree(treeInput);
+    const treeInput = {graph: [[] ,[2, 3], [], []]};
+    const tree = new BinaryTree(treeInput);
     const newNodes = tree.branchOut(2);
     const expectedGraph = [[] ,[2, 3], [4, 5], [], [], []];
 
@@ -109,9 +105,8 @@ describe('BinaryTree', function() {
   });
 
   it('should find a branch of a node', function(){
-    const file2 = './test/data/tree-2.json'
-    let treeInput2 = jf.readFileSync(file2);
-    let tree = new BinaryTree(treeInput2);
+    const treeInput2 = _.cloneDeep(tree2);
+    const tree = new BinaryTree(treeInput2);
 
     const branchOf4 = tree.branchOf(4);
     const expectedBranchOf4 = [4, 10, 11, 12, 13, 14, 15];

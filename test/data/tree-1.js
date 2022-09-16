@@ -1,4 +1,4 @@
-{
+export default {
  "graph": [
       [],
       [2, 3],

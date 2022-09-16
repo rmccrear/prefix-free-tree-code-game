@@ -1,36 +1,39 @@
 <!doctype html>
-<html class="no-js" lang="">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
-        <title>Binary Tree Decoder</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Binary Tree Decoder</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="apple-touch-icon" href="apple-touch-icon.png">
-        <script src="./app/decode-message.js"></script>
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
-        <link rel="stylesheet" href="vendor/normalize.css">
-        <link rel="stylesheet" href="vendor/animate.css/animate.min.css">
-        <link rel="stylesheet" href="app/css/main.css">
-    </head>
-    <body>
-    <div class="game-container">
-      <div class="greeting-outer">
-        <div class="greeting">
-          This is an encoded message. Luckily, you can decode it. Start at the top. "L" means go Left. "R" means go right. When you reach a letter, stop. After reaching each of the letters, you can read your message.  Begin!
-        </div>
+  <link rel="stylesheet" href="vendor/normalize.css">
+  <link rel="stylesheet" href="vendor/animate.css/animate.min.css">
+  <link rel="stylesheet" href="app/css/main.css">
+</head>
+
+<body>
+  <div class="game-container">
+    <div class="greeting-outer">
+      <div class="greeting">
+        This is an encoded message. Luckily, you can decode it. Start at the top. "L" means go Left. "R" means go right.
+        When you reach a letter, stop. After reaching each of the letters, you can read your message. Begin!
       </div>
-        <div class="message-container">
-          <span class="your-code-label">Your code:</span>
-          <div id="encoded-message"></div>
-          <div class="">
-            <span class="decoded-message-label"> Decoded Message: </span> <div id="decoded-message"></div>
-          </div>
-          <div class="make-your-own"><a href="writer.html">Create your own message!</a></div>
-        </div>
-        <div id="board"></div>
+    </div>
+    <div class="message-container">
+      <span class="your-code-label">Your code:</span>
+      <div id="encoded-message"></div>
+      <div class="">
+        <span class="decoded-message-label"> Decoded Message: </span>
+        <div id="decoded-message"></div>
       </div>
-    </body>
+      <div class="make-your-own"><a href="writer.html">Create your own message!</a></div>
+    </div>
+    <div id="board"></div>
+  </div>
+  <script type="module" src="./app/decode-message.js"></script>
+</body>
+
 </html>

@@ -1,6 +1,6 @@
 "use strict";
 
-const chalk = require('chalk')
+import chalk from 'chalk';
 
 const glyphs = {
   'E': ' ',
@@ -58,5 +58,4 @@ class TileTextRenderer {
   }
 }
 
-
-module.exports = TileTextRenderer;
+export default TileTextRenderer;

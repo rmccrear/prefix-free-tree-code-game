@@ -1,7 +1,10 @@
 "use strict";
 
-var $ = require('jquery');
-var _ = require('lodash');
+import "../vendor/jquery.js";
+import _ from "../vendor/underscore-esm.js";
+
+// var $ = require('jquery');
+// var _ = require('lodash');
 
 
 /**
@@ -66,7 +69,7 @@ function diffTiles(tile1, tile2){
 }
 
 let lastTilePosition;
-function repaint(board, opts){
+export function repaint(board, opts){
   console.log('repaint board');
   opts = opts || {};
   let root = $('<div class="board-inner">');
@@ -165,6 +168,6 @@ function repaint(board, opts){
   lastTilePosition = tiles;
 }
 
-module.exports = {
-  repaint: repaint
-};
+// module.exports = {
+//   repaint: repaint
+// }; 

@@ -1,11 +1,14 @@
 "use strict";
 
-var LetterTree = require('../letter-tree.js');
-var TreeBuilder = require('../tree-builder.js');
-var TileTextRenderer = require('../tile-text-renderer.js');
+import { assert } from 'chai';
 
-var jf = require('jsonfile');
-var assert = require('chai').assert;
+import LetterTree from '../letter-tree.js';
+import TreeBuilder from '../tree-builder.js';
+import TileTextRenderer from '../tile-text-renderer.js';
+
+import treeCommand13x25 from '../data/tree-command-13x25.js';
+import _ from 'lodash';
+
 var equal = assert.equal;
 
 const treeBuilderCommands = 
@@ -32,12 +35,10 @@ describe('TreeBuilder', function() {
   let treeBuilder;
   let Printer;
   beforeEach(function(){
-      const file = 'data/tree-command-13x25.json';
-      let input = jf.readFileSync(file);
+      let input = _.cloneDeep(treeCommand13x25)
       board = new LetterTree(input);
       treeBuilder = new TreeBuilder(board, input.treeBuilder);
       Printer = TileTextRenderer;
-
   });
   describe('build out one command ', function(){
     it('should initialize', function(){

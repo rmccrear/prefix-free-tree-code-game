@@ -1,21 +1,18 @@
 "use strict";
+import _ from  "../vendor/underscore-esm.js";
+import "../vendor/jquery.js";
+import "../vendor/hammer.js";
+import "../vendor/bacon.js";
 
-const $ = require('jquery');
-const _ = require('lodash');
+import LetterTree from "../letter-tree.js";
+import TreeBuilder from "../tree-builder.js";
+import { repaint } from "./html-tile-renderer.js";
+import { createAudioTags } from "./sounds.js";
 
-const LetterTree = require('../letter-tree.js');
-const TreeBuilder = require('../tree-builder.js');
-
-const jsonTree = require('../data/tree-command-13x25.json');
-const repaint = require('./html-tile-renderer.js').repaint;
-
-const createAudioTags = require('./sounds.js').createAudioTags;
-
+import jsonTree from "../data/tree-command-13x25.js";
 
 const board = new LetterTree(jsonTree);
 const treeBuilder = new TreeBuilder(board, jsonTree.treeBuilder);
-
-
 
 function updateTreeWithMessage(message){
     let messageChars = _.uniq(message.split(''));
@@ -133,20 +130,13 @@ const onReady = function(){
   const audio = createAudioTags();
   repaint(board, {handleSwap: handleSwap});
   $('#message').on('input', function(){
-    //createjs.Sound.play("drip");
     audio.drip.play();
     const message = $(this).val();
     const letterTile = updateTreeWithMessage(message);
     board.setCurrNodeTile(letterTile);
     repaint(board, {handleSwap: handleSwap});
-    //repaint(board);
     resetMessage();
   });
-  //try{
-  //  createjs.Sound.registerSound({src:"app/media/sounds/75343__neotone__drip1.wav", id:"drip"});
-  //}catch(e){
-  //  console.log(e);
-  //}
 };
 
 $(onReady);

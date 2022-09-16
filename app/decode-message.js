@@ -1,16 +1,14 @@
 "use strict";
+import "../vendor/jquery.js";
+import "../vendor/hammer.js";
+import "../vendor/bacon.js";
 
-const $ = require('jquery');
-const Hammer = require('hammerjs');
-const Bacon = require('baconjs');
-const createAudioTags = require('./sounds.js').createAudioTags;
-// let _ = require('lodash');
+import LetterTree from "../letter-tree.js";
+import TreeBuilder from "../tree-builder.js";
+import { repaint } from "./html-tile-renderer.js";
+import { createAudioTags } from "./sounds.js";
 
-const LetterTree = require('../letter-tree.js');
-const TreeBuilder = require('../tree-builder.js');
-
-const jsonTree = require('../data/tree-command-13x25.json');
-const repaint = require('./html-tile-renderer.js').repaint;
+import jsonTree from "../data/tree-command-13x25.js";
 
 
 let board;
@@ -367,3 +365,5 @@ const createMoveButton = () => {
 }
 
 $(onReady);
+
+

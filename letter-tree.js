@@ -1,7 +1,8 @@
 "use strict";
-
-const BinaryTree = require('./binary-tree.js');
-const Tiles = require('./tiles.js');
+import BinaryTree from './binary-tree.js';
+import Tiles from './tiles.js';
+//const BinaryTree = require('./binary-tree.js');
+//const Tiles = require('./tiles.js');
 
 const moveNav = {
   'L': 0,
@@ -59,13 +60,13 @@ const moveNav = {
  * The LetterTree keeps track of a current tile so we can navigate around the tree.
  */
 
- class LetterTree {
+class LetterTree {
   /**
    * 
    * @param {Object} input  input.graph [[],[2,3],[],[]]
    *                        input.tiles [[{"p":"E","n":0,"row":0,"col":0}, ...}
    */
-  constructor(input){
+  constructor(input) {
     /**
      * The graph/tree
      */
@@ -79,11 +80,11 @@ const moveNav = {
     this.currTile = this.rootNodeTile; // should start at tree root
   }
 
-  setCurrTileToRoot(){
+  setCurrTileToRoot() {
     this.currTile = this.rootNodeTile; // should be tree root
   }
 
-  getCurrTile(){
+  getCurrTile() {
     return this.tiles.tiles[this.currTile.row][this.currTile.col];
   }
 
@@ -99,10 +100,10 @@ const moveNav = {
    * @param {Number} nodeId The node in the graph
    *  
    */
-  findTilesForNode(nodeId){
+  findTilesForNode(nodeId) {
     return this.tiles.tiles
-                           .reduce((a,b)=>a.concat(b)) // flatten
-                           .filter((t)=>t.n === nodeId);
+      .reduce((a, b) => a.concat(b)) // flatten
+      .filter((t) => t.n === nodeId);
   }
 
   /**
@@ -110,7 +111,7 @@ const moveNav = {
    * @param {Location} locA Location of tile to swap
    * @param {Location} locB Location of other tile to swap
    */
-  swapLetters(locA, locB){
+  swapLetters(locA, locB) {
     let tileA = this.tiles.tiles[locA.row][locA.col];
     let tileB = this.tiles.tiles[locB.row][locB.col];
     const letterA = tileA.l;
@@ -124,19 +125,19 @@ const moveNav = {
    * Move the current tile along a path on the tree
    * @param {String} direction one of 'L' 'R' 'U' 'D' (Left, Right, Up, Down)
    */
-  go(direction){
+  go(direction) {
     const currNodeId = this.currTile.n;
     let nextNodeId;
-    if(direction === 'L' || direction === 'R'){
-      nextNodeId= this.tree.graph[currNodeId][moveNav[direction]];
+    if (direction === 'L' || direction === 'R') {
+      nextNodeId = this.tree.graph[currNodeId][moveNav[direction]];
     }
-    else if(direction === 'U'){
+    else if (direction === 'U') {
       nextNodeId = this.tree.parentOf(currNodeId);
     }
     const nextTerminalTileArr = this.tiles.asFlatArray()
-                                       .filter((t)=>t.n === nextNodeId && (t.p === 'T' || t.p === 'A'));
+      .filter((t) => t.n === nextNodeId && (t.p === 'T' || t.p === 'A'));
 
-    if(nextTerminalTileArr.length > 0){
+    if (nextTerminalTileArr.length > 0) {
       this.currTile = nextTerminalTileArr[0];
     }
     return nextNodeId;
@@ -146,14 +147,14 @@ const moveNav = {
    * Branch a leaf into two leafs, being careful not to cover up other nodes on the board.
    * @param {Tile} tile 
    */
-  branchOut(tile){
+  branchOut(tile) {
     const nodeId = tile.n;
     const newLeaves = this.tree.branchOut(nodeId);
     let leafTiles = [
-      this.tiles.createEmptyTile({row: tile.row, col: tile.col-1}),
-      this.tiles.createEmptyTile({row: tile.row+1, col: tile.col-1}),
-      this.tiles.createEmptyTile({row: tile.row, col: tile.col+1}),
-      this.tiles.createEmptyTile({row: tile.row+1, col: tile.col+1})
+      this.tiles.createEmptyTile({ row: tile.row, col: tile.col - 1 }),
+      this.tiles.createEmptyTile({ row: tile.row + 1, col: tile.col - 1 }),
+      this.tiles.createEmptyTile({ row: tile.row, col: tile.col + 1 }),
+      this.tiles.createEmptyTile({ row: tile.row + 1, col: tile.col + 1 })
     ];
     leafTiles[0].p = 'L';
     leafTiles[1].p = 'A';
@@ -165,21 +166,21 @@ const moveNav = {
     let conflicts = [];
 
     // check dimensions of board
-    leafTiles.forEach(function(t){
-      if(t.row >= this.tiles.dim.rows){
+    leafTiles.forEach(function (t) {
+      if (t.row >= this.tiles.dim.rows) {
         this.tiles.expandGrid('D');
       }
-      if(t.col >= this.tiles.dim.cols){
+      if (t.col >= this.tiles.dim.cols) {
         this.tiles.expandGrid('R');
       }
-      if(t.col<0){
+      if (t.col < 0) {
         this.tiles.expandGrid('L');
         // move new tiles over
-        leafTiles.forEach((tt)=>tt.col++);
+        leafTiles.forEach((tt) => tt.col++);
       }
     }, this);
 
-    if(newLeaves.length > 0){
+    if (newLeaves.length > 0) {
       tile.p = 'T';
       tile.l = ''; // remove l from old alpha node, which is now a T node
       leafTiles[0].n = newLeaves[0]; // These tiles belong to one new node
@@ -196,9 +197,9 @@ const moveNav = {
       //   this.resolveTileConflicts(conflicts);
       //   conflicts = this.tiles.detectConflicts(leafTiles);
       // }
-      if(conflicts.length === 0){
+      if (conflicts.length === 0) {
         // insert into tiles
-        leafTiles.forEach(function(leaf){
+        leafTiles.forEach(function (leaf) {
           const r = leaf.row;
           const c = leaf.col;
           this.tiles.tiles[r][c] = leaf;
@@ -246,32 +247,32 @@ const moveNav = {
    * @param {Number} nodeId The index of the leaf (in the graph)
    * @returns {Array} an array of Tiles that are associated with the path
    */
-  branchTiles(nodeId){
+  branchTiles(nodeId) {
     const branch = this.tree.branchOf(nodeId);
     return this.tiles.asFlatArray()
-                     .map((t)=>t.n)
-                     .filter((n)=>branch.includes(n));
+      .map((t) => t.n)
+      .filter((n) => branch.includes(n));
   }
 
-  toJSON(){
+  toJSON() {
     return {
       "graph": this.tree.graph,
       "tiles": this.tiles.tiles
     };
   }
 
-  setLetter(nodeId, letter){
+  setLetter(nodeId, letter) {
     // find Alpha node with this nodeId
-    const letterTileArr = this.tiles.asFlatArray().filter((t)=> t.n===nodeId && t.p === 'A');
-    if(letterTileArr.length>0){
+    const letterTileArr = this.tiles.asFlatArray().filter((t) => t.n === nodeId && t.p === 'A');
+    if (letterTileArr.length > 0) {
       letterTileArr[0].l = letter;
     }
   }
 
-  setLetterInFirstEmptyLeaf(letter){
+  setLetterInFirstEmptyLeaf(letter) {
     // find all empty Alpha nodes
-    const letterTileArr = this.tiles.asFlatArray().filter((t)=> (typeof t.l === 'undefined' || t.l === null) && t.p === 'A');
-    if(letterTileArr.length>0){
+    const letterTileArr = this.tiles.asFlatArray().filter((t) => (typeof t.l === 'undefined' || t.l === null) && t.p === 'A');
+    if (letterTileArr.length > 0) {
       // pick first one.
       letterTileArr[0].l = letter;
       return letterTileArr[0];
@@ -283,12 +284,12 @@ const moveNav = {
    * @param {string} letter 
    * @returns {boolean} false if the tree already does not have the letter in it.
    */
-  hasLetter(letter){
-    const letterTileArr = this.tiles.asFlatArray().filter((t)=> t.l === letter && t.p === 'A');
-    if(letterTileArr.length>0){
+  hasLetter(letter) {
+    const letterTileArr = this.tiles.asFlatArray().filter((t) => t.l === letter && t.p === 'A');
+    if (letterTileArr.length > 0) {
       return letterTileArr[0].n;
     }
-    else{
+    else {
       return false;
     }
   }
@@ -298,27 +299,27 @@ const moveNav = {
    * @param {String} message A message to encode
    * @param {Array} encodedMessage An array where each letters has been mapped to its encoding based on the path of the leaf in the tree.
    */
-  encodeMessage(message){
+  encodeMessage(message) {
     // find all letter tiles
-    const letterTiles = this.tiles.asFlatArray().filter((t)=>t.p==='A' && t.l);
+    const letterTiles = this.tiles.asFlatArray().filter((t) => t.p === 'A' && t.l);
     // create a map of letters to path/encodings
     const letterMapArr = letterTiles.map((t) => [t.l, this.tree.encodingOf(t.n)]);
     const letterMap = new Map(letterMapArr);
     // convert each letter to its encoding
-    return message.map((letter)=>letterMap.get(letter));
+    return message.map((letter) => letterMap.get(letter));
   }
 
-  decodeMessage(code){
+  decodeMessage(code) {
     let n = 1;
     let message = [];
     //let i = 0;
-    for(let i = 0; i<code.length; i++){
+    for (let i = 0; i < code.length; i++) {
       let idx = code[i] === 'L' ? 0 : 1;
       let nextN = this.tree.graph[n][idx]; // navigate along left or right path
-      if(nextN){
+      if (nextN) {
         n = nextN;
       }
-      if(this.tree.graph[nextN].length === 0){ // leaf
+      if (this.tree.graph[nextN].length === 0) { // leaf
         // get the letter
         const letterTileArr = this.tiles.asFlatArray().filter((t) => t.p === 'A' && t.n === n);
         message.push(letterTileArr[0].l);
@@ -346,7 +347,7 @@ const moveNav = {
    * Copy a tile.
    * @param {Tile} t tile to be coppied
    */
-  duplicateTile(t){
+  duplicateTile(t) {
     return {
       row: t.row,
       col: t.col,
@@ -361,19 +362,19 @@ const moveNav = {
    * It copies all the tiles, ready to be send to the render function.
    * It also adds the path, and current node information to the tiles.
    */
-  tilesToRender(){
+  tilesToRender() {
     const tiles = [] // # this.tiles.tiles.slice(); // shallow copy
     let path = [];
-    if(this.currTile.n){
+    if (this.currTile.n) {
       path = this.tree.pathToRoot(this.currTile.n);
     }
-    for(let row=0; row<this.tiles.dim.rows; row++){
+    for (let row = 0; row < this.tiles.dim.rows; row++) {
       tiles[row] = [];
-      for(let col=0; col<this.tiles.dim.cols; col++){
+      for (let col = 0; col < this.tiles.dim.cols; col++) {
         tiles[row][col] = this.duplicateTile(this.tiles.tiles[row][col]);
         tiles[row][col].isCurrTile = false;
         tiles[row][col].isInPath = false;
-        if(path.includes(tiles[row][col].n)){
+        if (path.includes(tiles[row][col].n)) {
           // if there is a path, we will indicate that for the render function to highlight.
           tiles[row][col].isInPath = true;
         }
@@ -386,4 +387,5 @@ const moveNav = {
 
 }
 
-module.exports = LetterTree;
+export default LetterTree;
+//module.exports = LetterTree;
