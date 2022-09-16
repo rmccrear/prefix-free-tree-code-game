@@ -2,43 +2,29 @@
   "name": "bin-tree-tiles",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "scripts": {
+    "start": "http-server",
     "test": "mocha test",
-    "parcel-serve-writer": "parcel serve ./writer.html",
-    "parcel-serve-decoder": "parcel serve ./decode.html",
-    "parcel-build": "parcel build ./writer.html ./decode.html",
-    "cmd-message": "node ./index.js -w",
-    "cmd-tree-builder": "node ./index.js",
-    "build:js": "browserify app/write-message.js -o build/app/js/write-message.js && browserify app/decode-message.js -o build/app/js/decode-message.js",
-    "sass": "sass app/scss/main.scss app/css/main.css",
-    "build:css": "npm run sass && cp app/css/*.css build/app/css/ && cp app/css/icons/* build/app/css/icons",
-    "build:html:decode": "sed 's_build/decode-message.js_app/js/decode-message.js_' decode.html > build/decode.html",
-    "build:html:writer": "sed 's_build/write-message.js_app/js/write-message.js_'   writer.html > build/writer.html",
-    "build:html": "npm run build:html:decode && npm run build:html:writer",
-    "cp-media": "cp app/media/sounds/* build/app/media/sounds",
-    "cp-vendor": "cp vendor/SoundJS/lib/soundjs-0.6.2.min.js build/vendor/SoundJS/lib/ && cp vendor/animate.css/animate.min.css build/vendor/animate.css/ && cp vendor/normalize.css build/vendor/ && cp vendor/modernizr-custom.js build/vendor/  && cp vendor/array-polyfill.js build/vendor/",
-    "cp-all": "npm run cp-media && npm run cp-vendor",
-    "build": "npm run cp-all && npm run build:html && npm run build:js && npm run build:css"
+    "cmd-message": "node ./index.js -w ./data/tree-scaffold-13x25.json",
+    "cmd-tree-builder": "node ./index.js -c ./data/tree-command-13x25.json",
+    "sass": "sass app/scss/main.scss app/css/main.css"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "baconjs": "^0.7.89",
-    "commander": "^7.2.0",
-    "hammerjs": "^2.0.8",
-    "jquery": "^3.1.0",
+    "chalk": "^5.2.0",
+    "commander": "^9.4.1",
     "jsonfile": "^6.1.0",
-    "lodash": "^4.14.1",
-    "readline-sync": "^1.4.4"
+    "readline-sync": "^1.4.10"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.14.7",
-    "babelify": "^7.3.0",
-    "browserify": "^13.1.0",
-    "chai": "^4.3.4",
-    "eslint": "^7.30.0",
-    "mocha": "^9.0.2",
-    "parcel": "^2.0.0-beta.3.1",
-    "prettier": "2.3.2"
+    "chai": "^4.3.7",
+    "eslint": "^8.29.0",
+    "http-server": "^14.1.1",
+    "lodash": "^4.17.21",
+    "mocha": "^10.2.0",
+    "prettier": "^2.8.1",
+    "sass": "^1.56.2"
   }
 }

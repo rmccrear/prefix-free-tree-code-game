@@ -1,15 +1,15 @@
 "use strict";
 
 class BinaryTree {
-  constructor(input){
+  constructor(input) {
     this.graph = input.graph;
     //this.leafData = input.leafData;
     this.root = 1;
   }
-  
-  branchOut(leafNode){
-    if(this.isLeaf(leafNode)){
-      const nextIds = [this.graph.length, this.graph.length+1];
+
+  branchOut(leafNode) {
+    if (this.isLeaf(leafNode)) {
+      const nextIds = [this.graph.length, this.graph.length + 1];
       this.graph[leafNode] = nextIds;
       // add two leaf nodes to the graph
       this.graph.push([]);
@@ -21,27 +21,27 @@ class BinaryTree {
     }
   }
 
-  isLeaf(node){
+  isLeaf(node) {
     console.log(node);
     return this.graph[node].length === 0;
   }
 
   // get branch starting at node
-  branchOf(node){
+  branchOf(node) {
     let branchNodes = [node]; // initial step
-    for(let i=0; i<this.graph[node].length; i++){
-      branchNodes =  branchNodes.concat(this.branchOf(this.graph[node][i]));
+    for (let i = 0; i < this.graph[node].length; i++) {
+      branchNodes = branchNodes.concat(this.branchOf(this.graph[node][i]));
     }
     return branchNodes;
   }
 
   // get parent of node
-  parentOf(node){
+  parentOf(node) {
     var n;
-    for(var i=0; i<this.graph.length; i++){
+    for (var i = 0; i < this.graph.length; i++) {
       n = this.graph[i];
-      if(n.length>0){
-        if(n.includes(node)){
+      if (n.length > 0) {
+        if (n.includes(node)) {
           return i;
         }
       }
@@ -49,10 +49,10 @@ class BinaryTree {
     return false;
   }
 
-  pathToRoot(node){
+  pathToRoot(node) {
     let n = node;
     let path = [];
-    while(n!==this.root){
+    while (n !== this.root) {
       path.push(n);
       n = this.parentOf(n);
     }
@@ -60,10 +60,10 @@ class BinaryTree {
     return path;
   }
 
-  encodingOf(node){
+  encodingOf(node) {
     let n = node;
     let code = [];
-    while(n && n!==this.root){
+    while (n && n !== this.root) {
       const direction = this.branchDirectionOf(n);
       code.push(direction);
       n = this.parentOf(n);
@@ -72,7 +72,7 @@ class BinaryTree {
     return code;
   }
 
-  commonAncestorOf(node1, node2){
+  commonAncestorOf(node1, node2) {
     let path1 = this.pathToRoot(node1);
     let path2 = this.pathToRoot(node2);
 
@@ -80,7 +80,7 @@ class BinaryTree {
     let n1 = path1.pop();
     let n2 = path2.pop();
 
-    while(n1!==undefined && n2!==undefined && n1 === n2){
+    while (n1 !== undefined && n2 !== undefined && n1 === n2) {
       commonAncestor = n1; // === n2
       n1 = path1.pop();    // if no more in stack, its undefined
       n2 = path2.pop();
@@ -88,18 +88,19 @@ class BinaryTree {
     return commonAncestor;
   }
 
-  branchDirectionOf(node){
+  branchDirectionOf(node) {
     const parent = this.parentOf(node);
-//    console.log("parent: " + parent)
-//    console.log("parent[0]: " + parent[0])
-    if(parent && this.graph[parent][0] === node){
+    //    console.log("parent: " + parent)
+    //    console.log("parent[0]: " + parent[0])
+    if (parent && this.graph[parent][0] === node) {
       return 'L';
     }
-    else if(parent && this.graph[parent][1] === node){
+    else if (parent && this.graph[parent][1] === node) {
       return 'R';
     }
   }
 
 }
 
-module.exports = BinaryTree;
+// module.exports = BinaryTree;
+export default BinaryTree;

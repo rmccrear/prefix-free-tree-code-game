@@ -1,17 +1,13 @@
-#!/Users/robertmccreary/.nvm/versions/node/v4.4.7/bin/node --harmony_array_includes
-
 "use strict";
 
-// const BinaryTree = require('./binary-tree.js');
-// const Tiles = require('./tiles.js');
-const LetterTree = require('./letter-tree.js');
-const TileTextRenderer = require('./tile-text-renderer.js');
-const TreeBuilder = require('./tree-builder.js');
-var program = require('commander');
-var jf = require('jsonfile');
-// var prompt = require('prompt');
-var readline = require('readline-sync');
-// var chalk = require('chalk');
+import { program } from 'commander';
+
+import readline from 'readline-sync';
+import jf from 'jsonfile';
+
+import LetterTree from './letter-tree.js';
+import TileTextRenderer from './tile-text-renderer.js';
+import TreeBuilder from './tree-builder.js';
 
 let board;
 let moveRecord;
@@ -23,8 +19,6 @@ program
   .action(function(file) {
       let json;
       json = jf.readFileSync(file);
-      // var tree = new Tree(board)
-      // let tiles = new Tiles(board);
       board = new LetterTree(json);
       treeBuilder = new TreeBuilder(board, json.treeBuilder);
       moveRecord = json.moveRecord;
@@ -87,7 +81,7 @@ function navigationCommand (board, command){
         board.go('U');
       }
       else if(response === response.toLowerCase() && currTile.p === 'A'){
-        // add a character to the 
+        // add a character to the tile
         currTile.l = response;
       }
 }
@@ -115,12 +109,12 @@ function encodeMessage(board, message){
 }
 
 
-if (program.write){
+if (program.opts().write){
   let running = true;
   let count = 1;
   let message = []
   while(running){
-    const response = readline.keyIn('MESSAGE: ' + message.join('') + '\n#' +  count + ' currently at: row: ' + board.currTile.row + ', col: ' + board.currTile.col + `(${board.getCurrTile().p})` +' >>>>>>>>>>>> Type message >>>>>>>>>>>>>>>>>>');
+    const response = readline.keyIn('MESSAGE: ' + message.join('') + '\n#' +  count + ' currently at: row: ' + board.currTile.row + ', col: ' + board.currTile.col + `(${board.getCurrTile().p})` +' >>>>>>>>>>>> Type message (\'Q\' to exit)>>>>>>>>>>>>>>');
     message.push(response);
     let currTile ;
       // const command = moveRecord.shift();
@@ -138,7 +132,7 @@ if (program.write){
   }
 }
 
-if (program.create) {
+if (program.opts().create) {
   let running = true;
   let count = 1;
   let moveRecord = [];
@@ -147,7 +141,6 @@ if (program.create) {
     console.log(' ');
     const response = readline.keyIn('#' +  count + ' currently at: row: ' + board.getCurrTile.row + ', col: ' + board.getCurrTile.col + `(${board.getCurrTile().p})` +' >>>>>>>>>>>> Type L R U D or Q >>>>>>>>>>>>>>>>>>');
     count++;
-    const currTile = board.getCurrTile();
     if(response === 'Q'){
       let output = board.toJSON();
       output.moveRecord = moveRecord;
@@ -156,55 +149,6 @@ if (program.create) {
     }
     else{
       navigationCommand(board, response);
-      // if(['L', 'R', 'D', 'U'].includes(response)){
-      //   console.log('move ' + response);
-        
-      //   const move = nav[response];
-      //   const R = board.currTile.row + move.row;
-      //   const C = board.currTile.col + move.col;
-      //   //
-      //   // only move on tree
-      //   if(R < board.tiles.dim.rows && C < board.tiles.dim.cols  && board.tiles.tiles[R][C].n){
-      //     board.currTile.row = R;
-      //     board.currTile.col = C;
-      //   }
-      //   else if(board.tiles.tiles[board.currTile.row][board.currTile.col].p === 'A' && response==='D'){
-      //     // create a new branch here.
-      //     board.branchOut(board.tiles.tiles[board.currTile.row][board.currTile.col]);
-      //   }
-      //   else{
-      //     console.log('out of bounds ' + board.tiles.tiles[R][C].p)
-      //   }
-
-      // }
-      // else if(response === '>'){
-      //   board.tiles.expandGrid('R');
-      // }
-      // else if(response === '<'){
-      //   board.tiles.expandGrid('L');
-      // }
-      // else if(response === '.'){
-      //   board.tiles.expandGrid('D');
-      // }
-      // else if(response === '}'){
-      //   board.tiles.moveAllTiles('R');
-      // }
-      // else if(response === '{'){
-      //   board.tiles.moveAllTiles('L');
-      // }
-      // else if(response === '['){
-      //   board.go('L');
-      // }
-      // else if(response === ']'){
-      //   board.go('R');
-      // }
-      // else if(response === '='){
-      //   board.go('U');
-      // }
-      // else if(response === response.toLowerCase() && currTile.p === 'A'){
-      //   // add a character to the 
-      //   currTile.l = response;
-      // }
       moveRecord.push(response);
       TileTextRenderer.print(board);
     }

@@ -1,11 +1,12 @@
-
 "use strict";
 
-var Tiles = require('../tiles.js');
+import _ from 'lodash';
 
-var jf = require('jsonfile');
-var assert = require('chai').assert;
-var equal = assert.equal;
+import Tiles from '../tiles.js';
+import { assert } from 'chai';
+
+import tilesInput from './data/tiles-1.js';
+import treeFile3 from './data/tree-3.js';
 
 const containsTile = function(tilesInBranch, tileLoc){
   return tilesInBranch.map((t)=>t.col===tileLoc.col&&t.row===tileLoc.row).includes(true);
@@ -13,9 +14,7 @@ const containsTile = function(tilesInBranch, tileLoc){
 
 describe('Tiles', function() {
   it('should initialize', function(){
-    const file = './test/data/tiles-1.json'
-    let tilesInput = jf.readFileSync(file);
-    let tiles1 = new Tiles({tiles: tilesInput.tiles1});
+    let tiles1 = new Tiles({tiles: _.cloneDeep(tilesInput.tiles1)});
     assert.equal(tiles1.tiles.length, 8, 'there should be 8 rows in tiles1');
   });
   // "tiles1": [[{"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}],
@@ -27,9 +26,7 @@ describe('Tiles', function() {
   //            [{"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}],
   //            [{"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}]],
   it('should move tiles to the right', function(){
-    const file = './test/data/tiles-1.json'
-    let tilesInput = jf.readFileSync(file);
-    let tiles1 = new Tiles({tiles: tilesInput.tiles1});
+    let tiles1 = new Tiles({tiles: _.cloneDeep(tilesInput.tiles1)});
     const tilesToMove = tiles1.tiles
                                     .reduce((a,b)=>a.concat(b)) // flatten
                                     .filter((t)=>t.p==='L');    // take only L
@@ -62,9 +59,7 @@ describe('Tiles', function() {
   // rightBorder = [0,4], [1,4], [2,4], [3,3], [4, 3]
   // downBorder  = [3, 0], [4, 1], [3, 2], [4, 3], [2, 4]
   it('should find the right or lower edge of a set of tiles', function(){
-    const file = './test/data/tiles-1.json'
-    let tilesInput = jf.readFileSync(file);
-    let tiles2 = new Tiles({tiles: tilesInput.tiles2});
+    let tiles2 = new Tiles({tiles: _.cloneDeep(tilesInput.tiles2)});
     const tilesToMove = tiles2.tiles
                                     .reduce((a,b)=>a.concat(b)) // flatten
                                     .filter((t)=>t.p==='L');    // take only L
@@ -86,9 +81,7 @@ describe('Tiles', function() {
     });
   });
   it('should find conflicting nodes on the right edge e.g. before a right move', function(){
-    const file = './test/data/tiles-1.json'
-    let tilesInput = jf.readFileSync(file);
-    let tiles2 = new Tiles({tiles: tilesInput.tiles2});
+    let tiles2 = new Tiles({tiles: _.cloneDeep(tilesInput.tiles2)});
     const tilesToMove = tiles2.tiles
                                     .reduce((a,b)=>a.concat(b)) // flatten
                                     .filter((t)=>t.p==='L');    // take only L
@@ -116,9 +109,7 @@ describe('Tiles', function() {
   });
 
   it('should detect if the tile will overflow out of bounds e.g. before a right move', function(){
-    const file = './test/data/tiles-1.json'
-    let tilesInput = jf.readFileSync(file);
-    let tiles3 = new Tiles({tiles: tilesInput.tiles3});
+    let tiles3 = new Tiles({tiles: _.cloneDeep(tilesInput.tiles3)});
     const tilesToMove = tiles3.tiles
                                     .reduce((a,b)=>a.concat(b)) // flatten
                                     .filter((t)=>t.p==='L');    // take only L
@@ -127,9 +118,7 @@ describe('Tiles', function() {
   });
 
   it('tests a few different actions together', function(){
-    const file = './test/data/tiles-1.json'
-    let tilesInput = jf.readFileSync(file);
-    let tiles4 = new Tiles({tiles: tilesInput.tiles4});
+    let tiles4 = new Tiles({tiles: _.cloneDeep(tilesInput.tiles4)});
     const tilesToMove = tiles4.tiles
                                     .reduce((a,b)=>a.concat(b)) // flatten
                                     .filter((t)=>t.p==='L');    // take only L
@@ -146,11 +135,8 @@ describe('Tiles', function() {
     let tiles4;
     let treeTiles3;
     beforeEach(function(){
-      const file = './test/data/tiles-1.json'
-      let tilesInput = jf.readFileSync(file);
-      tiles4 = new Tiles({tiles: tilesInput.tiles4});
-      const treeFile3 = './test/data/tree-3.json'
-      let input3 = jf.readFileSync(treeFile3);
+      tiles4 = new Tiles({tiles: _.cloneDeep(tilesInput.tiles4)});
+      let input3 = _.cloneDeep(treeFile3);
       treeTiles3 = new Tiles(input3);
     });
     it('should expand the grid right', function(){
