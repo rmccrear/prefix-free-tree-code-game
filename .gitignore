@@ -1,7 +1,5 @@
 node_modules/
-vendor/
 build/
 dist/
 .sass-cache/
-.parcel-cache/
 *.css.map
