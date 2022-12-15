@@ -15,8 +15,7 @@ class BinaryTree {
       this.graph.push([]);
       this.graph.push([]);
       return nextIds;
-    }
-    else {
+    } else {
       return [];
     }
   }
@@ -82,7 +81,7 @@ class BinaryTree {
 
     while (n1 !== undefined && n2 !== undefined && n1 === n2) {
       commonAncestor = n1; // === n2
-      n1 = path1.pop();    // if no more in stack, its undefined
+      n1 = path1.pop(); // if no more in stack, its undefined
       n2 = path2.pop();
     }
     return commonAncestor;
@@ -93,13 +92,11 @@ class BinaryTree {
     //    console.log("parent: " + parent)
     //    console.log("parent[0]: " + parent[0])
     if (parent && this.graph[parent][0] === node) {
-      return 'L';
-    }
-    else if (parent && this.graph[parent][1] === node) {
-      return 'R';
+      return "L";
+    } else if (parent && this.graph[parent][1] === node) {
+      return "R";
     }
   }
-
 }
 
 // module.exports = BinaryTree;

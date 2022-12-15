@@ -1,0 +1,4 @@
+data/*.json
+data/*.js
+test/data/*.js
+test/data/*.json

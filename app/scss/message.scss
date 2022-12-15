@@ -1,15 +1,13 @@
-
 /* writer css */
 
-.share-a{
+.share-a {
   /*elflord green*/
   color: #60ff60;
 }
-.share-a:visited{
+.share-a:visited {
   /*elflord green*/
   color: #60ff60;
 }
-
 
 /* decoder css */
 
@@ -20,13 +18,13 @@
   /* color: red; */
 
   /*rust color*/
-  /*color: #cf4648;*/ 
+  /*color: #cf4648;*/
 
   /*dark green*/
   /* color: #346524;*/
 
   /*light green*/
-  /* color: #6daa2b; */ 
+  /* color: #6daa2b; */
   /*elflord green*/
   color: #60ff60;
 }
@@ -37,7 +35,7 @@
   display: inline-block;
   /*elflord green*/
   color: #60ff60;
-  content: '|';
+  content: "|";
   text-decoration: blink;
   animation: blink-animation 1s steps(5, start) infinite;
   -webkit-animation: blink-animation 1s steps(5, start) infinite;
@@ -92,10 +90,10 @@
   background-color: black;
   color: white;
 }
-#encoded-message{
+#encoded-message {
   padding: 1em;
 }
-#decoded-message{
+#decoded-message {
   padding: 1em;
 }
 
@@ -103,7 +101,7 @@
   padding: 1em;
   color: magenta;
 }
-.decoded-message-label{
+.decoded-message-label {
   padding: 1em;
   color: magenta;
 }

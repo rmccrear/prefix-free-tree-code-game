@@ -1,129 +1,138 @@
 "use strict";
 
-import { program } from 'commander';
+import { program } from "commander";
 
-import readline from 'readline-sync';
-import jf from 'jsonfile';
+import readline from "readline-sync";
+import jf from "jsonfile";
 
-import LetterTree from './letter-tree.js';
-import TileTextRenderer from './tile-text-renderer.js';
-import TreeBuilder from './tree-builder.js';
+import LetterTree from "./letter-tree.js";
+import TileTextRenderer from "./tile-text-renderer.js";
+import TreeBuilder from "./tree-builder.js";
 
 let board;
 let moveRecord;
 let treeBuilder;
 program
-  .arguments('<file>')
-  .option('-c, --create', 'Create tree')
-  .option('-w, --write', 'Write a message')
-  .action(function(file) {
-      let json;
-      json = jf.readFileSync(file);
-      board = new LetterTree(json);
-      treeBuilder = new TreeBuilder(board, json.treeBuilder);
-      moveRecord = json.moveRecord;
-      TileTextRenderer.print(board);
+  .arguments("<file>")
+  .option("-c, --create", "Create tree")
+  .option("-w, --write", "Write a message")
+  .action(function (file) {
+    let json;
+    json = jf.readFileSync(file);
+    board = new LetterTree(json);
+    treeBuilder = new TreeBuilder(board, json.treeBuilder);
+    moveRecord = json.moveRecord;
+    TileTextRenderer.print(board);
   })
   .parse(process.argv);
 
 const nav = {
-  'L': {row: 0,  col: -1},
-  'R': {row: 0,  col:  1},
-  'U': {row: -1, col:  0},
-  'D': {row: 1,  col:  0}
+  L: { row: 0, col: -1 },
+  R: { row: 0, col: 1 },
+  U: { row: -1, col: 0 },
+  D: { row: 1, col: 0 },
 };
 
-function navigationCommand (board, command){
+function navigationCommand(board, command) {
   const response = command;
   let currTile = board.tiles.tiles[board.currTile.row][board.currTile.col];
-      if(['L', 'R', 'D', 'U'].includes(response)){
-        
-        const move = nav[response];
-        const R = board.currTile.row + move.row;
-        const C = board.currTile.col + move.col;
-        //
-        // only move on tree
-        if(R < board.tiles.dim.rows && C < board.tiles.dim.cols  && board.tiles.tiles[R][C].n){
-          board.currTile.row = R;
-          board.currTile.col = C;
-        }
-        else if(board.tiles.tiles[board.currTile.row][board.currTile.col].p === 'A' && response==='D'){
-          // create a new branch here.
-          board.branchOut(board.tiles.tiles[board.currTile.row][board.currTile.col]);
-        }
-        else{
-          console.log('out of bounds ' + board.tiles.tiles[R][C].p);
-        }
-
-      }
-      else if(response === '>'){
-        board.tiles.expandGrid('R');
-      }
-      else if(response === '<'){
-        board.tiles.expandGrid('L');
-      }
-      else if(response === '.'){
-        board.tiles.expandGrid('D');
-      }
-      else if(response === '}'){
-        board.tiles.moveAllTiles('R');
-      }
-      else if(response === '{'){
-        board.tiles.moveAllTiles('L');
-      }
-      else if(response === '['){
-        board.go('L');
-      }
-      else if(response === ']'){
-        board.go('R');
-      }
-      else if(response === '='){
-        board.go('U');
-      }
-      else if(response === response.toLowerCase() && currTile.p === 'A'){
-        // add a character to the tile
-        currTile.l = response;
-      }
+  if (["L", "R", "D", "U"].includes(response)) {
+    const move = nav[response];
+    const R = board.currTile.row + move.row;
+    const C = board.currTile.col + move.col;
+    //
+    // only move on tree
+    if (
+      R < board.tiles.dim.rows &&
+      C < board.tiles.dim.cols &&
+      board.tiles.tiles[R][C].n
+    ) {
+      board.currTile.row = R;
+      board.currTile.col = C;
+    } else if (
+      board.tiles.tiles[board.currTile.row][board.currTile.col].p === "A" &&
+      response === "D"
+    ) {
+      // create a new branch here.
+      board.branchOut(
+        board.tiles.tiles[board.currTile.row][board.currTile.col]
+      );
+    } else {
+      console.log("out of bounds " + board.tiles.tiles[R][C].p);
+    }
+  } else if (response === ">") {
+    board.tiles.expandGrid("R");
+  } else if (response === "<") {
+    board.tiles.expandGrid("L");
+  } else if (response === ".") {
+    board.tiles.expandGrid("D");
+  } else if (response === "}") {
+    board.tiles.moveAllTiles("R");
+  } else if (response === "{") {
+    board.tiles.moveAllTiles("L");
+  } else if (response === "[") {
+    board.go("L");
+  } else if (response === "]") {
+    board.go("R");
+  } else if (response === "=") {
+    board.go("U");
+  } else if (response === response.toLowerCase() && currTile.p === "A") {
+    // add a character to the tile
+    currTile.l = response;
+  }
 }
 
 // if the node has a child that is a leaf, return it
-function getChildLeafNodesOf(board, node){
+function getChildLeafNodesOf(board, node) {
   const children = board.tree.graph[node];
   let childLeaves = [];
   const leftNodesChildren = board.tree.graph[children[0]];
   const rightNodesChildren = board.tree.graph[children[1]];
-  if(leftNodesChildren.length === 0){
+  if (leftNodesChildren.length === 0) {
     childLeaves.push(children[0]);
   }
-  if(rightNodesChildren.length === 0){
+  if (rightNodesChildren.length === 0) {
     childLeaves.push(children[1]);
   }
   return childLeaves;
 }
 
-function encodeMessage(board, message){
-  const letterTiles = board.tiles.asFlatArray((t)=>t.p==='A' && t.l);
-  const letterMapArr = letterTiles.map((t) => [t.l, board.tree.encodingOf(t.n)]);
+function encodeMessage(board, message) {
+  const letterTiles = board.tiles.asFlatArray((t) => t.p === "A" && t.l);
+  const letterMapArr = letterTiles.map((t) => [
+    t.l,
+    board.tree.encodingOf(t.n),
+  ]);
   const letterMap = new Map(letterMapArr);
-  return message.map((letter)=>letterMap.get(letter).join('')).join(' ');
+  return message.map((letter) => letterMap.get(letter).join("")).join(" ");
 }
 
-
-if (program.opts().write){
+if (program.opts().write) {
   let running = true;
   let count = 1;
-  let message = []
-  while(running){
-    const response = readline.keyIn('MESSAGE: ' + message.join('') + '\n#' +  count + ' currently at: row: ' + board.currTile.row + ', col: ' + board.currTile.col + `(${board.getCurrTile().p})` +' >>>>>>>>>>>> Type message (\'Q\' to exit)>>>>>>>>>>>>>>');
+  let message = [];
+  while (running) {
+    const response = readline.keyIn(
+      "MESSAGE: " +
+        message.join("") +
+        "\n#" +
+        count +
+        " currently at: row: " +
+        board.currTile.row +
+        ", col: " +
+        board.currTile.col +
+        `(${board.getCurrTile().p})` +
+        " >>>>>>>>>>>> Type message ('Q' to exit)>>>>>>>>>>>>>>"
+    );
     message.push(response);
-    let currTile ;
-      // const command = moveRecord.shift();
+    let currTile;
+    // const command = moveRecord.shift();
 
-    if(response === 'Q'){
+    if (response === "Q") {
       running = false;
     }
-      currTile = board.getCurrTile();
-      // now insert letter
+    currTile = board.getCurrTile();
+    // now insert letter
     // treeBuilder.nextBuildOut();
     //board.setLetterInFirstEmptyLeaf(response);
     treeBuilder.insertLetter(response);
@@ -136,18 +145,26 @@ if (program.opts().create) {
   let running = true;
   let count = 1;
   let moveRecord = [];
-  while(running){
+  while (running) {
     // const response = readline.question('>>');
-    console.log(' ');
-    const response = readline.keyIn('#' +  count + ' currently at: row: ' + board.getCurrTile.row + ', col: ' + board.getCurrTile.col + `(${board.getCurrTile().p})` +' >>>>>>>>>>>> Type L R U D or Q >>>>>>>>>>>>>>>>>>');
+    console.log(" ");
+    const response = readline.keyIn(
+      "#" +
+        count +
+        " currently at: row: " +
+        board.getCurrTile.row +
+        ", col: " +
+        board.getCurrTile.col +
+        `(${board.getCurrTile().p})` +
+        " >>>>>>>>>>>> Type L R U D or Q >>>>>>>>>>>>>>>>>>"
+    );
     count++;
-    if(response === 'Q'){
+    if (response === "Q") {
       let output = board.toJSON();
       output.moveRecord = moveRecord;
       console.log(JSON.stringify(output));
       running = false;
-    }
-    else{
+    } else {
       navigationCommand(board, response);
       moveRecord.push(response);
       TileTextRenderer.print(board);
