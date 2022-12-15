@@ -25,24 +25,24 @@ class TreeBuilder {
    * "D": Create new leafs if current node is a leaf
    * {"command": "goto", "col": x, "row": y} set current tile to col, row
    * {"command": "offsetBy", "col": x, "row": y}  offsetBy accumulates a given ammount to the rows, cols when building commands
-   *                                             It allows you to continue building a tree infintely by looking through the commands. 
-   *                                             The last command can be offsetBy, be sure to set the offset 
+   *                                             It allows you to continue building a tree infintely by looking through the commands.
+   *                                             The last command can be offsetBy, be sure to set the offset
    *                                             such that the commands start from a node in the board.
    * @param {Object} board LetterTree instance
    * @param {Array} commands
    */
   constructor(board, commands) {
-    this.board = board;                 // the board we wish to control
-    this.commands = commands;           // the array of comands to execute, in order
+    this.board = board; // the board we wish to control
+    this.commands = commands; // the array of comands to execute, in order
     //this.count = 0;
-    this.offsets = { row: 0, col: 0 };     // the offset starts at (0,0). As your tree grows, the offset can increase and 
-    this.currIndex = 0;                  // position in the command array
+    this.offsets = { row: 0, col: 0 }; // the offset starts at (0,0). As your tree grows, the offset can increase and
+    this.currIndex = 0; // position in the command array
     this.lastNode = board.getCurrTile(); //current tile
   }
 
   /**
    * Put letter into next empty leaf, or branch a new leaf for the letter.
-   * 
+   *
    * @param {String} letter The letter to add
    */
   insertLetter(letter) {
@@ -51,7 +51,7 @@ class TreeBuilder {
     this.board.setCurrNodeTile(this.lastNode);
     if (this.board.hasLetter(letter) === false) {
       letterTile = this.board.setLetterInFirstEmptyLeaf(letter);
-      if (typeof letterTile === 'undefined') {
+      if (typeof letterTile === "undefined") {
         this.nextBuildOut();
         letterTile = this.board.setLetterInFirstEmptyLeaf(letter);
       }
@@ -78,15 +78,13 @@ class TreeBuilder {
    * execute commands until a new leaf is formed
    */
   nextBuildOut() {
-    let next = '';
-    while (next !== 'D') {
+    let next = "";
+    while (next !== "D") {
       next = this.nextCommand();
-      if (typeof next.command === 'undefined') {
-        this.commandTree(next)
-      }
-      else if (next.command === 'goto') {
-        const t =
-          this.board.tiles.tiles[next.pos.row][next.pos.col];
+      if (typeof next.command === "undefined") {
+        this.commandTree(next);
+      } else if (next.command === "goto") {
+        const t = this.board.tiles.tiles[next.pos.row][next.pos.col];
         this.board.setCurrNodeTile(t);
       }
     }
@@ -99,16 +97,16 @@ class TreeBuilder {
    */
   commandTree(command) {
     const next = command;
-    if (next === ']' || next === '[') {
-      if (next === '[') {
-        this.board.go('L');
+    if (next === "]" || next === "[") {
+      if (next === "[") {
+        this.board.go("L");
+      } else if (next === "]") {
+        this.board.go("R");
       }
-      else if (next === ']') {
-        this.board.go('R');
-      }
-    }
-    else if (next === 'D') {
-      this.board.branchOut(this.board.tiles.tiles[this.board.currTile.row][this.board.currTile.col]);
+    } else if (next === "D") {
+      this.board.branchOut(
+        this.board.tiles.tiles[this.board.currTile.row][this.board.currTile.col]
+      );
     }
   }
 
@@ -130,25 +128,24 @@ class TreeBuilder {
   nextCommand() {
     let next = this.nextInCommandArray();
 
-    while (next.command === 'offsetBy') {
+    while (next.command === "offsetBy") {
       this.offsets.row += next.offset.row;
       this.offsets.col += next.offset.col;
       next = this.nextInCommandArray();
     }
 
-    if (next.command === 'goto') {
+    if (next.command === "goto") {
       return {
-        command: 'goto',
+        command: "goto",
         pos: {
           row: next.pos.row + this.offsets.row,
-          col: next.pos.col + this.offsets.col
-        }
+          col: next.pos.col + this.offsets.col,
+        },
       };
     } else {
       return next;
     }
   }
-
 }
 
 export default TreeBuilder;

@@ -1,21 +1,23 @@
 "use strict";
 
-import _ from 'lodash';
+import _ from "lodash";
 
-import Tiles from '../tiles.js';
-import { assert } from 'chai';
+import Tiles from "../tiles.js";
+import { assert } from "chai";
 
-import tilesInput from './data/tiles-1.js';
-import treeFile3 from './data/tree-3.js';
+import tilesInput from "./data/tiles-1.js";
+import treeFile3 from "./data/tree-3.js";
 
-const containsTile = function(tilesInBranch, tileLoc){
-  return tilesInBranch.map((t)=>t.col===tileLoc.col&&t.row===tileLoc.row).includes(true);
+const containsTile = function (tilesInBranch, tileLoc) {
+  return tilesInBranch
+    .map((t) => t.col === tileLoc.col && t.row === tileLoc.row)
+    .includes(true);
 };
 
-describe('Tiles', function() {
-  it('should initialize', function(){
-    let tiles1 = new Tiles({tiles: _.cloneDeep(tilesInput.tiles1)});
-    assert.equal(tiles1.tiles.length, 8, 'there should be 8 rows in tiles1');
+describe("Tiles", function () {
+  it("should initialize", function () {
+    let tiles1 = new Tiles({ tiles: _.cloneDeep(tilesInput.tiles1) });
+    assert.equal(tiles1.tiles.length, 8, "there should be 8 rows in tiles1");
   });
   // "tiles1": [[{"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}],
   //            [{"p": "E"}, {"p": "L"}, {"p": "L"}, {"p": "L"}, {"p": "L"}, {"p": "E"}],
@@ -25,24 +27,24 @@ describe('Tiles', function() {
   //            [{"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}],
   //            [{"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}],
   //            [{"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}]],
-  it('should move tiles to the right', function(){
-    let tiles1 = new Tiles({tiles: _.cloneDeep(tilesInput.tiles1)});
+  it("should move tiles to the right", function () {
+    let tiles1 = new Tiles({ tiles: _.cloneDeep(tilesInput.tiles1) });
     const tilesToMove = tiles1.tiles
-                                    .reduce((a,b)=>a.concat(b)) // flatten
-                                    .filter((t)=>t.p==='L');    // take only L
-    tiles1.moveTiles(tilesToMove, 'R');
+      .reduce((a, b) => a.concat(b)) // flatten
+      .filter((t) => t.p === "L"); // take only L
+    tiles1.moveTiles(tilesToMove, "R");
     const expectedTilesAfterMove = [
-             [{"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}],
-             [{"p": "E"}, {"p": "E"}, {"p": "L"}, {"p": "L"}, {"p": "L"}, {"p": "L"}],
-             [{"p": "E"}, {"p": "E"}, {"p": "L"}, {"p": "L"}, {"p": "L"}, {"p": "L"}],
-             [{"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}],
-             [{"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}],
-             [{"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}],
-             [{"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}],
-             [{"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}]
+      [{ p: "E" }, { p: "E" }, { p: "E" }, { p: "E" }, { p: "E" }, { p: "E" }],
+      [{ p: "E" }, { p: "E" }, { p: "L" }, { p: "L" }, { p: "L" }, { p: "L" }],
+      [{ p: "E" }, { p: "E" }, { p: "L" }, { p: "L" }, { p: "L" }, { p: "L" }],
+      [{ p: "E" }, { p: "E" }, { p: "E" }, { p: "E" }, { p: "E" }, { p: "E" }],
+      [{ p: "E" }, { p: "E" }, { p: "E" }, { p: "E" }, { p: "E" }, { p: "E" }],
+      [{ p: "E" }, { p: "E" }, { p: "E" }, { p: "E" }, { p: "E" }, { p: "E" }],
+      [{ p: "E" }, { p: "E" }, { p: "E" }, { p: "E" }, { p: "E" }, { p: "E" }],
+      [{ p: "E" }, { p: "E" }, { p: "E" }, { p: "E" }, { p: "E" }, { p: "E" }],
     ];
-    for(let i=0; i<expectedTilesAfterMove.length; i++){
-      for(let j=0; j<expectedTilesAfterMove[i].length; j++){
+    for (let i = 0; i < expectedTilesAfterMove.length; i++) {
+      for (let j = 0; j < expectedTilesAfterMove[i].length; j++) {
         assert.equal(tiles1.tiles[i][j].p, expectedTilesAfterMove[i][j].p);
       }
     }
@@ -58,108 +60,136 @@ describe('Tiles', function() {
   // 7          [{"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}, {"p": "E"}]],
   // rightBorder = [0,4], [1,4], [2,4], [3,3], [4, 3]
   // downBorder  = [3, 0], [4, 1], [3, 2], [4, 3], [2, 4]
-  it('should find the right or lower edge of a set of tiles', function(){
-    let tiles2 = new Tiles({tiles: _.cloneDeep(tilesInput.tiles2)});
+  it("should find the right or lower edge of a set of tiles", function () {
+    let tiles2 = new Tiles({ tiles: _.cloneDeep(tilesInput.tiles2) });
     const tilesToMove = tiles2.tiles
-                                    .reduce((a,b)=>a.concat(b)) // flatten
-                                    .filter((t)=>t.p==='L');    // take only L
+      .reduce((a, b) => a.concat(b)) // flatten
+      .filter((t) => t.p === "L"); // take only L
     // right edge
-    const expectedRightBorder = [{row: 0, col: 4}, {row: 1, col: 4}, {row: 2, col: 4},
-                                  {row: 3, col: 3}, {row:4, col: 3}];
-    const rightBorder = tiles2.detectBorder(tilesToMove, 'R');
+    const expectedRightBorder = [
+      { row: 0, col: 4 },
+      { row: 1, col: 4 },
+      { row: 2, col: 4 },
+      { row: 3, col: 3 },
+      { row: 4, col: 3 },
+    ];
+    const rightBorder = tiles2.detectBorder(tilesToMove, "R");
     assert.equal(rightBorder.length, expectedRightBorder.length);
-    expectedRightBorder.forEach(function(t){
-      assert(containsTile(rightBorder, t), 'contains tile + ' + t.row + ', ' + t.col);
+    expectedRightBorder.forEach(function (t) {
+      assert(
+        containsTile(rightBorder, t),
+        "contains tile + " + t.row + ", " + t.col
+      );
     });
     // lower edge
-    const downBorder = tiles2.detectBorder(tilesToMove, 'D');
-    const expectedDownBorder = [{row:3, col:0}, {row:4, col:1}, {row:3, col:2}, {row:4, col:3}, {row:2, col:4}];
+    const downBorder = tiles2.detectBorder(tilesToMove, "D");
+    const expectedDownBorder = [
+      { row: 3, col: 0 },
+      { row: 4, col: 1 },
+      { row: 3, col: 2 },
+      { row: 4, col: 3 },
+      { row: 2, col: 4 },
+    ];
 
     assert.equal(downBorder.length, expectedDownBorder.length);
-    expectedDownBorder.forEach(function(t){
-      assert(containsTile(downBorder, t), 'contains tile + ' + t.row + ', ' + t.col);
+    expectedDownBorder.forEach(function (t) {
+      assert(
+        containsTile(downBorder, t),
+        "contains tile + " + t.row + ", " + t.col
+      );
     });
   });
-  it('should find conflicting nodes on the right edge e.g. before a right move', function(){
-    let tiles2 = new Tiles({tiles: _.cloneDeep(tilesInput.tiles2)});
+  it("should find conflicting nodes on the right edge e.g. before a right move", function () {
+    let tiles2 = new Tiles({ tiles: _.cloneDeep(tilesInput.tiles2) });
     const tilesToMove = tiles2.tiles
-                                    .reduce((a,b)=>a.concat(b)) // flatten
-                                    .filter((t)=>t.p==='L');    // take only L
-    const rightMoveConflicts = tiles2.detectMoveConflicts(tilesToMove, 'R');
-    const expectedRightMoveConflicts = [{row: 1, col: 5}, {row: 4, col: 4}];
+      .reduce((a, b) => a.concat(b)) // flatten
+      .filter((t) => t.p === "L"); // take only L
+    const rightMoveConflicts = tiles2.detectMoveConflicts(tilesToMove, "R");
+    const expectedRightMoveConflicts = [
+      { row: 1, col: 5 },
+      { row: 4, col: 4 },
+    ];
     assert.equal(rightMoveConflicts.length, expectedRightMoveConflicts.length);
-    expectedRightMoveConflicts.forEach(function(t){
-      assert(containsTile(rightMoveConflicts, t), 'right move conflict for: ' + t.col + ', ' + t.row);
+    expectedRightMoveConflicts.forEach(function (t) {
+      assert(
+        containsTile(rightMoveConflicts, t),
+        "right move conflict for: " + t.col + ", " + t.row
+      );
     });
 
     // down moves
-    const downMoveConflicts = tiles2.detectMoveConflicts(tilesToMove, 'D');
-    const expectedDownMoveConflicts = [{row: 5, col: 3}];
-    assert.equal(downMoveConflicts.length, expectedDownMoveConflicts.length, 'down move conflicts');
-    expectedDownMoveConflicts.forEach(function(t){
-      assert(containsTile(downMoveConflicts, t), 'down move conflict for: ' + t.col + ', ' + t.row);
+    const downMoveConflicts = tiles2.detectMoveConflicts(tilesToMove, "D");
+    const expectedDownMoveConflicts = [{ row: 5, col: 3 }];
+    assert.equal(
+      downMoveConflicts.length,
+      expectedDownMoveConflicts.length,
+      "down move conflicts"
+    );
+    expectedDownMoveConflicts.forEach(function (t) {
+      assert(
+        containsTile(downMoveConflicts, t),
+        "down move conflict for: " + t.col + ", " + t.row
+      );
     });
 
     // non conflicts
-    let tiles1 = new Tiles({tiles: tilesInput.tiles1});
-    const rightMoveNonConflict = tiles1.detectMoveConflicts(tilesToMove, 'R');
+    let tiles1 = new Tiles({ tiles: tilesInput.tiles1 });
+    const rightMoveNonConflict = tiles1.detectMoveConflicts(tilesToMove, "R");
     assert.equal(rightMoveNonConflict.length, 0);
-    const downMoveNonConflict = tiles1.detectMoveConflicts(tilesToMove, 'D');
+    const downMoveNonConflict = tiles1.detectMoveConflicts(tilesToMove, "D");
     assert.equal(downMoveNonConflict.length, 0);
   });
 
-  it('should detect if the tile will overflow out of bounds e.g. before a right move', function(){
-    let tiles3 = new Tiles({tiles: _.cloneDeep(tilesInput.tiles3)});
+  it("should detect if the tile will overflow out of bounds e.g. before a right move", function () {
+    let tiles3 = new Tiles({ tiles: _.cloneDeep(tilesInput.tiles3) });
     const tilesToMove = tiles3.tiles
-                                    .reduce((a,b)=>a.concat(b)) // flatten
-                                    .filter((t)=>t.p==='L');    // take only L
-    assert.equal(tiles3.detectMoveConflicts(tilesToMove, 'L'), false); // false means out of bounds
-    assert.equal(tiles3.detectMoveConflicts(tilesToMove, 'D'), false);
+      .reduce((a, b) => a.concat(b)) // flatten
+      .filter((t) => t.p === "L"); // take only L
+    assert.equal(tiles3.detectMoveConflicts(tilesToMove, "L"), false); // false means out of bounds
+    assert.equal(tiles3.detectMoveConflicts(tilesToMove, "D"), false);
   });
 
-  it('tests a few different actions together', function(){
-    let tiles4 = new Tiles({tiles: _.cloneDeep(tilesInput.tiles4)});
+  it("tests a few different actions together", function () {
+    let tiles4 = new Tiles({ tiles: _.cloneDeep(tilesInput.tiles4) });
     const tilesToMove = tiles4.tiles
-                                    .reduce((a,b)=>a.concat(b)) // flatten
-                                    .filter((t)=>t.p==='L');    // take only L
-                                    
-    assert.equal(tiles4.detectMoveConflicts(tilesToMove, 'R').length, 0);
-    tiles4.moveTiles(tilesToMove, 'R')
-    assert.equal(tiles4.detectMoveConflicts(tilesToMove, 'R').length, 1);
-    assert.equal(tiles4.detectMoveConflicts(tilesToMove, 'D').length, 1);
+      .reduce((a, b) => a.concat(b)) // flatten
+      .filter((t) => t.p === "L"); // take only L
 
+    assert.equal(tiles4.detectMoveConflicts(tilesToMove, "R").length, 0);
+    tiles4.moveTiles(tilesToMove, "R");
+    assert.equal(tiles4.detectMoveConflicts(tilesToMove, "R").length, 1);
+    assert.equal(tiles4.detectMoveConflicts(tilesToMove, "D").length, 1);
   });
   //TODO: test downward moves once implemented
   //
-  describe('resizing tile grid', function(){
+  describe("resizing tile grid", function () {
     let tiles4;
     let treeTiles3;
-    beforeEach(function(){
-      tiles4 = new Tiles({tiles: _.cloneDeep(tilesInput.tiles4)});
+    beforeEach(function () {
+      tiles4 = new Tiles({ tiles: _.cloneDeep(tilesInput.tiles4) });
       let input3 = _.cloneDeep(treeFile3);
       treeTiles3 = new Tiles(input3);
     });
-    it('should expand the grid right', function(){
+    it("should expand the grid right", function () {
       assert.equal(tiles4.tiles[0].length, 6);
-      tiles4.expandGrid('R')
+      tiles4.expandGrid("R");
       assert.equal(tiles4.tiles[0].length, 7);
-    })
-    it('should expand the grid down', function(){
+    });
+    it("should expand the grid down", function () {
       assert.equal(tiles4.tiles.length, 8);
-      tiles4.expandGrid('D')
+      tiles4.expandGrid("D");
       assert.equal(tiles4.tiles.length, 9);
-    })
-    it('should expand the grid left', function(){
+    });
+    it("should expand the grid left", function () {
       // top row?
       assert.equal(tiles4.tiles[0].length, 6);
-      assert.equal(tiles4.tiles[1][0].p, 'L')
-      tiles4.expandGrid('L')
+      assert.equal(tiles4.tiles[1][0].p, "L");
+      tiles4.expandGrid("L");
       assert.equal(tiles4.tiles[0].length, 7);
-      assert.equal(tiles4.tiles[1][0].p, 'E')
-      assert.equal(tiles4.tiles[1][1].p, 'L')
-    })
-  })
+      assert.equal(tiles4.tiles[1][0].p, "E");
+      assert.equal(tiles4.tiles[1][1].p, "L");
+    });
+  });
 
   // TODO: test asFlatArray() for first row
-
 });

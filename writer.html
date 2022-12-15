@@ -1,33 +1,32 @@
-<!doctype html>
+<!DOCTYPE html>
 <html class="no-js" lang="">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Writer for Prefix Free Tree</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>Writer for Prefix Free Tree</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
 
-        <link rel="stylesheet" href="vendor/normalize.css">
-        <link rel="stylesheet" href="app/css/main.css">
-    </head>
-    <body>
-      <div class="game-container">
-        <div class="message-container">
-          <label for="message">
-            Enter your message here:
-          </label> 
-          <input type="text" id="message" />
-          <div class="share-elm">
-            <a class="share-a" target='shareable_tab_for_bin_tree'>share</a>
-          </div>
-          <div class="encoding">
-            Encoding (<span class="bits-display">0</span>bits): <div id="code"></div>
-          </div>
+    <link rel="stylesheet" href="vendor/normalize.css" />
+    <link rel="stylesheet" href="app/css/main.css" />
+  </head>
+  <body>
+    <div class="game-container">
+      <div class="message-container">
+        <label for="message"> Enter your message here: </label>
+        <input type="text" id="message" />
+        <div class="share-elm">
+          <a class="share-a" target="shareable_tab_for_bin_tree">share</a>
         </div>
-        <div id="board"></div>
+        <div class="encoding">
+          Encoding (<span class="bits-display">0</span>bits):
+          <div id="code"></div>
+        </div>
       </div>
-      <script type="module" src="app/write-message.js"></script>
-    </body>
+      <div id="board"></div>
+    </div>
+    <script type="module" src="app/write-message.js"></script>
+  </body>
 </html>
