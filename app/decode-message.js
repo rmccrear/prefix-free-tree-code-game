@@ -1,6 +1,5 @@
 "use strict";
 import "../vendor/jquery.js";
-import "../vendor/hammer.js";
 import "../vendor/bacon.js";
 
 import LetterTree from "../letter-tree.js";
@@ -133,7 +132,7 @@ function showGuide(direction, message) {
     // message = message || 'press arrow key';
     message =
       showGuideCount < 5
-        ? `<div class="hint-message desktop">press arrow key</div> <div class="hint-message mobile">swipe</div> `
+        ? `<div class="hint-message desktop">press arrow key</div> <div class="hint-message mobile">press arrow button </div> `
         : "";
     const directionGlyph = { L: "⇦", R: "⇨", U: "⇧" }[direction];
     // const directionGlyph = {'L': '&larr;', 'R': '&rarr;', 'U': '&uarr;'}[direction];
@@ -284,7 +283,7 @@ function afterMove(status) {
     console.log("wrong at leaf");
     showGuide(encodedMessage[bitProgressCounter]);
   } else if (status === "wrong") {
-    console.log("status: wronge");
+    console.log("status: wrong");
     $("#board").addClass("animated shake");
     window.setTimeout(function () {
       $("#board").removeClass("animated shake");
@@ -306,31 +305,6 @@ function onReady() {
   buildTreeFromLetters(lettersOnTree, board, treeBuilder);
   repaint(board);
   $("[data-encoded-bit-index=0]").addClass("current-bit");
-
-  // initiate Hammer
-  let stage = document.getElementById("board");
-  let mc = new Hammer.Manager(stage, {
-    touchAction: "pan-y",
-    recognizers: [[Hammer.Swipe]],
-  });
-  // let Swipe = new Hammer.Swipe();
-  // mc.add(Swipe);
-  mc.on("swipeleft", function () {
-    console.log("swipe left");
-    const status = goLeft();
-    repaint(board);
-    afterMove(status);
-  });
-  mc.on("swiperight", function () {
-    const status = goRight();
-    repaint(board);
-    afterMove(status);
-  });
-  mc.on("swipeup", function () {
-    const status = goUp();
-    repaint(board);
-    afterMove(status);
-  });
 
   // http://stackoverflow.com/questions/1402698/binding-arrow-keys-in-js-jquery
   $(document).keydown(function (e) {
@@ -370,14 +344,20 @@ const createMoveButton = () => {
   const rightButton = $(
     '<div class="move-button right-move" style="width: 100px; height: 100px; position:fixed; top:88%; right:0%; z-index:9999"> <span class="hint-glyph">⇨ </span></div>'
   );
+  const upButton = $(
+    '<div class="move-button up-move" style="width: 100px; height: 100px; position:fixed; top:88%; left:40%; z-index:9999"> <span class="hint-glyph">⇧ </span></div>'
+  );
   $(".message-container").append(leftButton);
   $(".message-container").append(rightButton);
+  $(".message-container").append(upButton);
   // let plus = leftButton.asEventStream("click").map(1)
   let goLeft$ = Bacon.fromEvent(leftButton[0], "click").map(() => "L");
   // goLeft$.onValue(function(val) { console.log('clicked '+ val); })
   let goRight$ = Bacon.fromEvent(rightButton[0], "click").map(() => "R");
   // goRight$.onValue(function(val) { console.log('clicked '+ val); })
-  let go$ = Bacon.mergeAll(goLeft$, goRight$);
+  let goUp$ = Bacon.fromEvent(upButton[0], "click").map(() => "U");
+  goUp$.onValue(function(val) { console.log('clicked '+ val); })
+  let go$ = Bacon.mergeAll(goLeft$, goRight$, goUp$);
   go$.onValue((val) => {
     console.log(val);
   });
@@ -387,6 +367,9 @@ const createMoveButton = () => {
       status = goRight();
     } else if (val === "L") {
       status = goLeft();
+    } else if (val === "U") {
+      status = goUp();
+      console.log(status)
     }
     repaint(board);
     afterMove(status);

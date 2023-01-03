@@ -33,8 +33,24 @@ input#message:focus {
   width: 416px;
   background-color: black;
   position: relative;
+  touch-action: manipulation;
 }
 
+.move-button {
+  touch-action: manipulation;
+  cursor: pointer;
+}
+
+@media (pointer: fine) {
+  .hint-message.mobile {
+    display: none;
+  }
+}
+@media (pointer: none), (pointer: coarse) {
+  .hint-message.desktop {
+    display: none;
+  }
+}
 /* writer css */
 .share-a {
   /*elflord green*/
