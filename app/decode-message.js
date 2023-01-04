@@ -281,6 +281,10 @@ function afterMove(status) {
     showGuide(encodedMessage[bitProgressCounter]);
   } else if (status === "wrong-at-leaf") {
     console.log("wrong at leaf");
+    $("#board").addClass("animated shake");
+    window.setTimeout(function () {
+      $("#board").removeClass("animated shake");
+    }, 500);
     showGuide(encodedMessage[bitProgressCounter]);
   } else if (status === "wrong") {
     console.log("status: wrong");
