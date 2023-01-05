@@ -343,23 +343,23 @@ function onReady() {
 const createMoveButton = () => {
   console.log("create move button");
   const leftButton = $(
-    '<div class="move-button left-move" style="width: 100px; height: 100px; position:fixed; top:88%; left:2%; z-index:9999"> <span class="hint-glyph">⇦</span></div>'
+    '<div class="move-button left-move mobile" style="width: 100px; height: 100px; position:fixed; top:88%; left:2%; z-index:9999"> <span class="hint-glyph">⇦</span></div>'
   );
   const rightButton = $(
-    '<div class="move-button right-move" style="width: 100px; height: 100px; position:fixed; top:88%; right:0%; z-index:9999"> <span class="hint-glyph">⇨ </span></div>'
+    '<div class="move-button right-move mobile" style="width: 100px; height: 100px; position:fixed; top:88%; right:0%; z-index:9999"> <span class="hint-glyph">⇨ </span></div>'
   );
   const upButton = $(
-    '<div class="move-button up-move" style="width: 100px; height: 100px; position:fixed; top:88%; left:40%; z-index:9999"> <span class="hint-glyph">⇧ </span></div>'
+    '<div class="move-button up-move mobile" style="width: 100px; height: 100px; position:fixed; top:88%; left:40%; z-index:9999"> <span class="hint-glyph">⇧ </span></div>'
   );
   $(".message-container").append(leftButton);
   $(".message-container").append(rightButton);
   $(".message-container").append(upButton);
   // let plus = leftButton.asEventStream("click").map(1)
-  let goLeft$ = Bacon.fromEvent(leftButton[0], "click").map(() => "L");
+  let goLeft$ = Bacon.fromEvent(leftButton[0], "touchstart").map(() => "L");
   // goLeft$.onValue(function(val) { console.log('clicked '+ val); })
-  let goRight$ = Bacon.fromEvent(rightButton[0], "click").map(() => "R");
+  let goRight$ = Bacon.fromEvent(rightButton[0], "touchstart").map(() => "R");
   // goRight$.onValue(function(val) { console.log('clicked '+ val); })
-  let goUp$ = Bacon.fromEvent(upButton[0], "click").map(() => "U");
+  let goUp$ = Bacon.fromEvent(upButton[0], "touchstart").map(() => "U");
   goUp$.onValue(function(val) { console.log('clicked '+ val); })
   let go$ = Bacon.mergeAll(goLeft$, goRight$, goUp$);
   go$.onValue((val) => {

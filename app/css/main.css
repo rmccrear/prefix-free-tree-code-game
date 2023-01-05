@@ -45,6 +45,9 @@ input#message:focus {
   .hint-message.mobile {
     display: none;
   }
+  .move-button.mobile {
+    display: none;
+  }
 }
 @media (pointer: none), (pointer: coarse) {
   .hint-message.desktop {
