@@ -280,7 +280,7 @@ function afterMove(status) {
     }
     showGuide(encodedMessage[bitProgressCounter]);
   } else if (status === "wrong-at-leaf") {
-    console.log("wrong at leaf");
+    console.log("status: wrong at leaf");
     $("#board").addClass("animated shake");
     window.setTimeout(function () {
       $("#board").removeClass("animated shake");
