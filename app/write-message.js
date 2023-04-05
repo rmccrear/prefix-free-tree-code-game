@@ -163,8 +163,10 @@ const onReady = function () {
     resetMessage();
   });
   $("#copy-link").on("click", function (event) {
-    const currentUrl = window.location.href;
-    const linkUrl = `${currentUrl}/decode.html?letters=${recordOfLetters}&encodedmessage=${currentEncodedMessage}`
+    const origin = window.location.origin;
+    const baseUrl = origin;
+    const linkUrl = `${baseUrl}/decode.html?letters=${recordOfLetters}&encodedmessage=${currentEncodedMessage}`
+    console.log(linkUrl)
     // copy to clipboard
     navigator.clipboard.writeText(linkUrl).then(()=>{
       //set button text to "copied"
