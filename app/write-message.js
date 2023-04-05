@@ -42,6 +42,7 @@ function updateTreeWithMessage(message) {
  *                                The order can change if the use wants to swap the letters in the tree.
  */
 let recordOfLetters = "";
+let currentEncodedMessage = "";
 function recordLettersAdded(letter) {
   if (recordOfLetters.indexOf(letter) === -1) {
     recordOfLetters += letter;
@@ -92,6 +93,7 @@ function resetMessage(message) {
     .join(" ");
   $("#code").text(code);
   const encodedmessage = code.split(" ").join("");
+  currentEncodedMessage = encodedmessage;
   $(".bits-display").text(encodedmessage.length + " " || "0 ");
   try {
     window.history.replaceState(
@@ -106,6 +108,7 @@ function resetMessage(message) {
     "href",
     `decode.html?letters=${recordOfLetters}&encodedmessage=${encodedmessage}`
   );
+  resetCopyButtonText();
 }
 
 /**
@@ -159,6 +162,19 @@ const onReady = function () {
     repaint(board, { handleSwap: handleSwap });
     resetMessage();
   });
+  $("#copy-link").on("click", function (event) {
+    const currentUrl = window.location.href;
+    const linkUrl = `${currentUrl}/decode.html?letters=${recordOfLetters}&encodedmessage=${currentEncodedMessage}`
+    // copy to clipboard
+    navigator.clipboard.writeText(linkUrl).then(()=>{
+      //set button text to "copied"
+      $("#copy-link").text("copied!");
+    });
+  });
+};
+
+const resetCopyButtonText = function(){
+  $("#copy-link").text("share");
 };
 
 $(onReady);
