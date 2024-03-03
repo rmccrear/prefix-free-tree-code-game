@@ -53,7 +53,7 @@ function recordLettersAdded(letter) {
 function queryParams() {
   var qd = {};
   location.search
-    .substr(1)
+    .substring(1)
     .split("&")
     .forEach(function (item) {
       var s = item.split("="),
