@@ -70,8 +70,28 @@
   float: left;
 }
 
+input[type=text] {
+  width: 80%;
+}
+
 #code {
   margin-top: 3px;
+  /* color: white; */
+  color: #60ff60;
+  font-size: larger;
+  font-weight: 600;
+}
+
+.super-shadow {
+  /* text-shadow: 0 0 10px rgba(255,255,255,1) , 0 0 20px rgba(255,255,255,1) , 0 -6px 30px rgba(255,255,255,1) , 0 0 40px #ff00de , 0 0 70px #ff00de , 0 0 80px #ff00de , 0 0 100px #ff00de */
+  text-shadow:  0px 0px 5px rgba(255, 255, 255, 1), 
+                0px 0px 7px rgba(255, 255, 255, .5), 
+                0px 0px 9px rgba(255, 255, 255, .5),
+                0px 0px 12px rgba(73, 255, 24, .5),
+                0px 0px 15px rgba(73, 255, 24, .5),
+                0px 0px 20px rgba(73, 255, 24, .5),
+                0px 0px 25px rgba(73, 255, 24, .5),
+                0px 0px 30px rgba(73, 255, 24, .5);
 }
 
 /* decoder css */
