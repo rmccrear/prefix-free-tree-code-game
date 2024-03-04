@@ -9,7 +9,6 @@
     "test": "mocha test",
     "cmd-message": "node ./index.js -w ./data/tree-scaffold-13x25.json",
     "cmd-tree-builder": "node ./index.js -c ./data/tree-command-13x25.json",
-    "sass": "sass app/scss/main.scss app/css/main.css",
     "format": "prettier --write ."
   },
   "author": "",
@@ -27,7 +26,6 @@
     "eslint": "^8.29.0",
     "lodash": "^4.17.21",
     "mocha": "^10.2.0",
-    "prettier": "^2.8.1",
-    "sass": "^1.56.2"
+    "prettier": "^2.8.1"
   }
 }
