@@ -44,8 +44,8 @@
   color: #60ff60;
   content: "|";
   text-decoration: blink;
-  animation: blink-animation 1s steps(5, start) infinite;
   -webkit-animation: blink-animation 1s steps(5, start) infinite;
+  animation: blink-animation 1s steps(5, start) infinite;
 }
 
 /* .decoded-letter:not(.done):last-child:after { */
