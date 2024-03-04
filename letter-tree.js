@@ -66,11 +66,12 @@ class LetterTree {
    * @param {Object} input  input.graph [[],[2,3],[],[]]
    *                        input.tiles [[{"p":"E","n":0,"row":0,"col":0}, ...}
    */
-  constructor(input) {
+  constructor(input, digits) {
     /**
      * The graph/tree
      */
-    this.tree = new BinaryTree(input); // requires input.graph to be present
+    this.tree = new BinaryTree(input, digits); // requires input.graph to be present
+    this.digits = digits || ["L", "R"];
     /**
      * The screen and letter data
      */
@@ -89,9 +90,11 @@ class LetterTree {
   }
 
   setCurrNodeTile(tile) {
-    const cTile = this.tiles.tiles[tile.row][tile.col];
-    this.currNode = cTile.n;
-    this.currTile = cTile;
+    if(tile) {
+      const cTile = this.tiles.tiles[tile.row][tile.col];
+      this.currNode = cTile.n;
+      this.currTile = cTile;
+    }
   }
 
   /**
@@ -324,7 +327,7 @@ class LetterTree {
     let message = [];
     //let i = 0;
     for (let i = 0; i < code.length; i++) {
-      let idx = code[i] === "L" ? 0 : 1;
+      let idx = code[i] === this.digits[0] ? 0 : 1; // "L" or "R"
       let nextN = this.tree.graph[n][idx]; // navigate along left or right path
       if (nextN) {
         n = nextN;
