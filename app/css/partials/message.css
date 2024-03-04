@@ -1,10 +1,26 @@
 /* writer css */
 
+.message-header {
+  font-family: "Lucida Console", Monaco, monospace;
+  color: white;
+  text-align: center;
+}
+
+.encoding-header {
+  color: white;
+  font-family: "Lucida Console", Monaco, monospace;
+  width: 100%;
+  content: "";
+  display: table;
+  clear: both;
+}
+
 .share-a {
   /*elflord green*/
   color: #60ff60;
   background-color: black;
   padding: 0 1em;
+  text-decoration: none;
 }
 .share-a:visited {
   /*elflord green*/
@@ -14,6 +30,48 @@
 .share-elm {
   display: inline-block;
   border: 2px solid #73ad21;
+  cursor: pointer;
+  margin: 5px 3px;
+}
+
+.share-button-container {
+  text-align: center;
+  padding: 2px;
+}
+/* clearfix */
+.share-button-container:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.digit-select-container {
+  float: right;
+}
+
+.digit-select-container>div{
+  margin: 5px;
+}
+
+.digit-select {
+  display: inline-block;
+  border: 2px solid #73ad21;
+  color: #60ff60;
+  background-color: black;
+  padding: 0 1em;
+}
+
+.digit-select:hover {
+  cursor: pointer;
+}
+
+.bit-display-container {
+  margin: 7px 0;
+  float: left;
+}
+
+#code {
+  margin-top: 3px;
 }
 
 /* decoder css */

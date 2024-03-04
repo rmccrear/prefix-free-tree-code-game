@@ -21,12 +21,13 @@ window.letterTree = board;
 let lettersOnTree = "";
 let encodedMessage = "";
 let done = false;
+let DIGITS = ["L", "R"];
 
 //http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript/21152762#21152762
 function queryParams() {
   var qd = {};
   location.search
-    .substr(1)
+    .substring(1)
     .split("&")
     .forEach(function (item) {
       var s = item.split("="),
@@ -234,7 +235,12 @@ function goUp() {
 
 function renderEncodedMessage(message) {
   let messageRoot = $("<div></div>");
+  console.log(message);
+  // https://stackoverflow.com/questions/24531751/how-can-i-split-a-string-containing-emoji-into-an-array
+  message = [...message]; 
+  console.log(message);
   for (let i = 0; i < message.length; i++) {
+    console.log(message[i]);
     $(
       `<div class="encoded-bit" data-encoded-bit-index="${i}">${message[i]}</div>`
     ).appendTo(messageRoot);
@@ -303,8 +309,12 @@ function onReady() {
   sounds = createAudioTags();
   const params = queryParams();
   lettersOnTree = params.letters[0];
-  encodedMessage = params.encodedmessage[0];
-  const encodedMessageElm = renderEncodedMessage(encodedMessage);
+  const origEncodedMessage = params.encodedmessage[0];
+  DIGITS = [...params.digitsStr[0]]; // split unicode chars
+  $("#left-digit-in-instructions").text(DIGITS[0]);
+  $("#right-digit-in-instructions").text(DIGITS[1]);
+  encodedMessage = convertDigits(origEncodedMessage, DIGITS, ["L", "R"])
+  const encodedMessageElm = renderEncodedMessage(origEncodedMessage);
   $(encodedMessageElm).appendTo("#encoded-message");
   buildTreeFromLetters(lettersOnTree, board, treeBuilder);
   repaint(board);
@@ -379,5 +389,20 @@ const createMoveButton = () => {
     afterMove(status);
   });
 };
+
+function convertDigits(encodedMessage, fromDigits, toDigits) {
+  const chars = [...encodedMessage]; // for unicode emoji
+  const recodedMessage = [];
+  for(const c of chars) {
+    if(c === fromDigits[0]) {
+      recodedMessage.push(toDigits[0]);
+    } else if (c === fromDigits[1]) {
+      recodedMessage.push(toDigits[1]);
+    } else {
+      console.log(`Error decoding digit: ${c}`);
+    }
+  }
+  return recodedMessage.join("");
+}
 
 $(onReady);
