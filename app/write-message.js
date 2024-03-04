@@ -193,6 +193,12 @@ const onReady = function () {
     } else {
       console.log("Error changing new digit.");
     }
+    // super-shadow for aliens!
+    if(DIGITS[0] === "👾"){
+      $("#code").addClass("super-shadow");
+    } else {
+      $("#code").removeClass("super-shadow");
+    }
   })
 };
 
