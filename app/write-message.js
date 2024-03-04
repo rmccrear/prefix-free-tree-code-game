@@ -90,7 +90,11 @@ function setUpFromUrl() {
     console.log(message);
     $("#message").val(message);
     // $("#message").val(board.decodeMessage(encodedmessage).join(""));
-
+    if(DIGITS[0] === "👾"){
+      $("#code").addClass("super-shadow");
+    } else {
+      $("#code").removeClass("super-shadow");
+    }
     resetMessage(message);
   }
 }
@@ -188,8 +192,7 @@ const onReady = function () {
   $(".digit-select").on("click", function(event) {
     const newDigits = $(this).data("digit");
     if(newDigits){
-      DIGITS = [...newDigits];
-      resetMessage();
+      changeDigitSystem([...newDigits])
     } else {
       console.log("Error changing new digit.");
     }

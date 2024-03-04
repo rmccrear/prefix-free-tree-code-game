@@ -78,6 +78,7 @@ input[type=text] {
   margin-top: 3px;
   /* color: white; */
   color: #60ff60;
+  font-family: 'Courier New', Courier, monospace;
   font-size: larger;
   font-weight: 600;
 }
