@@ -11,7 +11,10 @@ import { createAudioTags } from "./sounds.js";
 
 import jsonTree from "../data/tree-command-13x25.js";
 
-const board = new LetterTree(jsonTree);
+let INTERNAL_DIGITS = ["L", "R"];
+let DIGITS = ["L", "R"];
+
+const board = new LetterTree(jsonTree, INTERNAL_DIGITS);
 const treeBuilder = new TreeBuilder(board, jsonTree.treeBuilder);
 
 function updateTreeWithMessage(message) {
@@ -69,18 +72,25 @@ function setUpFromUrl() {
   const params = queryParams();
   if (
     params &&
+    params.digits &&
+    params.digits[0] &&
     params.letters &&
     params.letters[0] &&
     params.encodedmessage &&
     params.encodedmessage[0]
   ) {
+    DIGITS = [...params.digits[0]];
     recordOfLetters = params.letters[0];
-    const encodedmessage = params.encodedmessage[0];
+    const externallyEncodedMessage = params.encodedmessage[0];
+    const internallyEncodedMessage = convertDigits(externallyEncodedMessage, DIGITS, ["L", "R"]);
+    // const encodedmessage = params.encodedmessage[0];
     treeBuilder.buildFromLetterString(recordOfLetters);
-    console.log(encodedmessage);
-    const message = board.decodeMessage(encodedmessage).join("");
+    // console.log(encodedmessage);
+    const message = board.decodeMessage(internallyEncodedMessage).join("");
     console.log(message);
-    $("#message").val(board.decodeMessage(encodedmessage).join(""));
+    $("#message").val(message);
+    // $("#message").val(board.decodeMessage(encodedmessage).join(""));
+
     resetMessage(message);
   }
 }
@@ -90,23 +100,27 @@ function resetMessage(message) {
   const code = board
     .encodeMessage(message.split(""))
     .map((letter) => letter.join(""))
-    .join(" ");
-  $("#code").text(code);
-  const encodedmessage = code.split(" ").join("");
+    .join(" "); // add spaces
+  const digitsStr = DIGITS[0] + DIGITS[1];
+  const displayMessage = convertDigits(code, INTERNAL_DIGITS, DIGITS);
+  const displayMessageNoSpaces = displayMessage.split(" ").join("");
+  $("#code").text(displayMessage);
+  const encodedmessage = code.split(" ").join(""); // remove spaces
   currentEncodedMessage = encodedmessage;
-  $(".bits-display").text(encodedmessage.length + " " || "0 ");
+  const bitLength = currentEncodedMessage.length || 0;
+  $(".bits-display").text(bitLength + " ");
   try {
     window.history.replaceState(
       {},
       code,
-      `writer.html?letters=${recordOfLetters}&encodedmessage=${encodedmessage}`
+      `writer.html?digits=${digitsStr}&letters=${recordOfLetters}&encodedmessage=${displayMessageNoSpaces}`
     );
   } catch (e) {
     console.log(e);
   }
   $("a.share-a").attr(
     "href",
-    `decode.html?letters=${recordOfLetters}&encodedmessage=${encodedmessage}`
+    `decode.html?digitsStr=${digitsStr}&letters=${recordOfLetters}&encodedmessage=${displayMessageNoSpaces}`
   );
   resetCopyButtonText();
 }
@@ -171,10 +185,41 @@ const onReady = function () {
       $("#copy-link").text("copied!");
     });
   });
+  $(".digit-select").on("click", function(event) {
+    const newDigits = $(this).data("digit");
+    if(newDigits){
+      DIGITS = [...newDigits];
+      resetMessage();
+    } else {
+      console.log("Error changing new digit.");
+    }
+  })
 };
 
 const resetCopyButtonText = function(){
   $("#copy-link").text("share");
 };
+
+const changeDigitSystem = function(digits) {
+  DIGITS = digits;
+  resetMessage();
+}
+
+function convertDigits(encodedMessage, fromDigits, toDigits) {
+  const chars = [...encodedMessage]; // for unicode emoji
+  const recodedMessage = [];
+  for(const c of chars) {
+    if(c === fromDigits[0]) {
+      recodedMessage.push(toDigits[0]);
+    } else if (c === fromDigits[1]) {
+      recodedMessage.push(toDigits[1]);
+    } else if (c === " ") { // allow space for tokens
+      recodedMessage.push(c);
+    }else {
+      console.log(`Error decoding digit: ${c}`);
+    }
+  }
+  return recodedMessage.join("");
+}
 
 $(onReady);

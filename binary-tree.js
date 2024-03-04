@@ -1,10 +1,11 @@
 "use strict";
 
 class BinaryTree {
-  constructor(input) {
+  constructor(input, digits) {
     this.graph = input.graph;
     //this.leafData = input.leafData;
     this.root = 1;
+    this.digits = digits || ["L", "R"];
   }
 
   branchOut(leafNode) {
@@ -92,9 +93,9 @@ class BinaryTree {
     //    console.log("parent: " + parent)
     //    console.log("parent[0]: " + parent[0])
     if (parent && this.graph[parent][0] === node) {
-      return "L";
+      return this.digits[0]; // "L" (left)
     } else if (parent && this.graph[parent][1] === node) {
-      return "R";
+      return this.digits[1]; // "R" (right)
     }
   }
 }

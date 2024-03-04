@@ -14,20 +14,38 @@
   </head>
   <body>
     <div class="game-container">
-      <div class="message-container">
-        <label for="message"> Enter your message here: </label>
-        <input type="text" id="message" />
-        <div class="share-elm">
-          <a class="share-a" target="shareable_tab_for_bin_tree">preview</a>
-        </div>
-        <div class="share-elm">
-          <div class="share-a" id="copy-link">share</div>
-        </div>
-        <div class="encoding">
-          Encoding (<span class="bits-display">0</span>bits):
-          <div id="code"></div>
+      <div class="message-header">
+        <div class="message-container-header">
+          <div class="message-container-inner">
+            <label for="message"> Enter your message here: </label>
+            <input type="text" id="message" />
+          </div>
+          <div class="share-button-container">
+            <div class="share-elm">
+              <a class="share-a" target="shareable_tab_for_bin_tree">preview</a>
+            </div>
+            <div class="share-elm">
+              <div class="share-a" id="copy-link">share</div>
+            </div>
+          </div>
         </div>
       </div>
+        <div class="encoding">
+          <div class="encoding-header">
+            <div class="digit-select-container">
+              <div>
+                Select Digit Type: <br>
+                <div data-digit="LR" class="digit-select"> L|R </div>
+                <div data-digit="01" class="digit-select"> 0|1 </div>
+                <div data-digit="👾🚀" class="digit-select"> 👾|🚀 </div>
+              </div>
+            </div>
+            <div class="bit-display-container">
+              Encoding: <br> (<span class="bits-display">0</span>bits)
+            </div>
+          </div>
+          <div id="code"></div>
+        </div>
       <div id="board"></div>
     </div>
     <script type="module" src="app/write-message.js"></script>
