@@ -7,7 +7,7 @@
   position: absolute;
 }
 .pipe-tile {
-  // background: url(icons/plums.png) no-repeat;
+  /* // background: url(icons/plums.png) no-repeat; */
   height: 32px;
   width: 32px;
   /* background-color: black; */
@@ -19,15 +19,15 @@
 }
 
 .pipe-A {
-  // background: url(icons/plum-leaf-alpha.png) no-repeat;
-  /* background-color: black; */
+  /* // background: url(icons/plum-leaf-alpha.png) no-repeat;
+  background-color: black; */
   height: 32px;
   width: 32px;
   border: 0 0 0 0;
 }
-// .pipe-red.pipe-A {
+/* // .pipe-red.pipe-A {
 //   background: url(icons/plum-leaf-alpha-red.png) no-repeat;
-// }
+// } */
 [draggable].pipe-A {
   cursor: move; /* fallback if grab cursor is unsupported */
   cursor: grab;
@@ -76,7 +76,7 @@
   transition-timing-function: ease-in;
 }
 
-// .pipe-tile:after {
+/* // .pipe-tile:after {
 // 	content: "";
 // 	position: absolute;
 // 	top: 0; left: 0; bottom: 0; right: 0;
@@ -98,7 +98,7 @@
 // }
 // .pipe-tile.pipe-red.pipe-E:after{
 // 	opacity: 0;
-// }
+// } */
 
 /* instructions  */
 .hint {
@@ -110,6 +110,7 @@
 }
 
 .hint-glyph {
+  font-family: Hiragino Mincho ProN;
   font-size: 50px;
 }
 

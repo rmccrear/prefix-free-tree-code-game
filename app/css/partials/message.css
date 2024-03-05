@@ -1,4 +1,7 @@
 /* writer css */
+.game-container {
+  font-family: "Lucida Console", Monaco, monospace;
+}
 
 .message-header {
   font-family: "Lucida Console", Monaco, monospace;
@@ -134,7 +137,7 @@ input[type=text] {
 /*   -webkit-animation: blink-animation 1s steps(5, start) infinite; */
 /* } */
 
-@-webkit-keyframes blink-animation {
+@keyframes blink-animation {
   to {
     visibility: hidden;
   }
@@ -142,21 +145,17 @@ input[type=text] {
 
 .encoded-bit {
   display: inline-block;
-  /* font-family: "Lucida Console", Monaco, monospace; */
-  font-family: monaco, Consolas, "Lucida Console", monospace;
+  font-family: "Lucida Console", Monaco, monospace;
   font-size: large;
   color: yellow;
-  /* color: white; */
 }
 
 .current-bit {
-  /* color: red; */
   color: yellow;
   font-size: xx-large;
 }
 
 .current-letter-bit-already-done {
-  /* color: blue; */
   color: #cf4648; /*rust color*/
 }
 

@@ -5,14 +5,12 @@
   border: thin solid black;
 }
 .greeting {
-  /* font-family: "Lucida Console", Monaco, monospace; */
+  text-align: justify;
+  font-family: "Lucida Console", Monaco, monospace;
   /*cyan*/
   color: #40ffff;
   background-color: black;
-  /* width: 400px; */
-  /* padding: 4px 2px 4px 2px; */
   padding: 1em;
-  font-family: monaco, Consolas, "Lucida Console", monospace;
   font-size: 14px;
   font-style: normal;
   font-variant: normal;
