@@ -322,7 +322,7 @@ class LetterTree {
     return message.map((letter) => letterMap.get(letter));
   }
 
-  decodeMessage(code) {
+  decodeMessage(code, includeTiles) {
     let n = 1;
     let message = [];
     //let i = 0;
@@ -338,7 +338,11 @@ class LetterTree {
         const letterTileArr = this.tiles
           .asFlatArray()
           .filter((t) => t.p === "A" && t.n === n);
-        message.push(letterTileArr[0].l);
+        if(!includeTiles) {
+          message.push(letterTileArr[0].l);
+        } else {
+          message.push(letterTileArr[0]);
+        }
         n = 1; // start at top
       }
     }
