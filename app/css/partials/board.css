@@ -40,6 +40,9 @@ input#message:focus {
   color: #b44f47;
   padding: .2em;
 }
+.code-popup-letter {
+  color: #60ff60;
+}
 .encoded-token:hover .code-popup {
   visibility: visible;
 }
