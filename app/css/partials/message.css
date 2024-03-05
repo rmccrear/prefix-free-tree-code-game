@@ -137,7 +137,7 @@ input[type=text] {
 /*   -webkit-animation: blink-animation 1s steps(5, start) infinite; */
 /* } */
 
-@-webkit-keyframes blink-animation {
+@keyframes blink-animation {
   to {
     visibility: hidden;
   }
