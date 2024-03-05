@@ -108,7 +108,8 @@ function resetMessage(message) {
   const digitsStr = DIGITS[0] + DIGITS[1];
   const displayMessage = convertDigits(code, INTERNAL_DIGITS, DIGITS);
   const displayMessageNoSpaces = displayMessage.split(" ").join("");
-  $("#code").text(displayMessage);
+  // $("#code").text(displayMessage);
+  setupDisplay(code);
   const encodedmessage = code.split(" ").join(""); // remove spaces
   currentEncodedMessage = encodedmessage;
   const bitLength = currentEncodedMessage.length || 0;
@@ -202,7 +203,23 @@ const onReady = function () {
     } else {
       $("#code").removeClass("super-shadow");
     }
-  })
+  });
+  $("#code").on("click", function(event) {
+    if(event.target && $(event.target).data("code")) {
+      const code = $(event.target).data("code")
+      console.log(code);
+      const decodedTiles = board.decodeMessage(code, true);
+      console.log(decodedTiles);
+      if(decodedTiles) {
+        $(".encoded-token").removeClass("highlight-token");
+        $(event.target).addClass("highlight-token");
+        const letter = decodedTiles[0].l;
+        const tile = decodedTiles[0];
+        board.setCurrNodeTile(tile);
+        repaint(board);
+      }
+    } 
+  });
 };
 
 const resetCopyButtonText = function(){
@@ -212,6 +229,21 @@ const resetCopyButtonText = function(){
 const changeDigitSystem = function(digits) {
   DIGITS = digits;
   resetMessage();
+}
+
+function setupDisplay(encodedMessageWithSpaces) {
+  let tokens = encodedMessageWithSpaces.split(" ");
+  let message = board.decodeMessage(tokens.join(""));
+  let elms = [];
+  for(let i=0; i<tokens.length; i++) {
+    const internalCode = tokens[i];
+    const encodedLetter = convertDigits(internalCode, INTERNAL_DIGITS, DIGITS);
+    elms.push(`<span
+      class="encoded-token"
+      data-code="${internalCode}"> ${encodedLetter} <span class="code-popup">${message[i]}:  ${encodedLetter}</span></span>`);
+  }
+  console.log(elms.join(""))
+  $("#code").html(elms.join(""));
 }
 
 function convertDigits(encodedMessage, fromDigits, toDigits) {

@@ -26,6 +26,32 @@ input#message:focus {
   border: 2px solid #73ad21;
   padding: 2px;
 }
+.code-popup {
+  visibility: hidden;
+  display: inline-block;
+  width: 5em;
+  text-align: center;
+  background: black;
+  border:solid 2px #73ad21;
+  border-radius: 6px;
+  position: absolute;
+  bottom: -1em;
+  z-index: 1;
+  color: #b44f47;
+  padding: .2em;
+}
+.encoded-token:hover .code-popup {
+  visibility: visible;
+}
+
+.highlight-token {
+  color: #b44f47;
+}
+
+.encoded-token {
+  cursor: pointer;
+  position: relative;
+}
 
 #board {
   height: 800px;
