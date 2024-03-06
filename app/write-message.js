@@ -239,7 +239,7 @@ function setupDisplay(encodedMessageWithSpaces) {
     const encodedLetter = convertDigits(internalCode, INTERNAL_DIGITS, DIGITS);
     elms.push(`<span
       class="encoded-token"
-      data-code="${internalCode}"> ${encodedLetter} <span class="code-popup"><span class="code-popup-letter">${message[i]}:</span>  ${encodedLetter}</span></span>`);
+      data-code="${internalCode}">${encodedLetter}<span class="code-popup"><span class="code-popup-letter">${message[i]}:</span>  ${encodedLetter}</span></span> `);
   }
   $("#code").html(elms.join(""));
 }

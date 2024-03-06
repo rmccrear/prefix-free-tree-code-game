@@ -49,6 +49,7 @@ input#message:focus {
 
 .highlight-token {
   color: #b44f47;
+  border-bottom: solid #b44f47 1px;
 }
 
 .encoded-token {
