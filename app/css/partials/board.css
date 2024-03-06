@@ -39,6 +39,7 @@ input#message:focus {
   z-index: 1;
   color: #b44f47;
   padding: .2em;
+  text-shadow: none;
 }
 .code-popup-letter {
   color: #60ff60;
