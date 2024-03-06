@@ -215,7 +215,7 @@ const onReady = function () {
         // const letter = decodedTiles[0].l;
         const tile = decodedTiles[0];
         board.setCurrNodeTile(tile);
-        repaint(board);
+        repaint(board, { handleSwap: handleSwap });
       }
     } 
   });
