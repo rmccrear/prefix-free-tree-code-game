@@ -1,6 +1,6 @@
 # Prefix Free Pipes
 
-A "game" to help you learn about Hoffman encodings.
+A "game" to help you learn about Huffman Codings.
 
 Make a message, and the letters will appear in the tree.
 
