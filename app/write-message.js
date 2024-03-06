@@ -85,7 +85,6 @@ function setUpFromUrl() {
     const internallyEncodedMessage = convertDigits(externallyEncodedMessage, DIGITS, ["L", "R"]);
     // const encodedmessage = params.encodedmessage[0];
     treeBuilder.buildFromLetterString(recordOfLetters);
-    // console.log(encodedmessage);
     const message = board.decodeMessage(internallyEncodedMessage).join("");
     console.log(message);
     $("#message").val(message);
@@ -213,7 +212,7 @@ const onReady = function () {
       if(decodedTiles) {
         $(".encoded-token").removeClass("highlight-token");
         $(event.target).addClass("highlight-token");
-        const letter = decodedTiles[0].l;
+        // const letter = decodedTiles[0].l;
         const tile = decodedTiles[0];
         board.setCurrNodeTile(tile);
         repaint(board);
@@ -242,7 +241,6 @@ function setupDisplay(encodedMessageWithSpaces) {
       class="encoded-token"
       data-code="${internalCode}"> ${encodedLetter} <span class="code-popup"><span class="code-popup-letter">${message[i]}:</span>  ${encodedLetter}</span></span>`);
   }
-  console.log(elms.join(""))
   $("#code").html(elms.join(""));
 }
 
