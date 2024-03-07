@@ -124,7 +124,7 @@ function resetMessage(message) {
   }
   $("a.share-a").attr(
     "href",
-    `decode.html?digitsStr=${digitsStr}&letters=${recordOfLetters}&encodedmessage=${displayMessageNoSpaces}`
+    `decode.html?digits=${digitsStr}&letters=${recordOfLetters}&encodedmessage=${displayMessageNoSpaces}`
   );
   resetCopyButtonText();
 }
