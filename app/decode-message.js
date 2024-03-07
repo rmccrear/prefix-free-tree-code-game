@@ -310,7 +310,7 @@ function onReady() {
   const params = queryParams();
   lettersOnTree = params.letters[0];
   const origEncodedMessage = params.encodedmessage[0];
-  DIGITS = [...params.digitsStr[0]]; // split unicode chars
+  DIGITS = [...params.digits[0]]; // split unicode chars
   $("#left-digit-in-instructions").text(DIGITS[0]);
   $("#right-digit-in-instructions").text(DIGITS[1]);
   encodedMessage = convertDigits(origEncodedMessage, DIGITS, ["L", "R"])
