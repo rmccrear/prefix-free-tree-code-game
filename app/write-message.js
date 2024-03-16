@@ -46,6 +46,7 @@ function updateTreeWithMessage(message) {
  */
 let recordOfLetters = "";
 let currentEncodedMessage = "";
+let currentShareMessage = "";
 function recordLettersAdded(letter) {
   if (recordOfLetters.indexOf(letter) === -1) {
     recordOfLetters += letter;
@@ -107,11 +108,13 @@ function resetMessage(message) {
   const digitsStr = DIGITS[0] + DIGITS[1];
   const displayMessage = convertDigits(code, INTERNAL_DIGITS, DIGITS);
   const displayMessageNoSpaces = displayMessage.split(" ").join("");
+  currentShareMessage = displayMessageNoSpaces;
   // $("#code").text(displayMessage);
   setupDisplay(code);
   const encodedmessage = code.split(" ").join(""); // remove spaces
   currentEncodedMessage = encodedmessage;
   const bitLength = currentEncodedMessage.length || 0;
+
   $(".bits-display").text(bitLength + " ");
   try {
     window.history.replaceState(
@@ -184,10 +187,24 @@ const onReady = function () {
     const href = window.location.href;
     const linkUrl = href.replace("writer.html", "decode.html")
     // copy to clipboard
-    navigator.clipboard.writeText(linkUrl).then(()=>{
-      //set button text to "copied"
-      $("#copy-link").text("copied!");
-    });
+
+    const shareData = {
+      title: "Secret Message!",
+      text: currentShareMessage,
+      url: "linkUrl",
+    };
+
+    if(navigator.share && navigator.canShare(shareData)) {
+      navigator.share(shareData).then(() => {
+        console.log("Shared successfully!");
+      }).catch(console.error);
+    }
+    else {
+      navigator.clipboard.writeText(linkUrl).then(()=>{
+        //set button text to "copied"
+        $("#copy-link").text("copied!");
+      });
+    }
   });
   $(".digit-select").on("click", function(event) {
     const newDigits = $(this).data("digit");
