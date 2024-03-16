@@ -190,7 +190,7 @@ const onReady = function () {
 
     const shareData = {
       title: "Secret Message!",
-      text: currentShareMessage,
+      text: "This is your secret message. Decode it by following the link." + currentShareMessage,
       url: linkUrl,
     };
 
