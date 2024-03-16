@@ -185,7 +185,14 @@ const onReady = function () {
   });
   $("#copy-link").on("click", function (event) {
     const href = window.location.href;
-    const linkUrl = href.replace("writer.html", "decode.html")
+    let linkUrl = href.replace("writer.html", "decode.html")
+    if(DIGITS[0] === "👾"){
+      console.log("digit is alien!");
+      console.log(currentShareMessage);
+      linkUrl = `${location.protocol}//${location.host}${location.pathname}?digits=${DIGITS[0]}${DIGITS[1]}&letters=${recordOfLetters}&encodedmessage=${currentShareMessage}`
+      console.log(linkUrl);
+    }
+
     // copy to clipboard
 
     const shareData = {
@@ -200,7 +207,7 @@ const onReady = function () {
       }).catch(console.error);
     }
     else {
-      navigator.clipboard.writeText("This is your secret message. \nDecode it by following the link. \n\n" + currentShareMessage + "\n\n " + linkUrl).then(()=>{
+      navigator.clipboard.writeText("Hi!, I'm sending you a secret message. \n\n" + currentShareMessage + "\n\n Decode it by following the link. \n\n " + linkUrl).then(()=>{
         //set button text to "copied"
         $("#copy-link").text("copied!");
       });
