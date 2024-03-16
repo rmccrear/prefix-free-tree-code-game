@@ -200,7 +200,7 @@ const onReady = function () {
       }).catch(console.error);
     }
     else {
-      navigator.clipboard.writeText("This is your secret message. Decode it by following the link. " + currentShareMessage + " " + linkUrl).then(()=>{
+      navigator.clipboard.writeText("This is your secret message. \nDecode it by following the link. \n\n" + currentShareMessage + "\n\n " + linkUrl).then(()=>{
         //set button text to "copied"
         $("#copy-link").text("copied!");
       });
