@@ -189,7 +189,7 @@ const onReady = function () {
     if(DIGITS[0] === "👾"){
       console.log("digit is alien!");
       console.log(currentShareMessage);
-      linkUrl = `${location.protocol}//${location.host}${location.pathname}?digits=${DIGITS[0]}${DIGITS[1]}&letters=${recordOfLetters}&encodedmessage=${currentShareMessage}`
+      linkUrl = `${location.protocol}//${location.host}${location.pathname}?digits=${DIGITS[0]}${DIGITS[1]}&letters=${encodeURIComponent(recordOfLetters)}&encodedmessage=${currentShareMessage}`
       console.log(linkUrl);
     }
 
