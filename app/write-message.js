@@ -191,7 +191,7 @@ const onReady = function () {
     const shareData = {
       title: "Secret Message!",
       text: currentShareMessage,
-      url: "linkUrl",
+      url: linkUrl,
     };
 
     if(navigator.share && navigator.canShare(shareData)) {
