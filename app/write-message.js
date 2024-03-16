@@ -207,7 +207,7 @@ const onReady = function () {
       }).catch(console.error);
     }
     else {
-      navigator.clipboard.writeText("Hi!, I'm sending you a secret message. \n\n" + currentShareMessage + "\n\n Decode it by following the link. \n\n " + linkUrl).then(()=>{
+      navigator.clipboard.writeText("Hi! I'm sending you a secret message. \n\n" + currentShareMessage + "\n\n Decode it by following the link. \n\n " + linkUrl).then(()=>{
         //set button text to "copied"
         $("#copy-link").text("copied!");
       });
