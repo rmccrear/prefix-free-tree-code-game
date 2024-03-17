@@ -189,15 +189,18 @@ const onReady = function () {
     if(DIGITS[0] === "👾"){
       console.log("digit is alien!");
       console.log(currentShareMessage);
-      linkUrl = `${location.protocol}//${location.host}${location.pathname}?digits=${DIGITS[0]}${DIGITS[1]}&letters=${encodeURIComponent(recordOfLetters)}&encodedmessage=${currentShareMessage}`
+      const pathname = location.pathname.replace("writer.html", "decode.html");
+      linkUrl = `${location.protocol}//${location.host}${pathname}?digits=${DIGITS[0]}${DIGITS[1]}&letters=${encodeURIComponent(recordOfLetters)}&encodedmessage=${currentShareMessage}`
       console.log(linkUrl);
     }
 
     // copy to clipboard
 
+
+    const text = `Hi! I’m sending you a secret message. It’s in an encoding  based on ${DIGITS[0]}’s and ${DIGITS[1]}’s. Decode it by following the link. ${currentShareMessage}`;
     const shareData = {
       title: "Secret Message!",
-      text: "This is your secret message. Decode it by following the link." + currentShareMessage,
+      text: text,
       url: linkUrl,
     };
 
@@ -207,7 +210,8 @@ const onReady = function () {
       }).catch(console.error);
     }
     else {
-      navigator.clipboard.writeText("Hi! I'm sending you a secret message. \n\n" + currentShareMessage + "\n\n Decode it by following the link. \n\n " + linkUrl).then(()=>{
+      const text = `Hi! I’m sending you a secret message. It’s in an encoding  based on ${DIGITS[0]}’s and ${DIGITS[1]}’s.\n\n ${currentShareMessage}\n\n Decode it by following the link. \n\n ${linkUrl}`;
+      navigator.clipboard.writeText(text).then(()=>{
         //set button text to "copied"
         $("#copy-link").text("copied!");
       });
