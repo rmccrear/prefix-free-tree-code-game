@@ -254,6 +254,18 @@ const changeDigitSystem = function(digits) {
   resetMessage();
 }
 
+function messageTokenForDisplay(messageToken) {
+  if(messageToken === " ") {
+    return "[space]";
+  } else if (messageToken === "\t") {
+    return "[tab]";
+  } else if (messageToken === "\n") {
+    return "[newline]";
+  } else {
+    return messageToken;
+  }
+}
+
 function setupDisplay(encodedMessageWithSpaces) {
   let tokens = encodedMessageWithSpaces.split(" ");
   let message = board.decodeMessage(tokens.join(""));
@@ -261,9 +273,10 @@ function setupDisplay(encodedMessageWithSpaces) {
   for(let i=0; i<tokens.length; i++) {
     const internalCode = tokens[i];
     const encodedLetter = convertDigits(internalCode, INTERNAL_DIGITS, DIGITS);
+    let messageToken = messageTokenForDisplay(message[i]);
     elms.push(`<span
       class="encoded-token"
-      data-code="${internalCode}">${encodedLetter}<span class="code-popup"><span class="code-popup-letter">${message[i]}:</span>  ${encodedLetter}</span></span> `);
+      data-code="${internalCode}">${encodedLetter}<span class="code-popup"><span class="code-popup-letter">${messageToken}:</span>  ${encodedLetter}</span></span> `);
   }
   $("#code").html(elms.join(""));
 }
