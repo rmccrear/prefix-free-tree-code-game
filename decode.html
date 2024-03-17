@@ -19,7 +19,7 @@
       <div class="greeting-outer">
         <div class="greeting">
           This is an encoded message. Luckily, you can decode it. Start at the top. 
-           "<span id="left-digit-in-instructions">L</span>"
+          "<span id="left-digit-in-instructions">L</span>"
           means go <strong>left</strong>. 
           "<class id="right-digit-in-instructions">R</class>"
           means go <strong>right</strong>. When you reach a letter,
@@ -31,7 +31,10 @@
         <span class="your-code-label">Your code:</span>
         <div id="encoded-message"></div>
         <div class="">
-          <span class="decoded-message-label"> Decoded Message: </span>
+          <div class="clearfix">
+            <div class="decoded-message-label"> Decoded Message: </div>
+            <div class="mistake-counter-label"> Mistakes: <span id="mistake-counter">0</span> </div>
+          </div>
           <div id="decoded-message"></div>
         </div>
         <div class="make-your-own">

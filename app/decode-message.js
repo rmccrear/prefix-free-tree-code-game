@@ -22,6 +22,7 @@ let lettersOnTree = "";
 let encodedMessage = "";
 let done = false;
 let DIGITS = ["L", "R"];
+let mistakeCounter = 0;
 
 //http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript/21152762#21152762
 function queryParams() {
@@ -237,7 +238,7 @@ function renderEncodedMessage(message) {
   let messageRoot = $("<div></div>");
   console.log(message);
   // https://stackoverflow.com/questions/24531751/how-can-i-split-a-string-containing-emoji-into-an-array
-  message = [...message]; 
+  message = [...message];
   console.log(message);
   for (let i = 0; i < message.length; i++) {
     console.log(message[i]);
@@ -292,6 +293,10 @@ function afterMove(status) {
       $("#board").removeClass("animated shake");
     }, 500);
     showGuide(encodedMessage[bitProgressCounter]);
+    mistakeCounter++;
+    console.log("mistakes: ", mistakeCounter);
+    $("#mistake-counter").text(mistakeCounter);
+    $(".mistake-counter-label").show();
   } else if (status === "wrong") {
     console.log("status: wrong");
     $("#board").addClass("animated shake");
@@ -305,7 +310,16 @@ function afterMove(status) {
   }
 }
 
+// DIGITS will come in as 01
+// function handleEmojiInput(origEncodedMessage, DIGITS) {
+//   const emojiMessage = convertDigits(origEncodedMessage, ["0", "1"], DIGITS);
+//   const encodedMessage = convertDigits(origEncodedMessage, ["0", "1"], ["L", "R"]);
+//   const encodedMessageElm = renderEncodedMessage(emojiMessage);
+//   $(encodedMessageElm).appendTo("#encoded-message");
+// }
+
 function onReady() {
+  $(".mistake-counter-label").hide();
   sounds = createAudioTags();
   const params = queryParams();
   lettersOnTree = params.letters[0];
@@ -313,6 +327,9 @@ function onReady() {
   DIGITS = [...params.digits[0]]; // split unicode chars
   $("#left-digit-in-instructions").text(DIGITS[0]);
   $("#right-digit-in-instructions").text(DIGITS[1]);
+  // if(DIGITS[0] === "👾"){
+  //   handleEmojiInput(origEncodedMessage, DIGITS);
+  // }
   encodedMessage = convertDigits(origEncodedMessage, DIGITS, ["L", "R"])
   const encodedMessageElm = renderEncodedMessage(origEncodedMessage);
   $(encodedMessageElm).appendTo("#encoded-message");
@@ -370,7 +387,7 @@ const createMoveButton = () => {
   let goRight$ = Bacon.fromEvent(rightButton[0], "touchstart").map(() => "R");
   // goRight$.onValue(function(val) { console.log('clicked '+ val); })
   let goUp$ = Bacon.fromEvent(upButton[0], "touchstart").map(() => "U");
-  goUp$.onValue(function(val) { console.log('clicked '+ val); })
+  goUp$.onValue(function (val) { console.log('clicked ' + val); })
   let go$ = Bacon.mergeAll(goLeft$, goRight$, goUp$);
   go$.onValue((val) => {
     console.log(val);
@@ -393,8 +410,8 @@ const createMoveButton = () => {
 function convertDigits(encodedMessage, fromDigits, toDigits) {
   const chars = [...encodedMessage]; // for unicode emoji
   const recodedMessage = [];
-  for(const c of chars) {
-    if(c === fromDigits[0]) {
+  for (const c of chars) {
+    if (c === fromDigits[0]) {
       recodedMessage.push(toDigits[0]);
     } else if (c === fromDigits[1]) {
       recodedMessage.push(toDigits[1]);
