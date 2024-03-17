@@ -1,48 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <title>Binary Tree Decoder</title>
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <title>Binary Tree Decoder</title>
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link rel="stylesheet" href="vendor/normalize.css" />
-    <link rel="stylesheet" href="vendor/animate.css/animate.min.css" />
-    <link rel="stylesheet" href="app/css/main.css" />
-  </head>
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 
-  <body>
-    <div class="game-container">
-      <div class="greeting-outer">
-        <div class="greeting">
-          This is an encoded message. Luckily, you can decode it. Start at the top. 
-          "<span id="left-digit-in-instructions">L</span>"
-          means go <strong>left</strong>. 
-          "<class id="right-digit-in-instructions">R</class>"
-          means go <strong>right</strong>. When you reach a letter,
-          stop. After reaching each of the letters, you can read your message.
-          Begin!
-        </div>
+  <link rel="stylesheet" href="vendor/normalize.css" />
+  <link rel="stylesheet" href="vendor/animate.css/animate.min.css" />
+  <link rel="stylesheet" href="app/css/main.css" />
+</head>
+
+<body>
+  <div class="game-container">
+    <div class="greeting-outer">
+      <div class="greeting">
+        This is an encoded message. Luckily, you can decode it. Start at the top.
+        "<span id="left-digit-in-instructions">L</span>"
+        means go <strong>left</strong>.
+        "<class id="right-digit-in-instructions">R</class>"
+        means go <strong>right</strong>. When you reach a letter,
+        stop. After reaching each of the letters, you can read your message.
+        Begin!
       </div>
-      <div class="message-container">
-        <span class="your-code-label">Your code:</span>
-        <div id="encoded-message"></div>
-        <div class="">
-          <div class="clearfix">
-            <div class="decoded-message-label"> Decoded Message: </div>
-            <div class="mistake-counter-label"> Mistakes: <span id="mistake-counter">0</span> </div>
-          </div>
-          <div id="decoded-message"></div>
-        </div>
-        <div class="make-your-own">
-          <a href="writer.html">Create your own message!</a>
-        </div>
-      </div>
-      <div id="board"></div>
     </div>
-    <script type="module" src="./app/decode-message.js"></script>
-  </body>
+    <div class="message-container">
+      <span class="your-code-label">Your code:</span>
+      <div id="encoded-message"></div>
+      <div class="">
+        <div class="clearfix">
+          <div class="decoded-message-label"> Decoded Message: </div>
+          <div class="mistake-counter-label"> Mistakes: <span id="mistake-counter">0</span> </div>
+        </div>
+        <div id="decoded-message"></div>
+      </div>
+      <div class="make-your-own">
+        <a href="writer.html">Create your own message!</a>
+      </div>
+    </div>
+    <div id="board"></div>
+  </div>
+  <script type="module" src="./app/decode-message.js"></script>
+</body>
+
 </html>
