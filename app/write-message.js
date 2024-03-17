@@ -90,7 +90,7 @@ function setUpFromUrl() {
     console.log(message);
     $("#message").val(message);
     // $("#message").val(board.decodeMessage(encodedmessage).join(""));
-    if(DIGITS[0] === "👾"){
+    if (DIGITS[0] === "👾") {
       $("#code").addClass("super-shadow");
     } else {
       $("#code").removeClass("super-shadow");
@@ -186,7 +186,7 @@ const onReady = function () {
   $("#copy-link").on("click", function (event) {
     const href = window.location.href;
     let linkUrl = href.replace("writer.html", "decode.html")
-    if(DIGITS[0] === "👾"){
+    if (DIGITS[0] === "👾") {
       console.log("digit is alien!");
       console.log(currentShareMessage);
       const pathname = location.pathname.replace("writer.html", "decode.html");
@@ -204,40 +204,40 @@ const onReady = function () {
       url: linkUrl,
     };
 
-    if(navigator.share && navigator.canShare(shareData)) {
+    if (navigator.share && navigator.canShare(shareData)) {
       navigator.share(shareData).then(() => {
         console.log("Shared successfully!");
       }).catch(console.error);
     }
     else {
       const text = `Hi! I’m sending you a secret message. It’s in an encoding  based on ${DIGITS[0]}’s and ${DIGITS[1]}’s.\n\n ${currentShareMessage}\n\n Decode it by following the link. \n\n ${linkUrl}`;
-      navigator.clipboard.writeText(text).then(()=>{
+      navigator.clipboard.writeText(text).then(() => {
         //set button text to "copied"
         $("#copy-link").text("copied!");
       });
     }
   });
-  $(".digit-select").on("click", function(event) {
+  $(".digit-select").on("click", function (event) {
     const newDigits = $(this).data("digit");
-    if(newDigits){
+    if (newDigits) {
       changeDigitSystem([...newDigits])
     } else {
       console.log("Error changing new digit.");
     }
     // super-shadow for aliens!
-    if(DIGITS[0] === "👾"){
+    if (DIGITS[0] === "👾") {
       $("#code").addClass("super-shadow");
     } else {
       $("#code").removeClass("super-shadow");
     }
   });
-  $("#code").on("click", function(event) {
-    if(event.target && $(event.target).data("code")) {
+  $("#code").on("click", function (event) {
+    if (event.target && $(event.target).data("code")) {
       const code = $(event.target).data("code")
       console.log(code);
       const decodedTiles = board.decodeMessage(code, true);
       console.log(decodedTiles);
-      if(decodedTiles) {
+      if (decodedTiles) {
         $(".encoded-token").removeClass("highlight-token");
         $(event.target).addClass("highlight-token");
         // const letter = decodedTiles[0].l;
@@ -245,21 +245,21 @@ const onReady = function () {
         board.setCurrNodeTile(tile);
         repaint(board, { handleSwap: handleSwap });
       }
-    } 
+    }
   });
 };
 
-const resetCopyButtonText = function(){
+const resetCopyButtonText = function () {
   $("#copy-link").text("share");
 };
 
-const changeDigitSystem = function(digits) {
+const changeDigitSystem = function (digits) {
   DIGITS = digits;
   resetMessage();
 }
 
 function messageTokenForDisplay(messageToken) {
-  if(messageToken === " ") {
+  if (messageToken === " ") {
     return "[space]";
   } else if (messageToken === "\t") {
     return "[tab]";
@@ -274,7 +274,7 @@ function setupDisplay(encodedMessageWithSpaces) {
   let tokens = encodedMessageWithSpaces.split(" ");
   let message = board.decodeMessage(tokens.join(""));
   let elms = [];
-  for(let i=0; i<tokens.length; i++) {
+  for (let i = 0; i < tokens.length; i++) {
     const internalCode = tokens[i];
     const encodedLetter = convertDigits(internalCode, INTERNAL_DIGITS, DIGITS);
     let messageToken = messageTokenForDisplay(message[i]);
@@ -288,14 +288,14 @@ function setupDisplay(encodedMessageWithSpaces) {
 function convertDigits(encodedMessage, fromDigits, toDigits) {
   const chars = [...encodedMessage]; // for unicode emoji
   const recodedMessage = [];
-  for(const c of chars) {
-    if(c === fromDigits[0]) {
+  for (const c of chars) {
+    if (c === fromDigits[0]) {
       recodedMessage.push(toDigits[0]);
     } else if (c === fromDigits[1]) {
       recodedMessage.push(toDigits[1]);
     } else if (c === " ") { // allow space for tokens
       recodedMessage.push(c);
-    }else {
+    } else {
       console.log(`Error decoding digit: ${c}`);
     }
   }
