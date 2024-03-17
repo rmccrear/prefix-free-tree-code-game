@@ -293,10 +293,7 @@ function afterMove(status) {
       $("#board").removeClass("animated shake");
     }, 500);
     showGuide(encodedMessage[bitProgressCounter]);
-    mistakeCounter++;
-    console.log("mistakes: ", mistakeCounter);
-    $("#mistake-counter").text(mistakeCounter);
-    $(".mistake-counter-label").show();
+    registerMistake();
   } else if (status === "wrong") {
     console.log("status: wrong");
     $("#board").addClass("animated shake");
@@ -307,6 +304,16 @@ function afterMove(status) {
   } else if ("please-continue-up") {
     console.log("status: please continue up");
     showGuide("U");
+  }
+}
+
+function registerMistake() {
+  mistakeCounter++;
+  console.log("mistakes: ", mistakeCounter);
+  $("#mistake-counter").text(mistakeCounter);
+  $(".mistake-counter-label").show();
+  if(navigator.vibrate && typeof navigator.vibrate === 'function'){
+    navigator.vibrate(200);
   }
 }
 
