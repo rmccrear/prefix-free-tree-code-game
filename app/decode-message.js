@@ -122,6 +122,9 @@ function handleAtLeaf(leafTile) {
   }
   if (isDone()) {
     $(".make-your-own").addClass("show");
+    if(mistakeCounter > 0){
+      $(".try-again").addClass("show");
+    }
   }
   showGuide(encodedMessage[bitProgressCounter]);
 }

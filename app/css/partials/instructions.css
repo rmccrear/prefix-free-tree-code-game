@@ -39,8 +39,39 @@
   /*elflord green*/
   color: #60ff60;
   background-color: black;
+  float: left;
 }
+
+.make-your-own a {
+  padding: 0 1em;
+}
+
 .make-your-own.show a:visited {
   /*elflord green*/
   color: #60ff60;
 }
+
+.try-again {
+  display: none;
+}
+
+.try-again a {
+  padding: 0 1em;
+  color: #60ff60;
+}
+
+.try-again.show {
+  display: block;
+  height: 4em;
+  padding: 1em;
+  font-family: monaco, Consolas, "Lucida Console", monospace;
+  font-size: 14px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 400;
+  line-height: 20px;
+  /*elflord green*/
+  color: #60ff60;
+  background-color: black;
+  float: right;
+} 
