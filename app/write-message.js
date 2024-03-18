@@ -185,18 +185,17 @@ const onReady = function () {
   });
   $("#copy-link").on("click", function (event) {
     const href = window.location.href;
-    let linkUrl = href.replace("writer.html", "decode.html")
-    if (DIGITS[0] === "👾") {
-      console.log("digit is alien!");
-      console.log(currentShareMessage);
-      const pathname = location.pathname.replace("writer.html", "decode.html");
-      linkUrl = `${location.protocol}//${location.host}${pathname}?digits=${DIGITS[0]}${DIGITS[1]}&letters=${encodeURIComponent(recordOfLetters)}&encodedmessage=${currentShareMessage}`
-      console.log(linkUrl);
-    }
+    let linkUrl;
+    // uri encode all the letters used
+    // use hex for - and ! because they will allow line breaks when the url is pasted and shared.
+    const uriEncodedLetters = encodeURIComponent(recordOfLetters).replace(/[-!]/g, (c) => `%${c.charCodeAt(0).toString(16)}`);
+    
+    console.log(currentShareMessage);
+    const pathname = location.pathname.replace("writer.html", "decode.html");
+    linkUrl = `${location.protocol}//${location.host}${pathname}?digits=${DIGITS[0]}${DIGITS[1]}&letters=${uriEncodedLetters}&encodedmessage=${currentShareMessage}`
+    console.log(linkUrl);
 
-    // copy to clipboard
-
-
+    // share
     const text = `Hi! I’m sending you a secret message. It’s in an encoding  based on ${DIGITS[0]}’s and ${DIGITS[1]}’s. Decode it by following the link. ${currentShareMessage}`;
     const shareData = {
       title: "Secret Message!",
@@ -210,6 +209,7 @@ const onReady = function () {
       }).catch(console.error);
     }
     else {
+      // copy to clipboard
       const text = `Hi! I’m sending you a secret message. It’s in an encoding  based on ${DIGITS[0]}’s and ${DIGITS[1]}’s.\n\n ${currentShareMessage}\n\n Decode it by following the link. \n\n ${linkUrl}`;
       navigator.clipboard.writeText(text).then(() => {
         //set button text to "copied"
